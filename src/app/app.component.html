@@ -1,5 +1,6 @@
-<h1>Eingabe</h1>
-<tr *ngIf="billService.journey">
+<md-toolbar style="background-color: saddlebrown; color: white">tool</md-toolbar>
+
+<tr style="margin-top:20px" *ngIf="billService.journey">
       <td>
         <md-input-container>
           <input type="date" mdInput placeholder="Datum" required [(ngModel)]="billService.journey.date">
@@ -7,7 +8,7 @@
         </md-input-container>
       </td>
       <td>
-        <md-input-container fxflex>
+        <md-input-container >
           <input mdInput placeholder="Start" required [(ngModel)]="billService.journey.start">
         </md-input-container>
       </td>
@@ -34,6 +35,8 @@
       <td style="padding:10px"> <button md-raised-button (click)="billService.saveJourney()">Hinzufügen</button></td>
     </tr>
 
+    <div id="rightContainer">test</div>
+<div id="leftContainer">
 <table id="table" class="table table-hover table-striped table-mc-light-green">
      <thead>
     <tr>
@@ -51,12 +54,22 @@
     
     <tr *ngFor="let journey of billService.bill.journeys">
 
-      <td>{{journey?.date | date:'dd.MM.yy'}}</td>
-      <td>{{journey?.start}}</td>
+      <td *ngIf="!edit" (click)="editItem(true, $event)"  >{{journey?.date | date:'dd.MM.yy'}}</td>
+      
+      <td *ngIf="edit">
+         <input class="input" type="date" mdInput (change)="editItem(false)" [(ngModel)]="journey.date">
+      </td>
+      
+      <td *ngIf="!edit" (click)="editItem(true, $event)">{{journey?.start}}</td>
+      <td *ngIf="edit">
+         <input class="input" type="text" mdInput (change)="editItem(false)" [(ngModel)]="journey.start">
+      </td>
+      
       <td>{{journey?.end}}</td>
       <td>{{journey?.type}}</td>
       <td>{{journey?.number}}</td>
       <td>{{journey?.amount}} €</td>
+      
 
 
 
@@ -64,6 +77,7 @@
   </tbody>
 
 </table>
+</div>
 
 
 <md-list>

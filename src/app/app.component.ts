@@ -24,6 +24,7 @@ export class AppComponent {
   db : any = new PouchDB('bills');
   billArray : Array<Bill> = new Array<Bill>();
   rows: any;
+  edit: boolean = false;
 
 
   
@@ -38,9 +39,16 @@ export class AppComponent {
 
 
   }
-  billChooser(bill){
+  billChooser(bill) {
       this.billService.bill = bill;
     }
+  editItem(edit, event?) {
+    console.log(event);
+    this.edit = edit;
+    if (!edit) {
+      this.billService.saveJourney(true);
+    }
+  }
 
 
  /* saveJourney(){

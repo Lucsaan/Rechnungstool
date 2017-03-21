@@ -23,7 +23,6 @@ export class BillService {
   getDataFromDatabase() {
     const dataBase = this.db.allDocs({ include_docs: true, descending: true });
     dataBase.then((data) => {
-      console.log(data.rows);
       this.bills = data.rows;
       this.initiateBills();
     });
@@ -34,15 +33,17 @@ export class BillService {
     if (this.bills.length > 0) {
       console.log('Bin drin');
       this.bill = this.bills[0].doc;
-      console.log(this.bills[0].doc);
     } else {
       this.bill._id = new Date().toISOString();
       this.bill.journeys = new Array<Journey>();
     }
   }
 
-  saveJourney() {
-    this.bill.journeys.push(this.journey);
+  saveJourney(edit?) {
+    if(!edit){
+      this.bill.journeys.push(this.journey);
+    }
+    
     this.db.put(this.bill, function callback(err, result) {
       if (!err) {
         console.log('Successfully posted a todo!');
