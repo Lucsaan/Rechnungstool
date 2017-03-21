@@ -1,3 +1,4 @@
+import { BillServiceService } from './bill-service.service';
 import { Bill } from './../models/bill-model';
 import { Journey } from './../models/journey-model';
 import { Component, OnInit } from '@angular/core';
@@ -16,28 +17,33 @@ export class AppComponent {
   start: string;
   abgabe: string;
   type:string;
-  number: string; 
+  number: string;
   amount: number;
-  journey: any = new Journey();
-  bill: any =  new Bill();
+  journey: any;
+  bill: any;
   db : any = new PouchDB('bills');
   billArray : Array<Bill> = new Array<Bill>();
   rows: any;
 
 
   
-  constructor(){
-    this.bill.journeys = [];
+  constructor(private billService: BillServiceService){
+
+    
+    
+    /*this.bill.journeys = [];
     
     this.bill.reNr = '100';
-    this.getDatabase();
-    
-    
+    this.getDatabase();*/
+
+
   }
+  billChooser(bill){
+      this.billService.bill = bill;
+    }
 
- 
 
-  saveJourney(){
+ /* saveJourney(){
     this.bill.journeys.push(this.journey);
     this.db.put(this.bill, function callback(err, result) {
     if (!err) {
@@ -45,14 +51,14 @@ export class AppComponent {
     }
   });
     this.journey = new Journey();
-    
-    
+
+
   }
 
   getDatabase(){
-    var getter = this.db.allDocs({include_docs: true, descending: true});
+    let getter = this.db.allDocs({include_docs: true, descending: true});
     getter.then((data) => {
-      for(let bill of data.rows){
+      for(const bill of data.rows){
         this.billArray.push(bill.doc);
       }
       console.log(this.billArray);
@@ -61,9 +67,7 @@ export class AppComponent {
 
   }
 
-   billChooser(bill){
-      this.bill = bill; 
-    }
+   
+*/
 
- 
 }
