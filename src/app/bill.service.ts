@@ -3,7 +3,7 @@ import { Bill } from '../models/bill-model';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class BillServiceService {
+export class BillService {
 
   bill: Bill;
   journey: Journey;
@@ -21,7 +21,7 @@ export class BillServiceService {
   }
 
   getDataFromDatabase() {
-    let dataBase = this.db.allDocs({ include_docs: true, descending: true });
+    const dataBase = this.db.allDocs({ include_docs: true, descending: true });
     dataBase.then((data) => {
       console.log(data.rows);
       this.bills = data.rows;

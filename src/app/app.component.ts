@@ -1,4 +1,4 @@
-import { BillServiceService } from './bill-service.service';
+import { BillService } from './bill.service';
 import { Bill } from './../models/bill-model';
 import { Journey } from './../models/journey-model';
 import { Component, OnInit } from '@angular/core';
@@ -27,7 +27,7 @@ export class AppComponent {
 
 
   
-  constructor(private billService: BillServiceService){
+  constructor(private billService: BillService){
 
     
     
