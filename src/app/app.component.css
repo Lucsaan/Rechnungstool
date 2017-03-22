@@ -10,20 +10,42 @@
   height: 25px;
 }
 
+#leftEingabe {
+  float: left;
+  width: 47%;
+  margin-left: 10px;
+}
+
+#rightEingabe {
+  float: right;
+  width: 47%;
+  margin-right: 10px;
+}
+
 #leftContainer {
-  border-radius: 10px;
-  border: solid 2px brown;
-  margin-right: 60vw;
+  float: left;
+  width: 49%;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
 #rightContainer {
   float: right;
-  width: 60vw;
-  background-color: yellow;
+  width: 49%;
+  margin-right: 10px;
+  background-color: white;
+  margin-top: 10px;
+}
+.toolbar {
+  background-color: saddlebrown; 
+  color: white
+  
+  
+  
 }
 
 
-
+  
 /* -- import Roboto Font ---------------------------- */
 @import "https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic";
 /* -- You can use this tables in Bootstrap (v3) projects. -- */

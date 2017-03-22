@@ -7,7 +7,7 @@ export class Bill {
     vendor: string;
     done: boolean;
     reNr: string;
-    journeys: any;
+    journeys: Array<string> = [];
 
     constructor(){}
 

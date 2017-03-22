@@ -46,7 +46,7 @@ export class AppComponent {
     console.log(event);
     this.edit = edit;
     if (!edit) {
-      this.billService.saveJourney(true);
+      this.billService.saveJourney();
     }
   }
 

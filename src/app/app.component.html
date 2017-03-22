@@ -1,92 +1,120 @@
-<md-toolbar style="background-color: saddlebrown; color: white">tool</md-toolbar>
+<md-toolbar class="toolbar">Rechnungstool</md-toolbar>
 
-<tr style="margin-top:20px" *ngIf="billService.journey">
-      <td>
-        <md-input-container>
-          <input type="date" mdInput placeholder="Datum" required [(ngModel)]="billService.journey.date">
-         
-        </md-input-container>
-      </td>
-      <td>
-        <md-input-container >
-          <input mdInput placeholder="Start" required [(ngModel)]="billService.journey.start">
-        </md-input-container>
-      </td>
-      <td>
-        <md-input-container fxflex>
-          <input mdInput placeholder="Abgabe" required [(ngModel)]="billService.journey.end">
-        </md-input-container>
-      </td>
-      <td>
-        <md-input-container fxflex>
-          <input mdInput placeholder="Typ" required [(ngModel)]="billService.journey.type">
-        </md-input-container>
-      </td>
-      <td>
-        <md-input-container fxflex>
-          <input mdInput placeholder="Fahrgestell" required [(ngModel)]="billService.journey.number">
-        </md-input-container>
-      </td>
-      <td>
-        <md-input-container fxflex>
-          <input type="number" mdInput placeholder="Betrag" required [(ngModel)]="billService.journey.amount">
-        </md-input-container>
-      </td>
-      <td style="padding:10px"> <button md-raised-button (click)="billService.saveJourney()">Hinzufügen</button></td>
-    </tr>
-
-    <div id="rightContainer">test</div>
 <div id="leftContainer">
-<table id="table" class="table table-hover table-striped table-mc-light-green">
-     <thead>
-    <tr>
-      <th>Datum</th>
-      <th>Abholungsort</th>
-      <th>Abgabeort</th>
-      <th>Typ</th>
-      <th>Fahrgestellnr.</th>
-      <th>Betrag</th>
-     
-    </tr>
-  </thead>
-
-  <tbody>
-    
-    <tr *ngFor="let journey of billService.bill.journeys">
-
-      <td *ngIf="!edit" (click)="editItem(true, $event)"  >{{journey?.date | date:'dd.MM.yy'}}</td>
-      
-      <td *ngIf="edit">
-         <input class="input" type="date" mdInput (change)="editItem(false)" [(ngModel)]="journey.date">
-      </td>
-      
-      <td *ngIf="!edit" (click)="editItem(true, $event)">{{journey?.start}}</td>
-      <td *ngIf="edit">
-         <input class="input" type="text" mdInput (change)="editItem(false)" [(ngModel)]="journey.start">
-      </td>
-      
-      <td>{{journey?.end}}</td>
-      <td>{{journey?.type}}</td>
-      <td>{{journey?.number}}</td>
-      <td>{{journey?.amount}} €</td>
-      
-
-
-
-    </tr>
-  </tbody>
-
-</table>
+  <md-card>
+    <md-card-title-group>
+      <md-card-title>Fahrten</md-card-title>
+      <md-card-subtitle>Rechnungsnummer: 100</md-card-subtitle>
+    </md-card-title-group>
+    <md-card-content>
+      <table id="table" class="table table-hover table-striped table-mc-light-green">
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Abholungsort</th>
+            <th>Abgabeort</th>
+            <th>Typ</th>
+            <th>Fahrgestellnr.</th>
+            <th>Betrag</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let journey of billService.journeys">
+            <td>{{journey?.date | date:'dd.MM.yy'}}</td>
+            <td>{{journey?.start}}</td>
+            <td>{{journey?.end}}</td>
+            <td>{{journey?.type}}</td>
+            <td>{{journey?.number}}</td>
+            <td>{{journey?.amount}} €</td>
+            <td><button (click)="billService.editJourney(journey)">Ändern</button></td>
+          </tr>
+      </table>
+    </md-card-content>
+    <md-card-actions fxLayout fxLayoutAlign="center center">
+      <button md-button (click)="billService.newBill()">Neue Rechnung</button>
+    </md-card-actions>
+  </md-card>
 </div>
 
+<div id="rightContainer">
+  <md-card id="leftEingabe">
+    <md-card-title-group>
+      <md-card-title *ngIf="!billService.edit">Fahrt hinzufügen</md-card-title>
+      <md-card-title *ngIf="billService.edit">Fahrt Editieren</md-card-title>
+    </md-card-title-group>
+    <md-card-content *ngIf="billService.journey">
+      <md-input-container>
+        <input type="date" mdInput placeholder="Datum" required [(ngModel)]="billService.journey.date">
+      </md-input-container><br>
+      <md-input-container>
+        <input mdInput placeholder="Start" required [(ngModel)]="billService.journey.start">
+      </md-input-container>
+      <md-input-container fxflex>
+        <input mdInput placeholder="Abgabe" required [(ngModel)]="billService.journey.end">
+      </md-input-container> <br>
+      <md-input-container fxflex>
+        <input mdInput placeholder="Typ" required [(ngModel)]="billService.journey.type">
+      </md-input-container>
+      <md-input-container fxflex>
+        <input mdInput placeholder="Fahrgestell" required [(ngModel)]="billService.journey.number">
+      </md-input-container>
+      <md-input-container fxflex>
+        <input type="number" mdInput placeholder="Betrag" required [(ngModel)]="billService.journey.amount">
+      </md-input-container>
+    </md-card-content>
+    <md-card-actions *ngIf="!billService.edit" fxLayout fxLayoutAlign="center center">
+      <button md-button (click)="billService.saveJourney()">Hinzufügen</button>
+      <button md-button (click)="billService.newJourney()">Abbrechen</button>
+    </md-card-actions>
+    <md-card-actions *ngIf="billService.edit" fxLayout fxLayoutAlign="center center">
+      <button md-button (click)="billService.saveJourney()">Ändern</button>
+      <button md-button (click)="billService.newJourney()">Abbrechen</button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card id="rightEingabe">
+    <md-card-title-group>
+      <md-card-title *ngIf="!billService.edit">Fahrt hinzufügen</md-card-title>
+      <md-card-title *ngIf="billService.edit">Fahrt Editieren</md-card-title>
+    </md-card-title-group>
+    <md-card-content *ngIf="billService.journey">
+      <md-input-container>
+        <input type="date" mdInput placeholder="Datum" required [(ngModel)]="billService.journey.date">
+      </md-input-container><br>
+      <md-input-container>
+        <input mdInput placeholder="Start" required [(ngModel)]="billService.journey.start">
+      </md-input-container>
+      <md-input-container fxflex>
+        <input mdInput placeholder="Abgabe" required [(ngModel)]="billService.journey.end">
+      </md-input-container> <br>
+      <md-input-container fxflex>
+        <input mdInput placeholder="Typ" required [(ngModel)]="billService.journey.type">
+      </md-input-container>
+      <md-input-container fxflex>
+        <input mdInput placeholder="Fahrgestell" required [(ngModel)]="billService.journey.number">
+      </md-input-container>
+      <md-input-container fxflex>
+        <input type="number" mdInput placeholder="Betrag" required [(ngModel)]="billService.journey.amount">
+      </md-input-container>
+    </md-card-content>
+    <md-card-actions *ngIf="!billService.edit" fxLayout fxLayoutAlign="center center">
+      <button md-button (click)="billService.saveJourney()">Hinzufügen</button>
+      <button md-button (click)="billService.newJourney()">Abbrechen</button>
+    </md-card-actions>
+    <md-card-actions *ngIf="billService.edit" fxLayout fxLayoutAlign="center center">
+      <button md-button (click)="billService.saveJourney()">Ändern</button>
+      <button md-button (click)="billService.newJourney()">Abbrechen</button>
+    </md-card-actions>
+  </md-card>
+</div>
 
 <md-list>
-   <h3 md-subheader>Rechnungen</h3>
-  <md-list-item *ngFor="let bill of billService.bills" >
+  <h3 md-subheader>Rechnungen</h3>
+  <md-list-item *ngFor="let bill of billService.bills">
     <md-icon md-list-avatar (click)="billChooser(bill.doc)">folder</md-icon>
     <h4 md-line (click)="billChooser(bill.doc)">{{bill.doc._id | date:'dd.MM.yy'}}</h4>
-    <button md-raised-button (click)="billService.deleteBill(bill.doc)">Entfernen</button>
-    
+    <br> <button md-raised-button (click)="billService.deleteBill(bill.doc)">Entfernen</button>
+
   </md-list-item>
- 
+
 </md-list>
