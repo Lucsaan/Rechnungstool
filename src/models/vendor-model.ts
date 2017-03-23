@@ -1,17 +1,9 @@
+import { Address } from './address-model';
 export class Vendor {
 
-    _id: string;
-    date: Date ;
-    start: string ;
-    end: string ;
-    type: string ;
-    number: string ;
-    distance: number ;
-    amount: number ;
+    _id?: string;
+    _rev?: string;
+    name: string;
+    address: Address;
 
-
-
-    constructor() {
-
-    }
 }

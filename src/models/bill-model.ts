@@ -1,9 +1,10 @@
+import { Customer } from './customer-model';
 
 export class Bill {
     _id: string;
     _rev?: string;
     billDate: string;
-    customer: string ;
+    customer: Customer ;
     vendor: string;
     done: boolean;
     reNr: string;

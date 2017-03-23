@@ -11,10 +11,12 @@ import * as PouchDB from 'pouchdb';
 
 
 import { AppComponent } from './app.component';
+import { CustomerEditorComponent } from './customer-editor/customer-editor.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CustomerEditorComponent
   ],
   imports: [
     BrowserModule,
