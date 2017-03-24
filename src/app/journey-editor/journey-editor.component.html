@@ -1,0 +1,34 @@
+<md-card id="leftEingabe">
+    <md-card-title-group>
+      <md-card-title *ngIf="!billService.editModeJourney">Fahrt hinzufügen</md-card-title>
+      <md-card-title *ngIf="billService.editModeJourney">Fahrt Editieren</md-card-title>
+    </md-card-title-group>
+    <md-card-content *ngIf="billService.journey">
+      <md-input-container>
+        <input type="date" mdInput placeholder="Datum" [(ngModel)]="billService.journey.date">
+      </md-input-container><br>
+      <md-input-container>
+        <input mdInput placeholder="Start" [(ngModel)]="billService.journey.start">
+      </md-input-container>
+      <md-input-container fxflex>
+        <input mdInput placeholder="Abgabe" [(ngModel)]="billService.journey.end">
+      </md-input-container> <br>
+      <md-input-container fxflex>
+        <input mdInput placeholder="Typ" [(ngModel)]="billService.journey.type">
+      </md-input-container>
+      <md-input-container fxflex>
+        <input mdInput placeholder="Fahrgestell"  [(ngModel)]="billService.journey.number">
+      </md-input-container>
+      <md-input-container fxflex>
+        <input type="number" mdInput placeholder="Betrag" [(ngModel)]="billService.journey.amount">
+      </md-input-container>
+    </md-card-content>
+    <md-card-actions fxLayout fxLayoutAlign="center center">
+      <button md-button (click)="billService.saveJourney()">
+        <span *ngIf="!billService.editModeJourney">Hinzufügen</span>
+        <span *ngIf="billService.editModeJourney">Ändern</span>
+       </button>
+      <button md-button (click)="billService.newJourney()">Abbrechen</button>
+    </md-card-actions>
+    
+  </md-card>

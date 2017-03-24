@@ -13,11 +13,15 @@ import { DbService } from './services/db.service';
 
 import { AppComponent } from './app.component';
 import { CustomerEditorComponent } from './customer-editor/customer-editor.component';
+import { JourneyEditorComponent } from './journey-editor/journey-editor.component';
+import { JourneyTableComponent } from './journey-table/journey-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CustomerEditorComponent
+    CustomerEditorComponent,
+    JourneyEditorComponent,
+    JourneyTableComponent
   ],
   imports: [
     BrowserModule,

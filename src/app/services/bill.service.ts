@@ -3,7 +3,7 @@ import { DbService } from './db.service';
 import { Vendor } from '../../models/vendor-model';
 import { Customer } from '../../models/customer-model';
 import { Observable } from 'rxjs/Rx';
-import { Journey } from '../../models/journey-model';
+import { Journey } from '../journey';
 import { Bill } from '../bill';
 import { Injectable } from '@angular/core';
 
@@ -33,12 +33,14 @@ export class BillService {
 
 
   constructor(private dbService: DbService) {
+    let db = new PouchDB('bills');
     this.initiate();
   }
 
   initiate(){
     this.getBillIds();
     this.journey = new Journey();
+    console.log(this.journey);
   }
 
   getBillIds() {
@@ -68,24 +70,30 @@ export class BillService {
     });
   }
 
-  saveJourney() {
-    if (!this.editModeJourney) {
+  saveJourney(journey?) {
+    if (journey === undefined) {
       this.bill.journeys.push(this.journey);
+    }else {
+      journey.edit = false;
+      console.log(journey);
     }
     console.log('Journey saved!');
     this.saveBill();
     this.journey = new Journey();
-    this.editModeJourney = false;
   }
-   editJourney(index) {
-    this.editModeJourney = true;
-    this.journey = this.bill.journeys[index];
+
+  
+
+   editJourney(journey) {
+    journey.edit = true;
   }
    deleteJourney(index) {
      this.bill.journeys.splice(index, 1);
      console.log('Journey removed!');
      this.saveBill();
   }
+
+  
   
 
  
@@ -104,46 +112,7 @@ export class BillService {
     });
   }
 
-  
 
-  getJourney(id) {
-    console.log(id);
-    return this.dbJourneys.get(id);
-  }
-
-  getJourneys(bill) {
-    this.data = new Observable((observer => {
-      for (let id of bill.journeys) {
-        this.getJourney(id).then((journey) => {
-          observer.next(journey);
-        });
-      }
-    }));
-
-    const subscribe = this.data.subscribe(
-      value => this.journeys.push(value),
-      error => console.log('Fehler beim Holen der Journeys (billService.loadJourneys')
-    );
-    console.log(this.journeys);
-  }
-
-  newJourney() {
-    if(this.editModeJourney){
-      this.editModeJourney = false;
-    }
-    this.journey = new Journey();
-  }
-
-  newBill(){
-    this.bill = new Bill();
-    this.journeys = [];
-    this.bill._id = new Date().toISOString();
-    this.updateBill();
-  }
-
-  
-
- 
   editCustomer(customer, i){
     this.editModeCustomer = true;
     this.customer = customer;
@@ -179,28 +148,7 @@ export class BillService {
 
   }
 
-  /*saveJourney() {
-    if (!this.editModeJourney) {
-      this.journey._id = new Date().toISOString();
-      this.journeys.push(this.journey);
-      this.bill.journeys.push(this.journey._id);
-      this.updateBill();
-      
-    }
-   
-    this.dbJourneys.put(this.journey).then((response) => {
-      console.log('Successfully posted or updated a journey!');
-      if(this.editModeJourney){
-        this.journeys[this.index]._rev = response.rev;
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
-    
-    
-    this.journey = new Journey();
-    this.editModeJourney = false;
-  }*/
+  
 
   deleteBill(bill){
     this.dbBills.remove(bill).then(()=>{
@@ -221,14 +169,5 @@ export class BillService {
   }
  
    
-  /* this.bill.journeys.forEach((value, index) => {
-      if (journey._id === value) {
-        this.bill.journeys.splice(index, 1);
-        this.journeys.splice(index, 1);
-        this.updateBill();
-      }
-    });*/
-    
   
-
 }

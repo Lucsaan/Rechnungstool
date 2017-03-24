@@ -5,14 +5,7 @@ export class Customer {
     _id: string;
     _rev?: string;
     name: string;
-    address: Address; 
+    address: Address = {street: '', zip: '', city: ''};
 
-    constructor() {
-        this.address = {
-            street: '',
-            zip: '',
-            city: ''
-        }
-    }
+    constructor() {}
 }
-
