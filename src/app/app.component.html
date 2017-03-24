@@ -19,7 +19,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let journey of billService.journeys; let i = index">
+          <tr *ngFor="let journey of billService.bill.journeys; let i = index">
             <td>{{journey?.date | date:'dd.MM.yy'}}</td>
             <td>{{journey?.start}}</td>
             <td>{{journey?.end}}</td>
@@ -27,8 +27,8 @@
             <td>{{journey?.number}}</td>
             <td>{{journey?.amount}} €</td>
             <td>
-              <button (click)="billService.editJourney(journey, i)">Ändern</button>
-              <button (click)="billService.deleteJourney(journey)">Löschen</button>
+              <button (click)="billService.editJourney(i)">Ändern</button>
+              <button (click)="billService.deleteJourney(i)">Löschen</button>
             </td>
           </tr>
       </table>
@@ -42,8 +42,8 @@
 <div id="rightContainer">
   <md-card id="leftEingabe">
     <md-card-title-group>
-      <md-card-title *ngIf="!billService.edit">Fahrt hinzufügen</md-card-title>
-      <md-card-title *ngIf="billService.edit">Fahrt Editieren</md-card-title>
+      <md-card-title *ngIf="!billService.editModeJourney">Fahrt hinzufügen</md-card-title>
+      <md-card-title *ngIf="billService.editModeJourney">Fahrt Editieren</md-card-title>
     </md-card-title-group>
     <md-card-content *ngIf="billService.journey">
       <md-input-container>
@@ -65,14 +65,14 @@
         <input type="number" mdInput placeholder="Betrag" [(ngModel)]="billService.journey.amount">
       </md-input-container>
     </md-card-content>
-    <md-card-actions *ngIf="!billService.edit" fxLayout fxLayoutAlign="center center">
-      <button md-button (click)="billService.saveJourney()">Hinzufügen</button>
+    <md-card-actions fxLayout fxLayoutAlign="center center">
+      <button md-button (click)="billService.saveJourney()">
+        <span *ngIf="!billService.editModeJourney">Hinzufügen</span>
+        <span *ngIf="billService.editModeJourney">Ändern</span>
+       </button>
       <button md-button (click)="billService.newJourney()">Abbrechen</button>
     </md-card-actions>
-    <md-card-actions *ngIf="billService.edit" fxLayout fxLayoutAlign="center center">
-      <button md-button (click)="billService.saveJourney()">Ändern</button>
-      <button md-button (click)="billService.newJourney()">Abbrechen</button>
-    </md-card-actions>
+    
   </md-card>
 
   <md-card id="rightEingabe">
@@ -87,7 +87,7 @@
     </md-card-content>
   </md-card>
 </div>
-
+<!--
 <md-list>
   <h3 md-subheader>Rechnungen</h3>
   <md-list-item *ngFor="let bill of billService.bills">
@@ -97,4 +97,4 @@
 
   </md-list-item>
 
-</md-list>
+</md-list>-->

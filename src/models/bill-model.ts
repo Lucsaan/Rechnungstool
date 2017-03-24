@@ -1,3 +1,4 @@
+import { Journey } from './journey-model';
 import { Customer } from './customer-model';
 
 export class Bill {
@@ -8,9 +9,11 @@ export class Bill {
     vendor: string;
     done: boolean;
     reNr: string;
-    journeys: Array<string> = [];
+    journeys: Array<Journey> = [];
 
-    constructor(){}
+    constructor() {
+        this._id = new Date().toISOString();
+    }
 
 
 }

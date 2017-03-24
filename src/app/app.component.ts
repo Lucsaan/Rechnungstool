@@ -1,4 +1,4 @@
-import { BillService } from './bill.service';
+import { BillService } from './services/bill.service';
 import { Bill } from './../models/bill-model';
 import { Journey } from './../models/journey-model';
 import { Component, OnInit } from '@angular/core';
@@ -45,9 +45,9 @@ export class AppComponent {
   editItem(edit, event?) {
     console.log(event);
     this.edit = edit;
-    if (!edit) {
+    /*if (!edit) {
       this.billService.saveJourney();
-    }
+    }*/
   }
 
 

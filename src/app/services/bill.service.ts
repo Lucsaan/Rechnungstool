@@ -1,14 +1,17 @@
-import { Vendor } from '../models/vendor-model';
-import { Customer } from '../models/customer-model';
+import { removeDebugNodeFromIndex } from '@angular/core/src/debug/debug_node';
+import { DbService } from './db.service';
+import { Vendor } from '../../models/vendor-model';
+import { Customer } from '../../models/customer-model';
 import { Observable } from 'rxjs/Rx';
-import { Journey } from '../models/journey-model';
-import { Bill } from '../models/bill-model';
+import { Journey } from '../../models/journey-model';
+import { Bill } from '../bill';
 import { Injectable } from '@angular/core';
+
 
 @Injectable()
 export class BillService {
 
-  bill: Bill = new Bill();
+  bill: any = new Bill();
   customer: Customer = new Customer();
   vendor: Vendor = new Vendor();
   bills: Array<any> = new Array<any>();
@@ -29,23 +32,64 @@ export class BillService {
   private data: Observable<Array<Journey>>;
 
 
-  constructor() {
-    this.getBills();
-    this.getVendorCustomer();
+  constructor(private dbService: DbService) {
+    this.initiate();
   }
 
-  getBills() {
-    const dataBase = this.dbBills.allDocs({ include_docs: true, descending: true });
-    dataBase.then((data) => {
+  initiate(){
+    this.getBillIds();
+    this.journey = new Journey();
+  }
+
+  getBillIds() {
+    this.dbService.getAllDocs('bills', false, true).then((data) => {
       this.bills = data.rows;
-      this.initiateBills();
-
-      if (this.bills.length > 0 ) {
-         this.getBill(this.bills[0].id);
-      }
-
+      this.bills.length > 0 ? this.getBill(this.bills[0].id) : this.bill = new Bill();
+    }).catch ((error) => {
+      console.log('Failed loading Bills');
+      console.log(error);
     });
   }
+
+  getBill(id) {
+    this.dbService.getDoc('bills', id).then((bill) => {
+      this.bill = bill;
+    }).catch((error) => {
+      console.log('Failed loading Bill');
+      console.log(error);
+    });
+  }
+
+  saveBill() {
+    this.dbService.saveDoc('bills', this.bill).then((response) => {
+      console.log('Bill saved!');
+      // catch bill with new revision
+      this.getBill(this.bill._id);
+    });
+  }
+
+  saveJourney() {
+    if (!this.editModeJourney) {
+      this.bill.journeys.push(this.journey);
+    }
+    console.log('Journey saved!');
+    this.saveBill();
+    this.journey = new Journey();
+    this.editModeJourney = false;
+  }
+   editJourney(index) {
+    this.editModeJourney = true;
+    this.journey = this.bill.journeys[index];
+  }
+   deleteJourney(index) {
+     this.bill.journeys.splice(index, 1);
+     console.log('Journey removed!');
+     this.saveBill();
+  }
+  
+
+ 
+ 
 
   getVendorCustomer(){
     const dataBaseCustomer = this.dbCustomer.allDocs({include_docs: true, descending: true});
@@ -60,14 +104,7 @@ export class BillService {
     });
   }
 
-  getBill(id) {
-    console.log(id);
-    this.dbBills.get(id).then((bill) => {
-      console.log(bill);
-      this.getJourneys(bill);
-    });
-
-  }
+  
 
   getJourney(id) {
     console.log(id);
@@ -104,22 +141,9 @@ export class BillService {
     this.updateBill();
   }
 
-  initiateBills() {
-    console.log(this.bills.length);
-    if (this.bills.length > 0) {
-      console.log(this.bills);
-      this.bill = this.bills[0].doc;
-    } else {
-      this.bill._id = new Date().toISOString();
-      
-    }
-  }
+  
 
-  editJourney(journey, i) {
-    this.editModeJourney = true;
-    this.journey = journey;
-    this.index = i;
-  }
+ 
   editCustomer(customer, i){
     this.editModeCustomer = true;
     this.customer = customer;
@@ -155,7 +179,7 @@ export class BillService {
 
   }
 
-  saveJourney() {
+  /*saveJourney() {
     if (!this.editModeJourney) {
       this.journey._id = new Date().toISOString();
       this.journeys.push(this.journey);
@@ -176,7 +200,7 @@ export class BillService {
     
     this.journey = new Journey();
     this.editModeJourney = false;
-  }
+  }*/
 
   deleteBill(bill){
     this.dbBills.remove(bill).then(()=>{
@@ -195,19 +219,16 @@ export class BillService {
       console.log(err);
     })
   }
-  deleteJourney(journey) {
-    this.dbJourneys.remove(journey).then(() => {
-      console.log(' Journey removed');
-    })
+ 
    
-   this.bill.journeys.forEach((value, index) => {
+  /* this.bill.journeys.forEach((value, index) => {
       if (journey._id === value) {
         this.bill.journeys.splice(index, 1);
         this.journeys.splice(index, 1);
         this.updateBill();
       }
-    });
+    });*/
     
-  }
+  
 
 }
