@@ -1,6 +1,5 @@
 import { BillService } from './services/bill.service';
 import { Bill } from './../models/bill-model';
-import { Journey } from './../models/journey-model';
 import { Component, OnInit } from '@angular/core';
 
 
