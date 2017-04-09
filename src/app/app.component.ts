@@ -59,6 +59,11 @@ new PouchDB('journeys').destroy().then(function () {
 }).catch(function (err) {
   // error occurred
 })
+new PouchDB('vendor').destroy().then(function () {
+      console.log('Datenbank gelöscht');
+}).catch(function (err) {
+  // error occurred
+})
   }
 
 

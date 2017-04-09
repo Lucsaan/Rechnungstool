@@ -9,20 +9,8 @@
   <app-journey-table></app-journey-table>
 </div>
 <div id="rightContainer">
-  <app-journey-editor id="leftEingabe"></app-journey-editor>
-
-  <md-card id="rightEingabe">
-    <md-card-title-group>
-      <md-card-title>Rechnungsdaten</md-card-title>
-
-    </md-card-title-group>
-    <md-card-content>
-      Rechnungsnummer: {{billService.bill.reNr}}
-      <app-customer-editor></app-customer-editor>
-
-    </md-card-content>
-  </md-card>
-</div>
+  <router-outlet></router-outlet>
+  </div>
 <!--
 <md-list>
   <h3 md-subheader>Rechnungen</h3>

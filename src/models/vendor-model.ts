@@ -4,6 +4,7 @@ export class Vendor {
     _id?: string;
     _rev?: string;
     name: string;
-    address: Address;
+    street: string;
+    city: string;
 
 }

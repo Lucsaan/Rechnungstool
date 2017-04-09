@@ -11,9 +11,9 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class BillService {
 
-  bill: any = new Bill();
+  bill: any = new Bill(this.dbService);
   customer: Customer = new Customer();
-  vendor: Vendor = new Vendor();
+  //vendor: Vendor = new Vendor();
   bills: Array<any> = new Array<any>();
   journey: Journey = new Journey();
   journeys: Array<any> = [];
@@ -21,7 +21,7 @@ export class BillService {
   docs: Array<any>;
   dbBills: any = new PouchDB('bills');
   dbJourneys: any = new PouchDB('journeys');
-  dbVendor: any = new PouchDB('vendors') ;
+  dbVendor: any = new PouchDB('vendors');
   dbCustomer: any = new PouchDB('customers');
 
   editModeJourney = false;
@@ -37,7 +37,7 @@ export class BillService {
     this.initiate();
   }
 
-  initiate(){
+  initiate() {
     this.getBillIds();
     this.journey = new Journey();
     console.log(this.journey);
@@ -46,8 +46,9 @@ export class BillService {
   getBillIds() {
     this.dbService.getAllDocs('bills', false, true).then((data) => {
       this.bills = data.rows;
-      this.bills.length > 0 ? this.getBill(this.bills[0].id) : this.bill = new Bill();
-    }).catch ((error) => {
+      this.bills.length > 0 ? this.getBill(this.bills[this.bills.length - 1].id) : this.editModeVendor = true;
+      console.log(this.bill);
+    }).catch((error) => {
       console.log('Failed loading Bills');
       console.log(error);
     });
@@ -56,6 +57,7 @@ export class BillService {
   getBill(id) {
     this.dbService.getDoc('bills', id).then((bill) => {
       this.bill = bill;
+      console.log(this.bill);
     }).catch((error) => {
       console.log('Failed loading Bill');
       console.log(error);
@@ -73,7 +75,7 @@ export class BillService {
   saveJourney(journey?) {
     if (journey === undefined) {
       this.bill.journeys.push(this.journey);
-    }else {
+    } else {
       journey.edit = false;
       console.log(journey);
     }
@@ -82,51 +84,43 @@ export class BillService {
     this.journey = new Journey();
   }
 
-  
 
-   editJourney(journey) {
+
+  editJourney(journey) {
     journey.edit = true;
   }
-   deleteJourney(index) {
-     this.bill.journeys.splice(index, 1);
-     console.log('Journey removed!');
-     this.saveBill();
+  deleteJourney(index) {
+    this.bill.journeys.splice(index, 1);
+    console.log('Journey removed!');
+    this.saveBill();
   }
 
-  
-  
-
- 
- 
-
-  getVendorCustomer(){
-    const dataBaseCustomer = this.dbCustomer.allDocs({include_docs: true, descending: true});
-    const dataBaseVendor = this.dbVendor.allDocs({include_docs: true, descending: true});
-
-    dataBaseCustomer.then((customers) => {
-      this.customers = customers.rows;
-      if(this.customers.length < 1){
-        this.addModeCustomer = true;
-      }
-      console.log(customers);
-    });
+  saveVendor() {
+    this.saveBill();
+    this.dbService.saveDoc('vendor', this.bill.vendor);
+    this.editModeVendor = false;
+  }
+  changeVendor() {
+    this.editModeVendor = true;
   }
 
 
-  editCustomer(customer, i){
+
+
+  editCustomer(customer, i) {
     this.editModeCustomer = true;
     this.customer = customer;
     this.index = i;
   }
 
-  gotoCustomer(status){
-    switch(status){
+  gotoCustomer(status) {
+    switch (status) {
       case (-1):
-        
+
     }
   }
-  
-  saveCustomer(){
+
+  saveCustomer() {
     if (!this.editModeCustomer) {
       this.customer._id = new Date().toISOString();
       this.customers.push(this.customer);
@@ -135,39 +129,39 @@ export class BillService {
     this.updateBill();
     this.dbCustomer.put(this.customer).then((response) => {
       console.log('Successfully posted or updated a customer!');
-      if(this.editModeCustomer){
+      if (this.editModeCustomer) {
         this.customer[this.index]._rev = response.rev;
       }
     }).catch((err) => {
       console.log(err);
     });
-    
-    
+
+
     this.journey = new Journey();
     this.editModeJourney = false;
 
   }
 
-  
 
-  deleteBill(bill){
-    this.dbBills.remove(bill).then(()=>{
+
+  deleteBill(bill) {
+    this.dbBills.remove(bill).then(() => {
       console.log('removed');
     });
 
   }
 
   updateBill() {
-   this.dbBills.put(this.bill).then((response) => {
+    this.dbBills.put(this.bill).then((response) => {
       console.log('Successfully posted or updated a bill');
-      if(this.bill._rev !== undefined){
+      if (this.bill._rev !== undefined) {
         this.bill._rev = response.rev;
       }
     }).catch((err) => {
       console.log(err);
     })
   }
- 
-   
-  
+
+
+
 }

@@ -10,18 +10,6 @@
   height: 25px;
 }
 
-#leftEingabe {
-  float: left;
-  width: 47%;
-  margin-left: 10px;
-}
-
-#rightEingabe {
-  float: right;
-  width: 47%;
-  margin-right: 10px;
-}
-
 #leftContainer {
   float: left;
   width: 49%;
