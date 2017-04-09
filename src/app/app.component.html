@@ -1,4 +1,9 @@
-<md-toolbar class="toolbar">Rechnungstool</md-toolbar>
+<md-toolbar class="toolbar">
+  Rechnungstool
+  <md-toolbar-row>
+    <button (click)="clearDatabase()">Lösche Datenbank</button>
+  </md-toolbar-row>
+</md-toolbar>
 
 <div id="leftContainer">
   <app-journey-table></app-journey-table>
@@ -13,8 +18,8 @@
     </md-card-title-group>
     <md-card-content>
       Rechnungsnummer: {{billService.bill.reNr}}
-      <app-customer-editor ></app-customer-editor>
-      
+      <app-customer-editor></app-customer-editor>
+
     </md-card-content>
   </md-card>
 </div>
