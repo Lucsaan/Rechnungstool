@@ -1,0 +1,36 @@
+<app-journey-editor id="leftEingabe"></app-journey-editor>
+
+<md-card id="rightEingabe">
+  <md-card-title-group>
+    <md-card-title>Rechnungsdaten</md-card-title>
+
+  </md-card-title-group>
+  <md-card-content>
+    <table style="width:100%">
+      <tr>
+        <td>
+          Rechnungsnummer:
+        </td>
+        <td>
+          101-2017{{billService.bill.reNr}}
+        </td>
+      </tr>
+      <tr *ngIf="!billService.editModeVendor">
+        <td valign="top">
+          Rechnungssteller:
+        </td>
+        <td>
+          {{billService.bill.vendor?.name}} <br> 
+          {{billService.bill.vendor?.street}} <br> 
+          {{billService.bill.vendor?.city}} <br>
+        </td>
+        <button md-button (click)="billService.changeVendor()">Ändern</button>
+      </tr>
+      
+    </table>
+    <app-vendor-editor *ngIf="billService.editModeVendor"></app-vendor-editor>
+
+    <app-customer-editor></app-customer-editor>
+
+  </md-card-content>
+</md-card>

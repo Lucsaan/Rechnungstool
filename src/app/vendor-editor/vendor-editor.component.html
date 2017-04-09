@@ -1,0 +1,17 @@
+<md-card>
+  <h4>Bitte Rechnungsersteller eintragen</h4>
+  <md-input-container>
+    <input type="text" mdInput placeholder="Name" [(ngModel)]="billService.bill.vendor.name">
+  </md-input-container><br>
+  <md-input-container>
+    <input type="text" mdInput placeholder="Straße" [(ngModel)]="billService.bill.vendor.street">
+  </md-input-container><br>
+  <md-input-container>
+    <input type="text" mdInput placeholder="Stadt" [(ngModel)]="billService.bill.vendor.city">
+  </md-input-container><br>
+  <md-card-actions fxLayout fxLayoutAlign="center center">
+    <button md-button (click)="billService.saveVendor()">Speichern</button>
+  </md-card-actions>
+</md-card>
+
+
