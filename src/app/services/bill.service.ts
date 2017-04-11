@@ -6,15 +6,17 @@ import { Observable } from 'rxjs/Rx';
 import { Journey } from '../journey';
 import { Bill } from '../bill';
 import { Injectable } from '@angular/core';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 
 @Injectable()
 export class BillService {
 
-  bill: any = new Bill(this.dbService);
+  bill: Bill = new Bill();
+
   customer: Customer = new Customer();
   //vendor: Vendor = new Vendor();
-  bills: Array<any> = new Array<any>();
+  bills: FirebaseListObservable<Bill[]>;
   journey: Journey = new Journey();
   journeys: Array<any> = [];
   customers: Array<Customer> = [];
@@ -32,18 +34,26 @@ export class BillService {
   private data: Observable<Array<Journey>>;
 
 
-  constructor(private dbService: DbService) {
-    let db = new PouchDB('bills');
+  constructor(private dbService: DbService, private af: AngularFire) {
+    this.bills = af.database.list('/bills');
+    this.bills.subscribe(bills => {
+      if (bills.length === 0) {
+        this.bills.push(new Bill());
+      }
+      this.bill = bills[bills.length - 1];
+
+    });
+
     this.initiate();
   }
 
   initiate() {
-    this.getBillIds();
+    //this.getBillIds();
     this.journey = new Journey();
     console.log(this.journey);
   }
 
-  getBillIds() {
+  /*getBillIds() {
     this.dbService.getAllDocs('bills', false, true).then((data) => {
       this.bills = data.rows;
       this.bills.length > 0 ? this.getBill(this.bills[this.bills.length - 1].id) : this.editModeVendor = true;
@@ -52,11 +62,11 @@ export class BillService {
       console.log('Failed loading Bills');
       console.log(error);
     });
-  }
+  }*/
 
   getBill(id) {
     this.dbService.getDoc('bills', id).then((bill) => {
-      this.bill = bill;
+
       console.log(this.bill);
     }).catch((error) => {
       console.log('Failed loading Bill');
@@ -64,24 +74,19 @@ export class BillService {
     });
   }
 
-  saveBill() {
-    this.dbService.saveDoc('bills', this.bill).then((response) => {
-      console.log('Bill saved!');
-      // catch bill with new revision
-      this.getBill(this.bill._id);
-    });
-  }
-
   saveJourney(journey?) {
+    if (this.bill.journeys === undefined) {
+      this.bill.journeys = new Array<Journey>();
+    }
+
     if (journey === undefined) {
       this.bill.journeys.push(this.journey);
     } else {
       journey.edit = false;
-      console.log(journey);
     }
-    console.log('Journey saved!');
-    this.saveBill();
+    this.updateBill();
     this.journey = new Journey();
+
   }
 
 
@@ -92,23 +97,23 @@ export class BillService {
   deleteJourney(index) {
     this.bill.journeys.splice(index, 1);
     console.log('Journey removed!');
-    this.saveBill();
+    this.updateBill();
   }
 
-  saveVendor() {
-    this.saveBill();
-    this.dbService.saveDoc('vendor', this.bill.vendor);
-    this.dbService.getDoc('vendor', this.bill.vendor._id).then((vendor) => {
-      this.bill.vendor = vendor;
-    }).catch((error) => {
-      console.log('Error with vendor');
-      console.log(error);
-    })
-    this.editModeVendor = false;
-  }
-  changeVendor() {
-    this.editModeVendor = true;
-  }
+  /* saveVendor() {
+     this.saveBill();
+     this.dbService.saveDoc('vendor', this.bill.vendor);
+     this.dbService.getDoc('vendor', this.bill.vendor._id).then((vendor) => {
+       this.bill.vendor = vendor;
+     }).catch((error) => {
+       console.log('Error with vendor');
+       console.log(error);
+     })
+     this.editModeVendor = false;
+   }
+   changeVendor() {
+     this.editModeVendor = true;
+   }*/
 
 
 
@@ -158,14 +163,7 @@ export class BillService {
   }
 
   updateBill() {
-    this.dbBills.put(this.bill).then((response) => {
-      console.log('Successfully posted or updated a bill');
-      if (this.bill._rev !== undefined) {
-        this.bill._rev = response.rev;
-      }
-    }).catch((err) => {
-      console.log(err);
-    })
+    this.bills.update(this.bill.$key, this.bill);
   }
 
 
