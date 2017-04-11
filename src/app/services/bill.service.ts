@@ -98,6 +98,12 @@ export class BillService {
   saveVendor() {
     this.saveBill();
     this.dbService.saveDoc('vendor', this.bill.vendor);
+    this.dbService.getDoc('vendor', this.bill.vendor._id).then((vendor) => {
+      this.bill.vendor = vendor;
+    }).catch((error) => {
+      console.log('Error with vendor');
+      console.log(error);
+    })
     this.editModeVendor = false;
   }
   changeVendor() {
