@@ -20,7 +20,6 @@ export class AppComponent {
   amount: number;
   journey: any;
   bill: any;
-  db : any = new PouchDB('bills');
   billArray : Array<Bill> = new Array<Bill>();
   rows: any;
   edit: boolean = false;
@@ -48,24 +47,8 @@ export class AppComponent {
       this.billService.saveJourney();
     }*/
   }
-  clearDatabase(){
-    new PouchDB('bills').destroy().then(function () {
-      console.log('Datenbank gelöscht');
-}).catch(function (err) {
-  // error occurred
-})
-new PouchDB('journeys').destroy().then(function () {
-      console.log('Datenbank gelöscht');
-}).catch(function (err) {
-  // error occurred
-})
-new PouchDB('vendor').destroy().then(function () {
-      console.log('Datenbank gelöscht');
-}).catch(function (err) {
-  // error occurred
-})
-  }
-
+ 
+ 
 
  /* saveJourney(){
     this.bill.journeys.push(this.journey);

@@ -7,7 +7,6 @@ import { MaterialModule } from '@angular/material';
 import { MdDataTableModule } from 'ng2-md-datatable';
 import { DataTableModule } from 'ng2-data-table';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import * as PouchDB from 'pouchdb';
 import { DbService } from './services/db.service';
 import { AngularFireModule } from 'angularfire2'
 
@@ -22,11 +21,12 @@ import { VendorEditorComponent } from './vendor-editor/vendor-editor.component';
 
 const appRoutes: Routes = [
   { path: 'Rechnungsdaten', component: BillDataComponent },
-  {
-    path: '',
+  { path: '',
     redirectTo: '/Rechnungsdaten',
     pathMatch: 'full'
-  }
+  },
+  { path: '**', component: BillDataComponent }
+  
 ];
 
 export const firebaseConfig = {
@@ -48,11 +48,11 @@ export const firebaseConfig = {
     VendorEditorComponent
   ],
   imports: [
+    RouterModule.forRoot(appRoutes),
     BrowserModule,
     FormsModule,
     HttpModule,
     MaterialModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
     AngularFireModule.initializeApp(firebaseConfig)
 
 

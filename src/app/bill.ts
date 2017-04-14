@@ -17,7 +17,6 @@ export class Bill {
     journeys: Array<Journey> = [];
 
     constructor() {
-        this.vendor = { name: '', street : '', city : ''};
         this.done = false;
         this.journeys = new Array<Journey>();
     }
