@@ -1,0 +1,17 @@
+<h2 style="text-align: center">Wähle Rechnungsempfänger</h2>
+
+<md-card *ngFor="let customer of billService.customers">
+
+
+  <md-card-content (click)="billService.setCustomer(customer)">
+    {{customer.name}} <br> {{customer.address.street}} <br> {{customer.address.zip}} <br> {{customer.address.city}}
+
+  </md-card-content>
+
+  <button (click)="billService.deleteCustomer(customer)">löschen</button>
+
+
+
+
+
+</md-card>

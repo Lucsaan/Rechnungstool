@@ -8,7 +8,8 @@ import { MdDataTableModule } from 'ng2-md-datatable';
 import { DataTableModule } from 'ng2-data-table';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DbService } from './services/db.service';
-import { AngularFireModule } from 'angularfire2'
+import { AngularFireModule } from 'angularfire2';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 import { AppComponent } from './app.component';
@@ -18,9 +19,12 @@ import { JourneyTableComponent } from './journey-table/journey-table.component';
 import { RouterModule, Routes } from '@angular/router';
 import { BillDataComponent } from './bill-data/bill-data.component';
 import { VendorEditorComponent } from './vendor-editor/vendor-editor.component';
+import { CustomerDataComponent } from './customer-data/customer-data.component';
+import { CustomerListComponent } from './customer-list/customer-list.component';
 
 const appRoutes: Routes = [
   { path: 'Rechnungsdaten', component: BillDataComponent },
+  { path: 'Empfänger', component: CustomerDataComponent},
   { path: '',
     redirectTo: '/Rechnungsdaten',
     pathMatch: 'full'
@@ -45,7 +49,9 @@ export const firebaseConfig = {
     JourneyEditorComponent,
     JourneyTableComponent,
     BillDataComponent,
-    VendorEditorComponent
+    VendorEditorComponent,
+    CustomerDataComponent,
+    CustomerListComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -53,7 +59,8 @@ export const firebaseConfig = {
     FormsModule,
     HttpModule,
     MaterialModule.forRoot(),
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    BrowserAnimationsModule
 
 
   ],

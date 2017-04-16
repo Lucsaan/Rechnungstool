@@ -1,5 +1,4 @@
 import { BillService } from './services/bill.service';
-import { Bill } from './../models/bill-model';
 import { Component, OnInit } from '@angular/core';
 
 
@@ -20,8 +19,7 @@ export class AppComponent {
   amount: number;
   journey: any;
   bill: any;
-  billArray : Array<Bill> = new Array<Bill>();
-  rows: any;
+  ows: any;
   edit: boolean = false;
 
 

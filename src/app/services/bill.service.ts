@@ -7,6 +7,7 @@ import { Journey } from '../journey';
 import { Bill } from '../bill';
 import { Injectable } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -14,11 +15,14 @@ export class BillService {
 
   bill: Bill = new Bill();
 
-  customer: Customer = new Customer();
+  customer: Customer;
+  newCustomer: Customer = new Customer();
   dbVendor: FirebaseObjectObservable<Vendor>;
   vendor: Vendor;
   billVendor: Vendor;
   bills: FirebaseListObservable<Bill[]>;
+  dbCustomers: FirebaseListObservable<Customer[]>;
+  customers: Customer[] = [];
   journey: Journey = new Journey();
 
   editModeJourney = false;
@@ -28,17 +32,20 @@ export class BillService {
   private index: number;
   private data: Observable<Array<Journey>>;
 
-  constructor(private dbService: DbService, private af: AngularFire) {
+  constructor(private router : Router, private dbService: DbService, private af: AngularFire) {
     this.bills = af.database.list('/bills');
     this.dbVendor = af.database.object('/vendor');
+    this.dbCustomers = af.database.list('/customers');
     this.initiateBill();
     this.getBills();
+    this.getCustomers();
   }
   initiateBill() {
     this.journey = new Journey();
     this.bill = new Bill();
     this.vendor = new Vendor();
     this.bill.vendor = this.vendor;
+    this.customer = new Customer();
   }
 
   getBills() {
@@ -47,7 +54,7 @@ export class BillService {
         this.bills.push(new Bill());
       }
       this.bill = bills[bills.length - 1];
-
+      console.log(this.bill.customer);
       if (this.bill.vendor === undefined) {
         this.setVendor();
       }
@@ -57,7 +64,7 @@ export class BillService {
   updateBill() {
     this.bills.update(this.bill.$key, this.bill);
   }
-  
+
   updateVendor() {
     this.dbVendor.update(this.vendor);
   }
@@ -80,10 +87,10 @@ export class BillService {
     this.updateVendor();
     this.editModeVendor = false;
   }
-  
+
   changeVendor() {
-    
-    if(this.bill.done === true){
+
+    if (this.bill.done === true) {
       return;
     }
     this.editModeVendor = true;
@@ -107,31 +114,47 @@ export class BillService {
   editJourney(journey) {
     journey.edit = true;
   }
-  
+
   deleteJourney(index) {
     this.bill.journeys.splice(index, 1);
     console.log('Journey removed!');
     this.updateBill();
   }
 
-  editCustomer(customer, i) {
-    this.editModeCustomer = true;
-    this.customer = customer;
-    this.index = i;
+  setCustomer(customer) {
+    this.bill.customer = customer;
+    console.log(customer);
+    this.updateBill();
+    this.navigateRechnungsDaten();
   }
 
-  gotoCustomer(status) {
-    switch (status) {
-      case (-1):
-
-    }
+  saveNewCustomer() {
+    this.bill.customer = this.newCustomer;
+    this.dbCustomers.push(this.newCustomer);
+    this.newCustomer = new Customer();
+    this.getCustomers();
+    this.updateBill();
+    this.navigateRechnungsDaten();
+}
+  getCustomers(){
+    this.dbCustomers.subscribe(customers => {
+      console.log(customers);
+       this.customers = customers;
+    })
+  }
+  deleteCustomer(customer){
+    this.dbCustomers.remove(customer);
   }
 
-  
-  deleteBill(bill) {
-
-
+  navigateRechnungsDaten(){
+    this.router.navigate(['/Rechnungsdaten']);
+    
   }
+  navigateEmpfaenger(){
+    this.router.navigate(['/Empfänger']);
+  }
+
+
 
 
 
