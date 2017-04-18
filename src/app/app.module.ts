@@ -10,7 +10,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DbService } from './services/db.service';
 import { AngularFireModule } from 'angularfire2';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { PdfService } from './services/pdf.service';
 
 import { AppComponent } from './app.component';
 import { CustomerEditorComponent } from './customer-editor/customer-editor.component';
@@ -21,10 +21,12 @@ import { BillDataComponent } from './bill-data/bill-data.component';
 import { VendorEditorComponent } from './vendor-editor/vendor-editor.component';
 import { CustomerDataComponent } from './customer-data/customer-data.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
+import { BillPreviewComponent } from './bill-preview/bill-preview.component';
 
 const appRoutes: Routes = [
   { path: 'Rechnungsdaten', component: BillDataComponent },
   { path: 'Empfänger', component: CustomerDataComponent},
+  { path: 'Vorschau', component: BillPreviewComponent},
   { path: '',
     redirectTo: '/Rechnungsdaten',
     pathMatch: 'full'
@@ -51,7 +53,8 @@ export const firebaseConfig = {
     BillDataComponent,
     VendorEditorComponent,
     CustomerDataComponent,
-    CustomerListComponent
+    CustomerListComponent,
+    BillPreviewComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -64,7 +67,7 @@ export const firebaseConfig = {
 
 
   ],
-  providers: [BillService, DbService],
+  providers: [BillService, DbService, PdfService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

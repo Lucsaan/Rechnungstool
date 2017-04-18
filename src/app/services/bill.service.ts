@@ -6,8 +6,10 @@ import { Observable } from 'rxjs/Rx';
 import { Journey } from '../journey';
 import { Bill } from '../bill';
 import { Injectable } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable,FirebaseObjectObservable} from 'angularfire2';
 import { Router } from '@angular/router';
+import * as jsPdf from 'jspdf';
+import { PdfService } from '../services/pdf.service';
 
 
 @Injectable()
@@ -32,7 +34,7 @@ export class BillService {
   private index: number;
   private data: Observable<Array<Journey>>;
 
-  constructor(private router : Router, private dbService: DbService, private af: AngularFire) {
+  constructor(private router : Router, private dbService: DbService, private af: AngularFire, private pdfService : PdfService) {
     this.bills = af.database.list('/bills');
     this.dbVendor = af.database.object('/vendor');
     this.dbCustomers = af.database.list('/customers');
@@ -153,6 +155,15 @@ export class BillService {
   navigateEmpfaenger(){
     this.router.navigate(['/Empfänger']);
   }
+  navigateBillPreview(){
+    this.router.navigate(['/Vorschau']);
+  }
+  createPdf(){
+    console.log(this.bill.journeys[0].date);
+    this.navigateBillPreview();
+    //this.pdfService.createPdf(this.bill);    
+  }
+
 
 
 
