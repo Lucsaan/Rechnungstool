@@ -12,7 +12,7 @@ export class PdfService {
     let total = 0;
 
     //Rechnungssteller
-    doc.setFontSize(12);
+    doc.setFontSize(11);
     doc.text (bill.vendor.name, 20, 20,);
     doc.text ('Fahrzeugüberführungen', 20, 25);
     doc.text(bill.vendor.street, 20, 30);
@@ -69,26 +69,28 @@ export class PdfService {
       doc.text(journey.end, xAbgabeort, (y));
       doc.text(journey.type, xTyp, (y));
       doc.text(journey.number, xFahrgestell, (y));
-      doc.text((journey.amount.toString() + ' €'), xRight, (y), null, null, 'right');
+      let amount = (Math.round(journey.amount*100)/100).toFixed(2);
+      doc.text((amount.toString() + ' €'), xRight, (y), null, null, 'right');
     }
-
+      let totalString = (Math.round(total*100)/100).toFixed(2);
       doc.text('Zwischensumme', xFahrgestell + 20, (y = y+ 10), null, null, 'right' );
-      doc.text(total.toString() + ' €', xRight, y, null, null, 'right');
+      doc.text(totalString + ' €', xRight, y, null, null, 'right');
       doc.text('Steuersatz', xFahrgestell + 20, (y = y+ 5), null, null, 'right' );
       doc.text('19 % ', xRight, y, null, null, 'right');
       doc.text('Umsatzsteuer', xFahrgestell + 20, (y = y+ 5), null, null, 'right' );
-      doc.text((total * 0.19) + ' €', xRight, y, null, null, 'right');
+      doc.text((Math.round(parseFloat(totalString)*0.19*100)/100).toFixed(2) + ' €', xRight, y, null, null, 'right');
       doc.setFontStyle('bold');
       doc.text('Gesamt', xFahrgestell + 20, (y = y+ 8), null, null, 'right' );
-      doc.text((total * 1.19) + ' €', xRight, y, null, null, 'right');
+      let billSum = (Math.round(parseFloat(totalString)*1.19*100)/100).toFixed(2);
+      doc.text( billSum + ' €', xRight, y, null, null, 'right');
 
       doc.setFontSize(12);
       doc.setFontStyle('normal');
-      doc.text('Bitte überweisen Sie den Gesamtbetrag auf das unten angegebene Konto.', 20, (y = y + 20));
+      doc.text('Bitte überweisen Sie den Gesamtbetrag in Höhe von ' + billSum +  ' € auf das unten angegebene Konto.', 20, (y = y + 20));
       doc.text('IBAN: DE75 6629 1300 0010 2235  BIC: GENODE61ACH', 20, (y = y + 5));
       doc.text('SteuerNr: 36140/51209', 20, (y = y + 5));
       doc.text('Mit freundlichen Grüßen', 20, (y = y + 15));
-      doc.text('Dieter Hartmann', 20, (y = y + 15));
+      doc.text( bill.vendor.name , 20, (y = y + 15));
       
       
       

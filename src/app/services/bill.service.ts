@@ -69,6 +69,7 @@ export class BillService {
 
   updateVendor() {
     this.dbVendor.update(this.vendor);
+    console.log(this.vendor);
   }
 
   setVendor() {

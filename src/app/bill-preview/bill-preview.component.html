@@ -1,1 +1,32 @@
-<iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(uri)" width="700" height="750">Loading...</iframe>
+<!--<iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(uri)" width="700" height="750">Loading...</iframe>-->
+
+<br>
+<span id="letterNormal">
+{{billService.bill.vendor.name}} <br>
+Fahrzeugüberführungen <br>
+{{billService.bill.vendor.street}} <br>
+{{billService.bill.vendor.city}} <br>
+</span>
+
+<br>
+<span id="letterHead">
+{{billService.bill.vendor.name}}, {{billService.bill.vendor.street}}, {{billService.bill.vendor.city}}
+</span>
+
+<table width="100%" >
+    <tr>
+        <td width="50vw">
+            Firma
+        </td>
+        <td width="50vw">
+            20.10.1976
+        </td>
+    </tr>
+   
+
+</table>
+
+
+
+
+
