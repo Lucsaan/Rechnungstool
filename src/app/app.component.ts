@@ -1,5 +1,7 @@
 import { BillService } from './services/bill.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+
 
 
 @Component({
@@ -24,7 +26,7 @@ export class AppComponent {
 
 
   
-  constructor(private billService: BillService){
+  constructor(private billService: BillService, private router: Router){
 
     
     
@@ -44,6 +46,9 @@ export class AppComponent {
     /*if (!edit) {
       this.billService.saveJourney();
     }*/
+  }
+  navigateToBilldata(){
+    this.billService.navigateRechnungsDaten();
   }
  
  

@@ -1,7 +1,15 @@
 #letterHead{
-    font-size: 11px;
+    font-size: 10px;
     text-decoration-line: underline;
 }
 #letterNormal{
-    font-size: 14px;
+    font-size: 12px;
+}
+
+#table{
+    font-size: 11px;
+    padding-bottom: 10px;
+}
+#letterBox{
+    padding-left: 20px;
 }

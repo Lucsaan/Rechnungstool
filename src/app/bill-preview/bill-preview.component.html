@@ -1,32 +1,124 @@
 <!--<iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(uri)" width="700" height="750">Loading...</iframe>-->
-
-<br>
-<span id="letterNormal">
-{{billService.bill.vendor.name}} <br>
+<md-card>
+    <md-card-content>
+    <div>
+        <br>
+        <span id="letterNormal">
+{{billService.bill.vendor?.name}} <br>
 Fahrzeugüberführungen <br>
-{{billService.bill.vendor.street}} <br>
-{{billService.bill.vendor.city}} <br>
+{{billService.bill.vendor?.street}} <br>
+{{billService.bill.vendor?.city}} <br>
 </span>
 
-<br>
-<span id="letterHead">
-{{billService.bill.vendor.name}}, {{billService.bill.vendor.street}}, {{billService.bill.vendor.city}}
-</span>
+        <br>
+        <div id="letterHead">
+            {{billService.bill.vendor?.name}}, {{billService.bill.vendor?.street}}, {{billService.bill.vendor?.city}}
+        </div>
+        <br>
+        <table width="70%" id="letterNormal">
+            <tr>
+                <td width="70%">
+                    Firma
+                </td>
+                <td width="15%" style="text-align: left">
+                    Datum:
+                </td>
+                <td width="15%" style="text-align: right">
+                    20.10.1976
+                </td>
+            </tr>
+            <tr>
+                <td width="70%">
+                    {{billService.bill.customer?.name}}
+                </td>
+                <td width="15%" style="text-align: left">
+                    Rechnungsnummer:
+                </td>
+                <td width="15%" style="text-align: right">
+                    Ikarus
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{billService.bill.customer?.address.street}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{billService.bill.customer?.address.zip}} {{billService.bill.customer?.address.city}}
+                </td>
+            </tr>
 
-<table width="100%" >
-    <tr>
-        <td width="50vw">
-            Firma
-        </td>
-        <td width="50vw">
-            20.10.1976
-        </td>
-    </tr>
-   
+        </table>
 
-</table>
+        <br>
+        <br>
 
+        <table width="70%" style="font-size: 12px">
+            <tr style="border-bottom: solid 1px black">
+                <td width="10%">Datum</td>
+                <td width="24%">Strecke</td>
+                <td width="24%">Abgabeort</td>
+                <td width="15%">Typ</td>
+                <td width="15%">Fahrgestellnr.</td>
+                <td width="16%" style="text-align: right">Betrag</td>
+            </tr>
+            <br>
+            <tr *ngFor="let journey of billService.bill.journeys" id="table">
+                <td>{{journey.date | date:'dd.MM.yy'}}</td>
+                <td>{{journey.start}}</td>
+                <td>{{journey.end}}</td>
+                <td>{{journey.type}}</td>
+                <td>{{journey.number}}</td>
+                <td style="text-align: right">{{journey.amount}} €</td>
+            </tr>
+            <br>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right">Zwischensumme</td>
+                <td></td>
+                <td style="text-align: right">{{totalAmountNettoString}} €</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right">Steuersatz</td>
+                <td></td>
+                <td style="text-align: right">19%</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right">Umsatzsteuer</td>
+                <td></td>
+                <td style="text-align: right">{{taxAmount}} €</td>
+            </tr>
+            <br>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right">Gesamt</td>
+                <td></td>
+                <td style="text-align: right">{{totalAmountBrutto}} €</td>
+            </tr>
+        </table>
+        <br>
+        <br>
 
+        <div id="letterNormal">
+            Bitte überweisen Sie den Gesamtbetrag in Höhe von {{totalAmountBrutto}} € auf das unten angegebene Konto. <br>            IBAN: DE75 6629 1300 0010 2235 BIC: GENODE61ACH <br> SteuerNr: 36140/51209
+            <br>
+            <br> Mit freundlichen Grüßen
+            <br>
+            <br> {{billService.bill.vendor?.name}}
+        </div>
 
+    </div>
+    </md-card-content>
 
-
+</md-card>

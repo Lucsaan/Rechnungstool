@@ -24,7 +24,7 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 import { BillPreviewComponent } from './bill-preview/bill-preview.component';
 
 const appRoutes: Routes = [
-  { path: 'Rechnungsdaten', component: BillDataComponent },
+  { path: 'Rechnungsdaten', component: BillDataComponent  }, //BillDataComponent BillPreviewComponent
   { path: 'Empfänger', component: CustomerDataComponent},
   { path: 'Vorschau', component: BillPreviewComponent},
   { path: '',

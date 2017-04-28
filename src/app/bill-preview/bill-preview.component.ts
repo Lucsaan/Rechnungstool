@@ -13,13 +13,20 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class BillPreviewComponent implements OnInit {
   uri: any;
+  totalAmountNetto: number = 0;
+  totalAmountNettoString; string;
+  totalAmountBrutto: string;
+  taxAmount: string;
   constructor(private billService: BillService, private pdfService : PdfService, private sanitizer : DomSanitizer) { }
 
   ngOnInit() {
     let bill = this.billService.bill;
-    this.uri = this.pdfService.createPdf(bill);
-    console.log(this.uri);
-
+    for(let journey of this.billService.bill.journeys){
+      this.totalAmountNetto += parseFloat(journey.amount); 
+    }
+    this.totalAmountNettoString = (Math.round(this.totalAmountNetto*100)/100).toFixed(2); 
+    this.totalAmountBrutto = (Math.round(this.totalAmountNetto*1.19*100)/100).toFixed(2);
+    this.taxAmount = (Math.round(this.totalAmountNetto*0.19*100)/100).toFixed(2);
   }
 
 }
