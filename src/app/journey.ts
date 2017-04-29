@@ -7,7 +7,7 @@ export class Journey {
     type: string ;
     number: string ;
     distance?: number ;
-    amount?: number ;
+    amount?: string ;
     bill_id: string;
     edit = false;
 }

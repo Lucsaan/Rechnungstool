@@ -20,17 +20,31 @@
           Rechnungssteller:
         </td>
         <td>
-          {{billService.bill.vendor?.name}} <br> 
-          {{billService.bill.vendor?.street}} <br> 
-          {{billService.bill.vendor?.city}} <br>
+          {{billService.bill.vendor?.name}} <br> {{billService.bill.vendor?.street}} <br> {{billService.bill.vendor?.city}}
+          <br>
         </td>
         <button md-button (click)="billService.changeVendor()">Ändern</button>
       </tr>
-      
+      <tr>
+        <td valign="top">Rechnungsempfänger:</td>
+        <td *ngIf="billService.bill.customer !== undefined">
+          {{billService.bill.customer?.name}}<br>
+          {{billService.bill.customer?.address.street}} <br> 
+          {{billService.bill.customer?.address.zip}} <br>
+          {{billService.bill.customer?.address.city}}
+        </td>
+        <td id="redBorder" *ngIf="billService.bill.customer === undefined">
+          Kein Rechnungsempfänger vorhanden!
+        </td>
+        <td>
+          <button (click)="billService.navigateEmpfaenger()"  md-button >Ändern</button>
+          
+        </td>
+      </tr>
+
     </table>
     <app-vendor-editor *ngIf="billService.editModeVendor"></app-vendor-editor>
 
-    <app-customer-editor></app-customer-editor>
 
   </md-card-content>
 </md-card>

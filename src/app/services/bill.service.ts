@@ -6,23 +6,26 @@ import { Observable } from 'rxjs/Rx';
 import { Journey } from '../journey';
 import { Bill } from '../bill';
 import { Injectable } from '@angular/core';
+import { AngularFire, FirebaseListObservable,FirebaseObjectObservable} from 'angularfire2';
+import { Router } from '@angular/router';
+import * as jsPdf from 'jspdf';
+import { PdfService } from '../services/pdf.service';
 
 
 @Injectable()
 export class BillService {
 
-  bill: any = new Bill(this.dbService);
-  customer: Customer = new Customer();
-  //vendor: Vendor = new Vendor();
-  bills: Array<any> = new Array<any>();
+  bill: Bill = new Bill();
+
+  customer: Customer;
+  newCustomer: Customer = new Customer();
+  dbVendor: FirebaseObjectObservable<Vendor>;
+  vendor: Vendor;
+  billVendor: Vendor;
+  bills: FirebaseListObservable<Bill[]>;
+  dbCustomers: FirebaseListObservable<Customer[]>;
+  customers: Customer[] = [];
   journey: Journey = new Journey();
-  journeys: Array<any> = [];
-  customers: Array<Customer> = [];
-  docs: Array<any>;
-  dbBills: any = new PouchDB('bills');
-  dbJourneys: any = new PouchDB('journeys');
-  dbVendor: any = new PouchDB('vendors');
-  dbCustomer: any = new PouchDB('customers');
 
   editModeJourney = false;
   editModeCustomer = false;
@@ -31,136 +34,141 @@ export class BillService {
   private index: number;
   private data: Observable<Array<Journey>>;
 
-
-  constructor(private dbService: DbService) {
-    let db = new PouchDB('bills');
-    this.initiate();
+  constructor(private router : Router, private dbService: DbService, private af: AngularFire, private pdfService : PdfService) {
+    this.bills = af.database.list('/bills');
+    this.dbVendor = af.database.object('/vendor');
+    this.dbCustomers = af.database.list('/customers');
+    this.initiateBill();
+    this.getBills();
+    this.getCustomers();
   }
-
-  initiate() {
-    this.getBillIds();
+  initiateBill() {
     this.journey = new Journey();
-    console.log(this.journey);
+    this.bill = new Bill();
+    this.vendor = new Vendor();
+    this.bill.vendor = this.vendor;
+    this.customer = new Customer();
   }
 
-  getBillIds() {
-    this.dbService.getAllDocs('bills', false, true).then((data) => {
-      this.bills = data.rows;
-      this.bills.length > 0 ? this.getBill(this.bills[this.bills.length - 1].id) : this.editModeVendor = true;
-      console.log(this.bill);
-    }).catch((error) => {
-      console.log('Failed loading Bills');
-      console.log(error);
+  getBills() {
+    this.bills.subscribe(bills => {
+      if (bills.length === 0) {
+        this.bills.push(new Bill());
+      }
+      this.bill = bills[bills.length - 1];
+      console.log(this.bill.customer);
+      if (this.bill.vendor === undefined) {
+        this.setVendor();
+      }
     });
   }
 
-  getBill(id) {
-    this.dbService.getDoc('bills', id).then((bill) => {
-      this.bill = bill;
-      console.log(this.bill);
-    }).catch((error) => {
-      console.log('Failed loading Bill');
-      console.log(error);
-    });
+  updateBill() {
+    this.bills.update(this.bill.$key, this.bill);
   }
 
-  saveBill() {
-    this.dbService.saveDoc('bills', this.bill).then((response) => {
-      console.log('Bill saved!');
-      // catch bill with new revision
-      this.getBill(this.bill._id);
-    });
+  updateVendor() {
+    this.dbVendor.update(this.vendor);
+    console.log(this.vendor);
+  }
+
+  setVendor() {
+    this.bill.vendor = this.vendor;
+    this.dbVendor.subscribe(vendor => {
+      if (vendor.$value === null) {
+        this.editModeVendor = true;
+      }
+      console.log(vendor);
+      this.updateBill();
+      this.updateVendor();
+    })
+  }
+
+  saveVendor() {
+    this.updateBill();
+    this.vendor = this.bill.vendor;
+    this.updateVendor();
+    this.editModeVendor = false;
+  }
+
+  changeVendor() {
+
+    if (this.bill.done === true) {
+      return;
+    }
+    this.editModeVendor = true;
   }
 
   saveJourney(journey?) {
+    if (this.bill.journeys === undefined) {
+      this.bill.journeys = new Array<Journey>();
+    }
+
     if (journey === undefined) {
       this.bill.journeys.push(this.journey);
     } else {
       journey.edit = false;
-      console.log(journey);
     }
-    console.log('Journey saved!');
-    this.saveBill();
+    this.updateBill();
     this.journey = new Journey();
+
   }
-
-
 
   editJourney(journey) {
     journey.edit = true;
   }
+
   deleteJourney(index) {
     this.bill.journeys.splice(index, 1);
     console.log('Journey removed!');
-    this.saveBill();
-  }
-
-  saveVendor() {
-    this.saveBill();
-    this.dbService.saveDoc('vendor', this.bill.vendor);
-    this.editModeVendor = false;
-  }
-  changeVendor() {
-    this.editModeVendor = true;
-  }
-
-
-
-
-  editCustomer(customer, i) {
-    this.editModeCustomer = true;
-    this.customer = customer;
-    this.index = i;
-  }
-
-  gotoCustomer(status) {
-    switch (status) {
-      case (-1):
-
-    }
-  }
-
-  saveCustomer() {
-    if (!this.editModeCustomer) {
-      this.customer._id = new Date().toISOString();
-      this.customers.push(this.customer);
-    }
-    this.bill.customer = this.customer;
     this.updateBill();
-    this.dbCustomer.put(this.customer).then((response) => {
-      console.log('Successfully posted or updated a customer!');
-      if (this.editModeCustomer) {
-        this.customer[this.index]._rev = response.rev;
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
-
-
-    this.journey = new Journey();
-    this.editModeJourney = false;
-
   }
 
-
-
-  deleteBill(bill) {
-    this.dbBills.remove(bill).then(() => {
-      console.log('removed');
-    });
-
+  setCustomer(customer) {
+    this.bill.customer = customer;
+    console.log(customer);
+    this.updateBill();
+    this.navigateRechnungsDaten();
   }
 
-  updateBill() {
-    this.dbBills.put(this.bill).then((response) => {
-      console.log('Successfully posted or updated a bill');
-      if (this.bill._rev !== undefined) {
-        this.bill._rev = response.rev;
-      }
-    }).catch((err) => {
-      console.log(err);
+  saveNewCustomer() {
+    this.bill.customer = this.newCustomer;
+    this.dbCustomers.push(this.newCustomer);
+    this.newCustomer = new Customer();
+    this.getCustomers();
+    this.updateBill();
+    this.navigateRechnungsDaten();
+}
+  getCustomers(){
+    this.dbCustomers.subscribe(customers => {
+      console.log(customers);
+       this.customers = customers;
     })
   }
+  deleteCustomer(customer){
+    this.dbCustomers.remove(customer);
+  }
+
+  navigateRechnungsDaten(){
+    this.router.navigate(['/Rechnungsdaten']);
+    
+  }
+  navigateEmpfaenger(){
+    this.router.navigate(['/Empfänger']);
+  }
+  navigateBillPreview(){
+    this.router.navigate(['/Vorschau']);
+  }
+  createPdf(){
+    console.log(this.bill.journeys[0].date);
+    this.navigateBillPreview();
+    //this.pdfService.createPdf(this.bill);    
+  }
+
+
+
+
+
 
 
 

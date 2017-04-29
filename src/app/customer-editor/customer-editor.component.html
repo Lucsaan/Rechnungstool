@@ -1,30 +1,33 @@
-<div *ngIf="billService.customers.length > 0" >
-  <h4>Empfänger</h4><br> 
-  {{billService.bill.customer?.name}}<br> 
-  {{billService.bill.customer?.address?.street}}<br> 
-  {{billService.bill.customer?.address?.zip}}<br> 
-  {{billService.bill.customer?.address?.city}}
-  <button md-button (click)="billService.gotoCustomer(-1)">Vorheriger</button>
-  <button md-button (click)="billService.gotoCustomer(1)">Nächster</button>
-  <button md-button (click)="billService.gotoCustomer(0)">Hinzufügen</button>
 
-</div><br>
-<div *ngIf="billService.editModeCustomer || billService.addModeCustomer">
-  <h4 *ngIf="billService.addModeCustomer"> Eingabe neuer Empfänger</h4>
-  <h4 *ngIf="billService.editModeCustomer"> Empfängerdaten ändern</h4>
-  <md-input-container fxflex>
-    <input mdInput placeholder="Name" [(ngModel)]="billService.customer.name">
-  </md-input-container>
-  <md-input-container fxflex>
-    <input mdInput placeholder="Straße" [(ngModel)]="billService.customer.address.street">
-  </md-input-container>
-  <md-input-container fxflex>
-    <input mdInput placeholder="Postleitzahl" [(ngModel)]="billService.customer.address.zip">
-  </md-input-container>
-  <md-input-container fxflex>
-    <input mdInput placeholder="Stadt" [(ngModel)]="billService.customer.address.city">
-  </md-input-container>
-  <button *ngIf="!editModeCustomer" md-button (click)="billService.saveCustomer()">Hinzufügen</button>
-  <button *ngIf="editModeCustomer" md-button (click)="billService.saveCustomer()">Ändern</button>
-  <button md-button (click)="billService.newJourney()">Abbrechen</button>
-</div>
+    <md-card>
+    <md-card-title-group>
+      <md-card-title>Empfänger hinzufügen</md-card-title>
+      
+    </md-card-title-group>
+    <md-card-content *ngIf="billService.newCustomer">
+      <md-input-container>
+        <input type="text" mdInput placeholder="Vor- und Nachname" [(ngModel)]="billService.newCustomer.name">
+      </md-input-container><br>
+      <md-input-container>
+        <input type="text" mdInput placeholder="Straße" [(ngModel)]="billService.newCustomer.address.street">
+      </md-input-container><br>
+      <md-input-container>
+        <input type="text" mdInput placeholder="Postleitzahl" [(ngModel)]="billService.newCustomer.address.zip">
+      </md-input-container><br>
+      <md-input-container>
+        <input type="text" mdInput placeholder="Stadt" [(ngModel)]="billService.newCustomer.address.city">
+      </md-input-container><br>
+    </md-card-content>
+   
+    <md-card-actions fxLayout fxLayoutAlign="center center">
+       
+      <button md-button (click)="billService.saveNewCustomer()">
+       Hinzufügen
+       </button>
+      <button md-button (click)="billService.navigateRechnungsDaten()">Abbrechen</button>
+      
+
+    </md-card-actions>
+    
+  </md-card>
+  

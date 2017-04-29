@@ -1,6 +1,7 @@
 import { BillService } from './services/bill.service';
-import { Bill } from './../models/bill-model';
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+
 
 
 @Component({
@@ -20,14 +21,12 @@ export class AppComponent {
   amount: number;
   journey: any;
   bill: any;
-  db : any = new PouchDB('bills');
-  billArray : Array<Bill> = new Array<Bill>();
-  rows: any;
+  ows: any;
   edit: boolean = false;
 
 
   
-  constructor(private billService: BillService){
+  constructor(private billService: BillService, private router: Router){
 
     
     
@@ -48,24 +47,11 @@ export class AppComponent {
       this.billService.saveJourney();
     }*/
   }
-  clearDatabase(){
-    new PouchDB('bills').destroy().then(function () {
-      console.log('Datenbank gelöscht');
-}).catch(function (err) {
-  // error occurred
-})
-new PouchDB('journeys').destroy().then(function () {
-      console.log('Datenbank gelöscht');
-}).catch(function (err) {
-  // error occurred
-})
-new PouchDB('vendor').destroy().then(function () {
-      console.log('Datenbank gelöscht');
-}).catch(function (err) {
-  // error occurred
-})
+  navigateToBilldata(){
+    this.billService.navigateRechnungsDaten();
   }
-
+ 
+ 
 
  /* saveJourney(){
     this.bill.journeys.push(this.journey);

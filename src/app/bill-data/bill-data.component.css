@@ -13,3 +13,6 @@
 table, th, td {
   padding: 5px;
 }
+#redBorder{
+  border: 1px solid red;
+}

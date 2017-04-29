@@ -1,0 +1,3 @@
+<app-customer-editor id="leftEingabe"></app-customer-editor>
+<app-customer-list *ngIf="billService.customers !== undefined" id="rightEingabe"></app-customer-list>
+<span *ngIf="billService.customers === undefined" style="text-align: center" ><h2> Noch keine Einträge</h2></span>
