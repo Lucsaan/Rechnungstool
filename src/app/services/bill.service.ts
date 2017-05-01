@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { Journey } from '../journey';
 import { Bill } from '../bill';
 import { Injectable } from '@angular/core';
-import { AngularFire, FirebaseListObservable,FirebaseObjectObservable} from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { Router } from '@angular/router';
 import * as jsPdf from 'jspdf';
 import { PdfService } from '../services/pdf.service';
@@ -23,6 +23,7 @@ export class BillService {
   vendor: Vendor;
   billVendor: Vendor;
   bills: FirebaseListObservable<Bill[]>;
+  billsArray: any;
   dbCustomers: FirebaseListObservable<Customer[]>;
   customers: Customer[] = [];
   journey: Journey = new Journey();
@@ -30,11 +31,14 @@ export class BillService {
   editModeJourney = false;
   editModeCustomer = false;
   editModeVendor = false;
+  editModeBillNumber = false;
+  editModeBillDate = false;
   addModeCustomer = false;
+  showBillsArray = false;
   private index: number;
   private data: Observable<Array<Journey>>;
 
-  constructor(private router : Router, private dbService: DbService, private af: AngularFire, private pdfService : PdfService) {
+  constructor(private router: Router, private dbService: DbService, private af: AngularFire, private pdfService: PdfService) {
     this.bills = af.database.list('/bills');
     this.dbVendor = af.database.object('/vendor');
     this.dbCustomers = af.database.list('/customers');
@@ -56,7 +60,8 @@ export class BillService {
         this.bills.push(new Bill());
       }
       this.bill = bills[bills.length - 1];
-      console.log(this.bill.customer);
+      this.billsArray = bills;
+      console.log(this.billsArray);
       if (this.bill.vendor === undefined) {
         this.setVendor();
       }
@@ -66,6 +71,35 @@ export class BillService {
   updateBill() {
     this.bills.update(this.bill.$key, this.bill);
   }
+
+  changeBillNumber() {
+    this.editModeBillNumber = true;
+  }
+  saveBillNumber() {
+    this.editModeBillNumber = false;
+    this.updateBill();
+  }
+  changeBillDate() {
+    this.editModeBillDate = true;
+  }
+  saveBillDate() {
+    this.editModeBillDate = false;
+    this.updateBill();
+  }
+  previewBill(bill) {
+    this.bill = bill;
+    this.navigateBillPreview();
+  }
+  completeBill() {
+    if(this.bill.done){
+      this.createPdf();
+    }else {
+      this.createPdf();
+//this.bill.done = true;
+      this.bill = new Bill();
+    }
+  }
+
 
   updateVendor() {
     this.dbVendor.update(this.vendor);
@@ -138,31 +172,44 @@ export class BillService {
     this.getCustomers();
     this.updateBill();
     this.navigateRechnungsDaten();
-}
-  getCustomers(){
+  }
+  getCustomers() {
     this.dbCustomers.subscribe(customers => {
-      console.log(customers);
-       this.customers = customers;
+      this.customers = customers;
     })
   }
-  deleteCustomer(customer){
+  deleteCustomer(customer) {
     this.dbCustomers.remove(customer);
   }
 
-  navigateRechnungsDaten(){
+  navigateRechnungsDaten() {
     this.router.navigate(['/Rechnungsdaten']);
-    
+
   }
-  navigateEmpfaenger(){
+  navigateEmpfaenger() {
     this.router.navigate(['/Empfänger']);
   }
-  navigateBillPreview(){
+  navigateBillPreview() {
     this.router.navigate(['/Vorschau']);
   }
-  createPdf(){
-    console.log(this.bill.journeys[0].date);
-    this.navigateBillPreview();
-    //this.pdfService.createPdf(this.bill);    
+  navigateTo(component) {
+    this.router.navigate([component]);
+  }
+
+  showBills() {
+    this.showBillsArray = true;
+    this.navigateTo('/chooseBill');
+  }
+  showActualBill() {
+    this.bill = this.billsArray[this.billsArray.length - 1];
+    this.showBillsArray = false;
+    this.navigateTo('/Rechnungsdaten');
+  }
+
+  createPdf() {
+    /*console.log(this.bill.journeys[0].date);
+    this.navigateBillPreview();*/
+    this.pdfService.createPdf(this.bill);    
   }
 
 

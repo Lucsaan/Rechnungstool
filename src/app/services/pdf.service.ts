@@ -30,9 +30,9 @@ export class PdfService {
     doc.text(bill.customer.address.zip + ' ' + bill.customer.address.city, 20, 70);
     //Datum rechts
     doc.text('Datum:', 140, 55);
-    doc.text('20.10.1976', 200, 55, 0, 'right');
+    doc.text('23.03.2016', 200, 55, 0, 'right');
     doc.text('Rechnungsnr: ', 140, 60);
-    doc.text('101-2017', 200, 60, 0, 'right');
+    doc.text('16-015', 200, 60, 0, 'right');
 
 
     
@@ -84,7 +84,7 @@ export class PdfService {
       let billSum = (Math.round(parseFloat(totalString)*1.19*100)/100).toFixed(2);
       doc.text( billSum + ' €', xRight, y, null, null, 'right');
 
-      doc.setFontSize(12);
+      doc.setFontSize(11);
       doc.setFontStyle('normal');
       doc.text('Bitte überweisen Sie den Gesamtbetrag in Höhe von ' + billSum +  ' € auf das unten angegebene Konto.', 20, (y = y + 20));
       doc.text('IBAN: DE75 6629 1300 0010 2235  BIC: GENODE61ACH', 20, (y = y + 5));
@@ -96,8 +96,10 @@ export class PdfService {
       
       
     
+    doc.output('save', bill.billDate + '-' + bill.reNr + '.pdf');
+    doc.output();
+    return doc.output('dataurlnewwindow');
     
-    return doc.output('datauristring');
 
 
     
