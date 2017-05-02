@@ -25,6 +25,7 @@ import { BillPreviewComponent } from './bill-preview/bill-preview.component';
 import { BillsTableComponent } from './bills-table/bills-table.component';
 import { ChooseBillComponent } from './choose-bill/choose-bill.component';
 import { SumAmountPipe } from '../pipes/sum-amount.pipe';
+import { TwoDigitsPipe } from '../pipes/two-digits.pipe';
 
 const appRoutes: Routes = [
   { path: 'Rechnungsdaten', component: BillDataComponent  }, //BillDataComponent BillPreviewComponent
@@ -62,7 +63,8 @@ export const firebaseConfig = {
     BillPreviewComponent,
     BillsTableComponent,
     ChooseBillComponent,
-    SumAmountPipe
+    SumAmountPipe,
+    TwoDigitsPipe
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

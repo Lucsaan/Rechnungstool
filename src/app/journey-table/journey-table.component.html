@@ -51,7 +51,7 @@
             <md-input-container *ngIf="journey.edit">
               <input type="number" mdInput placeholder="amount" [(ngModel)]="journey.amount">
             </md-input-container>
-            <span *ngIf="!journey.edit">{{journey?.amount}} €</span>
+            <span *ngIf="!journey.edit">{{journey?.amount | twoDigits }} €</span>
           </td>
           <td>
             <button *ngIf="journey.edit" (click)="billService.saveJourney(journey)">Speichern</button>

@@ -68,6 +68,14 @@ export class BillService {
     });
   }
 
+  createNewBill(){
+    this.vendor = this.bill.vendor;
+    this.bill = new Bill();
+    this.bill.vendor = this.vendor;
+    this.bills.push(this.bill);
+    this.showActualBill();
+  }
+
   updateBill() {
     this.bills.update(this.bill.$key, this.bill);
   }
@@ -86,8 +94,10 @@ export class BillService {
     this.editModeBillDate = false;
     this.updateBill();
   }
-  previewBill(bill) {
-    this.bill = bill;
+  previewBill(bill?) {
+    if(bill !== undefined){
+      this.bill = bill;
+    }
     this.navigateBillPreview();
   }
   completeBill() {
@@ -95,8 +105,12 @@ export class BillService {
       this.createPdf();
     }else {
       this.createPdf();
-//this.bill.done = true;
-      this.bill = new Bill();
+      this.bill.done = true;
+      this.updateBill();
+      this.createNewBill();
+      
+      
+
     }
   }
 

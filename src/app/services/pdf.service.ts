@@ -92,13 +92,16 @@ export class PdfService {
       doc.text('Mit freundlichen Grüßen', 20, (y = y + 15));
       doc.text( bill.vendor.name , 20, (y = y + 15));
       
-      
-      
-      
-    
-    doc.output('save', bill.billDate + '-' + bill.reNr + '.pdf');
-    doc.output();
-    return doc.output('dataurlnewwindow');
+     //doc.output('save', bill.billDate + '-' + bill.reNr + '.pdf');
+    //doc.output();
+    let billDate = new Date(bill.billDate);
+    console.log(billDate);
+    let billDateToString: string = billDate.getDate().toString() +'.'+ billDate.getMonth().toString() +'.'+ billDate.getFullYear().toString();
+    console.log(billDateToString);
+    doc.save('RechnungVom_' + billDateToString + '_ReNr_' + bill.reNr + '.pdf');
+    console.log('RechnungVom_' + billDateToString + '_ReNr_' + bill.reNr + '.pdf');
+    doc.autoPrint();
+    return 'Supi';//doc.output('dataurlnewwindow');
     
 
 

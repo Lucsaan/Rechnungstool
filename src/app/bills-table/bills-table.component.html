@@ -9,19 +9,18 @@
         <tr>
           <th>Rechnungsdatum</th>
           <th>Rechnungsnummer</th>
-          <th>Empfänger</th>    
+          <th>Empfänger</th>
           <th>Gesamtbetrag</th>
-        </tr>
-        <tr *ngFor="let bill of billService.billsArray" (click)="billService.previewBill(bill)">
-          <td>{{bill.billDate | date:'dd.MM.yyyy'}}</td>
-          <td>{{bill.reNr}}</td>
-          <td>{{bill.customer.name}}</td>
-          <td>{{bill | sumAmount}} €</td>
         </tr>
       </thead>
       <tbody>
-
+        <tr *ngFor="let bill of oldBills" (click)="billService.previewBill(bill)">
+          <td>{{bill?.billDate | date:'dd.MM.yyyy'}}</td>
+          <td>{{bill?.reNr}}</td>
+          <td>{{bill?.customer.name}}</td>
+          <td>{{bill | sumAmount}} €</td>
+        </tr>
+      </tbody>
     </table>
   </md-card-content>
-
 </md-card>

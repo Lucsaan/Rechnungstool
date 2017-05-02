@@ -7,10 +7,15 @@ import { BillService } from "../services/bill.service";
   styleUrls: ['./bills-table.component.css']
 })
 export class BillsTableComponent implements OnInit {
-
-  constructor(private billService : BillService) { }
+  oldBills: any;
+  constructor(private billService : BillService) {
+      this.oldBills = billService.billsArray.slice(0);
+      this.oldBills.splice(this.oldBills.length - 1,1); 
+      console.log(this.oldBills);
+   }
 
   ngOnInit() {
+
   }
 
 }

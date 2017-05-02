@@ -9,7 +9,7 @@ export class Bill {
     _id?: string;
     _rev?: string;
     $key: string;
-    billDate?: string;
+    billDate?: Date;
     customer?: Customer;
     vendor?: Vendor;
     done: boolean;
