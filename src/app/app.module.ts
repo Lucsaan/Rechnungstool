@@ -11,6 +11,7 @@ import { DbService } from './services/db.service';
 import { AngularFireModule } from 'angularfire2';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PdfService } from './services/pdf.service';
+import { AuthService} from './services/auth.service';
 
 import { AppComponent } from './app.component';
 import { CustomerEditorComponent } from './customer-editor/customer-editor.component';
@@ -26,6 +27,7 @@ import { BillsTableComponent } from './bills-table/bills-table.component';
 import { ChooseBillComponent } from './choose-bill/choose-bill.component';
 import { SumAmountPipe } from '../pipes/sum-amount.pipe';
 import { TwoDigitsPipe } from '../pipes/two-digits.pipe';
+import { LoginComponent} from './login/login.component';
 
 const appRoutes: Routes = [
   { path: 'Rechnungsdaten', component: BillDataComponent  }, //BillDataComponent BillPreviewComponent
@@ -37,7 +39,7 @@ const appRoutes: Routes = [
     redirectTo: '/Rechnungsdaten',
     pathMatch: 'full'
   },
-  { path: '**', component: BillDataComponent }
+  { path: '**', component: BillDataComponent}
   
 ];
 
@@ -64,7 +66,8 @@ export const firebaseConfig = {
     BillsTableComponent,
     ChooseBillComponent,
     SumAmountPipe,
-    TwoDigitsPipe
+    TwoDigitsPipe,
+    LoginComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -77,7 +80,7 @@ export const firebaseConfig = {
 
 
   ],
-  providers: [BillService, DbService, PdfService],
+  providers: [BillService, DbService, PdfService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,21 +1,28 @@
 <md-toolbar class="toolbar">
-  Rechnungstool <br>
-  <button md-button (click)="billService.previewBill()">pdf</button>
-  <button md-button (click)="navigateToBilldata()">Rechnungsdaten</button>
-  <button md-button (click)="billService.showBills()">Alte Rechnungen</button>
-  <button md-button (click)="billService.showActualBill()">Aktuelle Rechnung</button>
-  
-  
-  </md-toolbar>
+    Rechnungstool <br>
+    <button md-button (click)="billService.previewBill()">pdf</button>
+    <button md-button (click)="navigateToBilldata()">Rechnungsdaten</button>
+    <button md-button (click)="billService.showBills()">Alte Rechnungen</button>
+    <button md-button (click)="billService.showActualBill()">Aktuelle Rechnung</button>
 
-<div id="leftContainer">
-  <app-journey-table *ngIf="!billService.showBillsArray"></app-journey-table>
-  <app-bills-table *ngIf="billService.showBillsArray"></app-bills-table>
-  
+
+</md-toolbar>
+
+<div id="leftContainer" *ngIf="billService.loggedIn">
+    <app-journey-table *ngIf="!billService.showBillsArray"></app-journey-table>
+    <app-bills-table *ngIf="billService.showBillsArray"></app-bills-table>
 </div>
-<div id="rightContainer">
-  <router-outlet></router-outlet>
-  </div>
+
+<div *ngIf="!billService.loggedIn">
+    <app-login></app-login>
+</div>
+
+
+
+
+<div id="rightContainer" *ngIf="billService.loggedIn">
+    <router-outlet></router-outlet>
+</div>
 <!--
 <md-list>
   <h3 md-subheader>Rechnungen</h3>

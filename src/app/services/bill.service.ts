@@ -10,6 +10,7 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { Router } from '@angular/router';
 import * as jsPdf from 'jspdf';
 import { PdfService } from '../services/pdf.service';
+import { AuthService } from "./auth.service";
 
 
 @Injectable()
@@ -35,10 +36,14 @@ export class BillService {
   editModeBillDate = false;
   addModeCustomer = false;
   showBillsArray = false;
+  billWork = false;
+  loggedIn = false;
   private index: number;
   private data: Observable<Array<Journey>>;
 
-  constructor(private router: Router, private dbService: DbService, private af: AngularFire, private pdfService: PdfService) {
+  constructor(private router: Router, private dbService: DbService, private af: AngularFire, private pdfService: PdfService, private auth: AuthService) {
+    
+    this.loggedIn = this.auth.isLoggedIn();
     this.bills = af.database.list('/bills');
     this.dbVendor = af.database.object('/vendor');
     this.dbCustomers = af.database.list('/customers');
@@ -56,6 +61,8 @@ export class BillService {
 
   getBills() {
     this.bills.subscribe(bills => {
+        console.log(bills.length);
+            
       if (bills.length === 0) {
         this.bills.push(new Bill());
       }
