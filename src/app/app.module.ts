@@ -9,6 +9,8 @@ import { DataTableModule } from 'ng2-data-table';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DbService } from './services/db.service';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PdfService } from './services/pdf.service';
 import { AuthService} from './services/auth.service';
@@ -75,8 +77,12 @@ export const firebaseConfig = {
     FormsModule,
     HttpModule,
     MaterialModule.forRoot(),
-    AngularFireModule.initializeApp(firebaseConfig),
-    BrowserAnimationsModule
+    AngularFireModule.initializeApp(firebaseConfig, 'Rechnungstool'),
+    BrowserAnimationsModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
+    
+    
 
 
   ],

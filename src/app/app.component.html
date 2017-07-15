@@ -8,19 +8,19 @@
 
 </md-toolbar>
 
-<div id="leftContainer" *ngIf="billService.loggedIn">
+<div id="leftContainer" *ngIf="authService.loggedIn">
     <app-journey-table *ngIf="!billService.showBillsArray"></app-journey-table>
     <app-bills-table *ngIf="billService.showBillsArray"></app-bills-table>
 </div>
 
-<div *ngIf="!billService.loggedIn">
+<div *ngIf="!authService.loggedIn">
     <app-login></app-login>
 </div>
 
 
 
 
-<div id="rightContainer" *ngIf="billService.loggedIn">
+<div id="rightContainer">
     <router-outlet></router-outlet>
 </div>
 <!--

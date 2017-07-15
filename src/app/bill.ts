@@ -2,7 +2,6 @@ import { Customer } from '../models/customer-model';
 import { Journey } from './journey';
 import { Vendor } from "../models/vendor-model";
 import { DbService } from "./services/db.service";
-import {FirebaseListObservable} from 'angularfire2';
 
 export class Bill {
 

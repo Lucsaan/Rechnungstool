@@ -1,6 +1,7 @@
 import { BillService } from './services/bill.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import { AuthService } from './services/auth.service';
 
 
 
@@ -27,7 +28,7 @@ export class AppComponent {
 
 
   
-  constructor(private billService: BillService, private router: Router){
+  constructor(private billService: BillService, private router: Router, private authService: AuthService){
 
     
     

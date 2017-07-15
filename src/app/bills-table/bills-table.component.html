@@ -1,26 +1,26 @@
 <md-card>
-  <md-card-title-group>
-    <md-card-title>Vergangene Rechnungen</md-card-title>
-    <md-card-subtitle>{{billService.billsArray.length}} Rechnungen archiviert</md-card-subtitle>
-  </md-card-title-group>
-  <md-card-content>
-    <table id="table" class="table table-hover table-striped table-mc-light-green">
-      <thead>
-        <tr>
-          <th>Rechnungsdatum</th>
-          <th>Rechnungsnummer</th>
-          <th>Empfänger</th>
-          <th>Gesamtbetrag</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let bill of oldBills" (click)="billService.previewBill(bill)">
-          <td>{{bill?.billDate | date:'dd.MM.yyyy'}}</td>
-          <td>{{bill?.reNr}}</td>
-          <td>{{bill?.customer.name}}</td>
-          <td>{{bill | sumAmount}} €</td>
-        </tr>
-      </tbody>
-    </table>
-  </md-card-content>
+    <md-card-title-group>
+        <md-card-title>Vergangene Rechnungen</md-card-title>
+        <md-card-subtitle>{{billService.billsArray.length - 1}} Rechnungen archiviert</md-card-subtitle>
+    </md-card-title-group>
+    <md-card-content>
+        <table id="table" class="table table-hover table-striped table-mc-light-green">
+            <thead>
+                <tr>
+                    <th>Rechnungsdatum</th>
+                    <th>Rechnungsnummer</th>
+                    <th>Empfänger</th>
+                    <th>Gesamtbetrag</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let bill of oldBills" (click)="billService.previewBill(bill)">
+                    <td>{{bill?.billDate | date:'dd.MM.yyyy'}}</td>
+                    <td>{{bill?.reNr}}</td>
+                    <td>{{bill?.customer.name}}</td>
+                    <td>{{bill | sumAmount}} €</td>
+                </tr>
+            </tbody>
+        </table>
+    </md-card-content>
 </md-card>

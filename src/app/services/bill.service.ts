@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { Journey } from '../journey';
 import { Bill } from '../bill';
 import { Injectable } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { Router } from '@angular/router';
 import * as jsPdf from 'jspdf';
 import { PdfService } from '../services/pdf.service';
@@ -15,6 +15,8 @@ import { AuthService } from "./auth.service";
 
 @Injectable()
 export class BillService {
+  //uid: string = "qHqVpwIeyngj9CAqWXuo4M8ki6O2";
+  uid: string = "C3UEcR6q1UgEOmotFxSOltUTBnc2";
 
   bill: Bill = new Bill();
 
@@ -41,12 +43,12 @@ export class BillService {
   private index: number;
   private data: Observable<Array<Journey>>;
 
-  constructor(private router: Router, private dbService: DbService, private af: AngularFire, private pdfService: PdfService, private auth: AuthService) {
+  constructor(private router: Router, private dbService: DbService, private af: AngularFireDatabase, private pdfService: PdfService, private auth: AuthService) {
     
-    this.loggedIn = this.auth.isLoggedIn();
-    this.bills = af.database.list('/bills');
-    this.dbVendor = af.database.object('/vendor');
-    this.dbCustomers = af.database.list('/customers');
+    
+    this.bills = af.list('/bills/' + this.uid);
+    this.dbVendor = af.object('/vendor/' + this.uid);
+    this.dbCustomers = af.list('/customers/' + this.uid);
     this.initiateBill();
     this.getBills();
     this.getCustomers();
@@ -79,6 +81,7 @@ export class BillService {
     this.vendor = this.bill.vendor;
     this.bill = new Bill();
     this.bill.vendor = this.vendor;
+    this.bill.billDate = new Date();
     this.bills.push(this.bill);
     this.showActualBill();
   }
