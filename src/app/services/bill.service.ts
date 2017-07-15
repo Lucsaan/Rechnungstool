@@ -15,8 +15,6 @@ import { AuthService } from "./auth.service";
 
 @Injectable()
 export class BillService {
-  //uid: string = "qHqVpwIeyngj9CAqWXuo4M8ki6O2";
-  uid: string = "C3UEcR6q1UgEOmotFxSOltUTBnc2";
 
   bill: Bill = new Bill();
 
@@ -45,10 +43,10 @@ export class BillService {
 
   constructor(private router: Router, private dbService: DbService, private af: AngularFireDatabase, private pdfService: PdfService, private auth: AuthService) {
     
-    
-    this.bills = af.list('/bills/' + this.uid);
-    this.dbVendor = af.object('/vendor/' + this.uid);
-    this.dbCustomers = af.list('/customers/' + this.uid);
+    let uid = this.auth.uid;
+    this.bills = af.list('/bills/' + uid);
+    this.dbVendor = af.object('/vendor/' + uid);
+    this.dbCustomers = af.list('/customers/' +  uid);
     this.initiateBill();
     this.getBills();
     this.getCustomers();
