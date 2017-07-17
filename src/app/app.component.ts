@@ -52,6 +52,25 @@ export class AppComponent {
   navigateToBilldata(){
     this.billService.navigateRechnungsDaten();
   }
+  confirmPopUp(){
+    console.log(this.billService.bill.journeys);
+    if(
+      this.billService.hasReNr === true && 
+      this.billService.hasDate === true && 
+      this.billService.hasVendor === true && 
+      this.billService.hasCustomer === true &&
+      this.billService.bill.journeys !== undefined
+    ){
+      this.billService.createPdf();
+    } else {
+      if(this.billService.bill.journeys === undefined){
+        alert('Es sind noch keine Fahrten eingetragen!!!');
+      }else{
+          alert('Es fehlen noch Daten!!!');
+      }
+      
+    }
+  }
  
  
 

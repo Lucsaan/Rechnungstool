@@ -1,74 +1,92 @@
 <app-journey-editor id="leftEingabe"></app-journey-editor>
 
 <md-card id="rightEingabe">
-  <md-card-title-group>
-    <md-card-title>Rechnungsdaten</md-card-title>
+    <md-card-title-group>
+        <md-card-title>Rechnungsdaten</md-card-title>
 
-  </md-card-title-group>
-  <md-card-content>
-    <table style="width:100%">
-      <tr>
-        <td>
-          Rechnungsnummer:
-        </td>
-        <td *ngIf="!billService.editModeBillNumber">
-          {{billService.bill?.reNr}}
-        </td>
-        <td *ngIf="billService.editModeBillNumber">
-          <md-input-container>
-            <input type="text" mdInput placeholder="Rechnungsnummer" [(ngModel)]="billService.bill.reNr">
-          </md-input-container>
-
-        </td>
-        <button md-button (click)="billService.saveBillNumber()" *ngIf="billService.editModeBillNumber">Speichern</button>
-        <button md-button (click)="billService.changeBillNumber()" *ngIf="!billService.editModeBillNumber">Ändern</button>
-
-      </tr>
-      <tr>
-        <td>
-          Rechnungsdatum:
-        </td>
-        <td *ngIf="!billService.editModeBillDate">
-          {{billService.bill?.billDate | date:'dd.MM.yyyy'}}
-        </td>
-        <td *ngIf="billService.editModeBillDate">
-          <md-input-container>
-            <input type="date" mdInput placeholder="Rechnungsdatum" [(ngModel)]="billService.bill.billDate">
-          </md-input-container>
-
-        </td>
-        <button md-button (click)="billService.saveBillDate()" *ngIf="billService.editModeBillDate">Speichern</button>
-        <button md-button (click)="billService.changeBillDate()" *ngIf="!billService.editModeBillDate">Ändern</button>
-
-      </tr>
-      <tr *ngIf="!billService.editModeVendor">
-        <td valign="top">
-          Rechnungssteller:
-        </td>
-        <td>
-          {{billService.bill.vendor?.name}} <br> {{billService.bill.vendor?.street}} <br> {{billService.bill.vendor?.city}}
-          <br>
-        </td>
-        <button md-button (click)="billService.changeVendor()">Ändern</button>
-      </tr>
-      <tr>
-        <td valign="top">Rechnungsempfänger:</td>
-        <td *ngIf="billService.bill.customer !== undefined">
-          {{billService.bill.customer?.name}}<br> {{billService.bill.customer?.address.street}} <br> {{billService.bill.customer?.address.zip}}
-          <br> {{billService.bill.customer?.address.city}}
-        </td>
-        <td id="redBorder" *ngIf="billService.bill.customer === undefined">
-          Kein Rechnungsempfänger vorhanden!
-        </td>
-        <td>
-          <button (click)="billService.navigateEmpfaenger()" md-button>Ändern</button>
-
-        </td>
-      </tr>
-
-    </table>
-    <app-vendor-editor *ngIf="billService.editModeVendor"></app-vendor-editor>
+    </md-card-title-group>
+    <md-card-content>
+        <table style="width:100%">
+            <tr>
+                <td>
+                    Rechnungsnummer:
+                </td>
+                <td [hidden]="billService.editModeBillNumber">
+                    <div id="redBorder" (click)="changeBillNumber()" [hidden]="billService.bill.reNr !== undefined">
+                        Hier klicken um Rechnungsnummer einzutragen
+                    </div>
+                    <div [hidden]="billService.bill.reNr === undefined">
+                        {{billService.bill?.reNr}}
+                    </div>
 
 
-  </md-card-content>
+                </td>
+                <td [hidden]="!billService.editModeBillNumber">
+                    <md-input-container>
+                        <input type="text" #inputBillNumber (blur)="billService.saveBillNumber('click')" onfocus="this.select()" (keypress)="billService.saveBillNumber($event.code)" mdInput placeholder="Rechnungsnummer" [(ngModel)]="billService.bill.reNr">
+                    </md-input-container>
+
+                </td>
+                <button md-button (click)="billService.saveBillNumber($event.type)" *ngIf="billService.editModeBillNumber">Speichern</button>
+                <button md-button (click)="billService.changeBillNumber()" *ngIf="!billService.editModeBillNumber">Ändern</button>
+
+            </tr>
+            <tr>
+                <td>
+                    Rechnungsdatum:
+                </td>
+                <td *ngIf="!billService.editModeBillDate">
+                    <span id="redBorder" *ngIf="billService.bill.billDate === undefined">
+                        Kein Datum vorhanden
+                    </span>
+                    <span *ngIf="billService.bill.billDate !== undefined">
+                        {{billService.bill.billDate | date:'dd.MM.yyyy'}}
+                    </span>
+                </td>
+                <td *ngIf="billService.editModeBillDate">
+                    <md-input-container>
+                        <input type="date" (blur)="billService.saveBillDate()" (change)="billService.saveBillDate()" mdInput placeholder="Rechnungsdatum" [(ngModel)]="billService.bill.billDate">
+                    </md-input-container>
+
+                </td>
+                <button md-button (click)="billService.saveBillDate()" *ngIf="billService.editModeBillDate">Speichern</button>
+                <button md-button (click)="billService.changeBillDate()" *ngIf="!billService.editModeBillDate">Ändern</button>
+
+            </tr>
+            <tr *ngIf="!billService.editModeVendor">
+                <td valign="top">
+                    Rechnungssteller:
+                </td>
+                <td>
+                    {{billService.bill.vendor?.name}} <br> {{billService.bill.vendor?.street}} <br> {{billService.bill.vendor?.city}}
+                    <br>
+                </td>
+                <button md-button (click)="billService.changeVendor()">Ändern</button>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <app-vendor-editor *ngIf="billService.editModeVendor"></app-vendor-editor>
+                </td>
+
+            </tr>
+            <tr>
+                <td valign="top">Rechnungsempfänger:</td>
+                <td *ngIf="billService.bill.customer !== undefined">
+                    {{billService.bill.customer?.name}}<br> {{billService.bill.customer?.address.street}} <br> {{billService.bill.customer?.address.zip}}
+                    <br> {{billService.bill.customer?.address.city}}
+                </td>
+                <td id="redBorder" *ngIf="billService.bill.customer === undefined">
+                    Kein Rechnungsempfänger vorhanden!
+                </td>
+                <td>
+                    <button (click)="billService.navigateEmpfaenger()" md-button>Ändern</button>
+
+                </td>
+            </tr>
+
+        </table>
+
+
+
+    </md-card-content>
 </md-card>

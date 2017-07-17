@@ -1,10 +1,13 @@
 <!--<iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(uri)" width="700" height="750">Loading...</iframe>-->
+
 <md-card>
     <md-card-actions fxLayout fxLayoutAlign="center center">
         <button md-button (click)="billService.completeBill()">
         <span *ngIf="billService.bill.done">Ausdrucken</span>
         <span *ngIf="!billService.bill.done">Ausdrucken und Abschließen</span>
         </button>
+        <button md-button (click)="modal('Input')">Modal</button>
+
     </md-card-actions>
 
     <md-card-content>
@@ -118,7 +121,7 @@ Fahrzeugüberführungen <br>
             <br>
 
             <div id="letterNormal">
-                Bitte überweisen Sie den Gesamtbetrag in Höhe von {{totalAmountBrutto}} € auf das unten angegebene Konto. <br>                IBAN: DE75 6629 1300 0010 2235 BIC: GENODE61ACH <br> SteuerNr: 36140/51209
+                Bitte überweisen Sie den Gesamtbetrag in Höhe von {{totalAmountBrutto}} € auf das unten angegebene Konto. <br> IBAN: DE75 6629 1300 0010 2235 BIC: GENODE61ACH <br> SteuerNr: 36140/51209
                 <br>
                 <br> Mit freundlichen Grüßen
                 <br>

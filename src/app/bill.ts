@@ -18,7 +18,7 @@ export class Bill {
     constructor() {
         this.done = false;
         this.journeys = new Array<Journey>();
-        this.reNr = 'Noch keine Rechnungsnummer vorhanden';
+        
     }
 
-   }
+}

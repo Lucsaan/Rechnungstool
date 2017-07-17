@@ -8,9 +8,30 @@ import { BillService } from "../services/bill.service";
 })
 export class VendorEditorComponent implements OnInit {
 
+    
   constructor(private billService : BillService) { }
 
   ngOnInit() {
   }
+  
+  nextTab(event, field){
+
+    let vendorName = document.getElementById("vendorName");
+    let vendorStreet = document.getElementById("vendorStreet");
+    let vendorCity = document.getElementById("vendorCity");
+    let vendorSave = document.getElementById("vendorSave");
+
+    if(event === "Enter"){
+      if(field === "name"){
+        vendorStreet.focus();
+      }else if (field === 'street'){
+        vendorCity.focus();
+      }else {
+        vendorSave.click();
+      }
+    }
+
+  }
+  
 
 }

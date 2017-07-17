@@ -35,13 +35,23 @@ export class BillService {
   editModeBillNumber = false;
   editModeBillDate = false;
   addModeCustomer = false;
+  hasReNr = false;
+  hasDate = false;
+  hasVendor = false;
+  hasCustomer = false;
   showBillsArray = false;
   billWork = false;
   loggedIn = false;
   private index: number;
   private data: Observable<Array<Journey>>;
 
-  constructor(private router: Router, private dbService: DbService, private af: AngularFireDatabase, private pdfService: PdfService, private auth: AuthService) {
+  constructor(
+    private router: Router, 
+    private dbService: DbService, 
+    private af: AngularFireDatabase, 
+    private pdfService: PdfService, 
+    private auth: AuthService
+  ) {
     
     let uid = this.auth.uid;
     this.bills = af.list('/bills/' + uid);
@@ -61,14 +71,13 @@ export class BillService {
 
   getBills() {
     this.bills.subscribe(bills => {
-        console.log(bills.length);
             
       if (bills.length === 0) {
         this.bills.push(new Bill());
       }
       this.bill = bills[bills.length - 1];
       this.billsArray = bills;
-      console.log(this.billsArray);
+      
       if (this.bill.vendor === undefined) {
         this.setVendor();
       }
@@ -79,7 +88,6 @@ export class BillService {
     this.vendor = this.bill.vendor;
     this.bill = new Bill();
     this.bill.vendor = this.vendor;
-    this.bill.billDate = new Date();
     this.bills.push(this.bill);
     this.showActualBill();
   }
@@ -91,16 +99,33 @@ export class BillService {
   changeBillNumber() {
     this.editModeBillNumber = true;
   }
-  saveBillNumber() {
-    this.editModeBillNumber = false;
-    this.updateBill();
+  saveBillNumber(event = "Nix") {
+    if(event === "Enter" || event === "click" || event === 'NumpadEnter'){
+      console.log(this.bill.reNr.length);
+      this.editModeBillNumber = false;
+      if(this.bill.reNr !== undefined){
+        this.hasReNr = true;
+      }else{
+        this.hasReNr = false;
+      }
+      this.updateBill(); 
+    }
+     
+    
   }
   changeBillDate() {
     this.editModeBillDate = true;
   }
   saveBillDate() {
     this.editModeBillDate = false;
+    console.log(this.bill.billDate);
+    if(this.bill.billDate !== undefined){
+        this.hasDate = true;
+      }else{
+        this.hasDate = false;
+      }
     this.updateBill();
+
   }
   previewBill(bill?) {
     if(bill !== undefined){
@@ -125,7 +150,6 @@ export class BillService {
 
   updateVendor() {
     this.dbVendor.update(this.vendor);
-    console.log(this.vendor);
   }
 
   setVendor() {
@@ -134,7 +158,6 @@ export class BillService {
       if (vendor.$value === null) {
         this.editModeVendor = true;
       }
-      console.log(vendor);
       this.updateBill();
       this.updateVendor();
     })
@@ -196,8 +219,10 @@ export class BillService {
     this.navigateRechnungsDaten();
   }
   getCustomers() {
+    
     this.dbCustomers.subscribe(customers => {
       this.customers = customers;
+      
     })
   }
   deleteCustomer(customer) {
@@ -234,11 +259,6 @@ export class BillService {
     this.pdfService.createPdf(this.bill);    
   }
 
-
-
-
-
-
-
-
+  
+  
 }

@@ -100,7 +100,7 @@ export class PdfService {
     console.log(billDateToString);
     doc.save('RechnungVom_' + billDateToString + '_ReNr_' + bill.reNr + '.pdf');
     console.log('RechnungVom_' + billDateToString + '_ReNr_' + bill.reNr + '.pdf');
-    doc.autoPrint();
+    window.open(doc.output('datauristring'));
     return 'Supi';//doc.output('dataurlnewwindow');
     
 

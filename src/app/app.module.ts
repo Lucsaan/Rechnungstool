@@ -14,6 +14,7 @@ import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PdfService } from './services/pdf.service';
 import { AuthService} from './services/auth.service';
+import { PopupModule } from 'ng2-opd-popup';
 
 import { AppComponent } from './app.component';
 import { CustomerEditorComponent } from './customer-editor/customer-editor.component';
@@ -30,6 +31,8 @@ import { ChooseBillComponent } from './choose-bill/choose-bill.component';
 import { SumAmountPipe } from '../pipes/sum-amount.pipe';
 import { TwoDigitsPipe } from '../pipes/two-digits.pipe';
 import { LoginComponent} from './login/login.component';
+import { InputPopupComponent } from './input-popup/input-popup.component';
+
 
 const appRoutes: Routes = [
   { path: 'Rechnungsdaten', component: BillDataComponent  }, //BillDataComponent BillPreviewComponent
@@ -69,7 +72,9 @@ export const firebaseConfig = {
     ChooseBillComponent,
     SumAmountPipe,
     TwoDigitsPipe,
-    LoginComponent
+    LoginComponent,
+    InputPopupComponent,
+    
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -80,11 +85,8 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig, 'Rechnungstool'),
     BrowserAnimationsModule,
     AngularFireDatabaseModule,
-    AngularFireAuthModule
-    
-    
-
-
+    AngularFireAuthModule,
+    PopupModule.forRoot()
   ],
   providers: [BillService, DbService, PdfService, AuthService],
   bootstrap: [AppComponent]
