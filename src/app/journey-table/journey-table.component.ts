@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BillService } from '../services/bill.service';
+import { Popup } from "ng2-opd-popup";
+import { AppModule } from '../app.module';
+import { AppComponent } from "../app.component";
+
+
 
 @Component({
   selector: 'app-journey-table',
@@ -8,9 +13,20 @@ import { BillService } from '../services/bill.service';
 })
 export class JourneyTableComponent implements OnInit {
 
-  constructor(private billService: BillService) { }
+  @ViewChild('deletePopup') deletePopup: Popup;
+
+  constructor(
+    private billService: BillService,
+    private appComponent: AppComponent,  
+  ) { }
 
   ngOnInit() {
+  }
+
+  deleteJourney(index){
+    this.billService.tmpIndex = index;
+    this.appComponent.deleteDataPopup();
+    
   }
 
 }

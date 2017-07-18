@@ -24,9 +24,20 @@
     <router-outlet></router-outlet>
 </div>
 
-<popup style="text-align: center" (confirmClick)="confirmPopUp()">
+<popup #inputPopup style="text-align: center" (confirmClick)="confirmPopUp()">
     <app-input-popup></app-input-popup>
 </popup>
+
+<popup #deletePopup style="text-align: center" (confirmClick)="confirmDelete()" (cancelClick)="cancelJourneyDelete()">
+    <app-confirm-delete></app-confirm-delete>
+</popup>
+
+<popup #delCustomerPopup style="text-align: center" (confirmClick)="confirmDeleteCustomer()">
+    <app-confirm-delete></app-confirm-delete>
+</popup>
+
+
+
 <!--
 <md-list>
   <h3 md-subheader>Rechnungen</h3>

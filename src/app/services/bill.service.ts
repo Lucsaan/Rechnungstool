@@ -5,16 +5,19 @@ import { Customer } from '../../models/customer-model';
 import { Observable } from 'rxjs/Rx';
 import { Journey } from '../journey';
 import { Bill } from '../bill';
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { Router } from '@angular/router';
 import * as jsPdf from 'jspdf';
 import { PdfService } from '../services/pdf.service';
 import { AuthService } from "./auth.service";
+import { Popup } from "ng2-opd-popup";
 
 
 @Injectable()
 export class BillService {
+
+  
 
   bill: Bill = new Bill();
 
@@ -28,6 +31,7 @@ export class BillService {
   dbCustomers: FirebaseListObservable<Customer[]>;
   customers: Customer[] = [];
   journey: Journey = new Journey();
+  tmpJourney: any;
 
   editModeJourney = false;
   editModeCustomer = false;
@@ -42,16 +46,24 @@ export class BillService {
   showBillsArray = false;
   billWork = false;
   loggedIn = false;
-  private index: number;
+  tmpChoice = false;
+  tmpIndex: number;
+  tmpCustomer: any;
+  
   private data: Observable<Array<Journey>>;
+
+  totalAmountNetto: number = 0;
+  totalAmountNettoString; string;
+  totalAmountBrutto: string;
+  taxAmount: string;
 
   constructor(
     private router: Router, 
     private dbService: DbService, 
     private af: AngularFireDatabase, 
     private pdfService: PdfService, 
-    private auth: AuthService
-  ) {
+    private auth: AuthService,
+    ) {
     
     let uid = this.auth.uid;
     this.bills = af.list('/bills/' + uid);
@@ -76,6 +88,8 @@ export class BillService {
         this.bills.push(new Bill());
       }
       this.bill = bills[bills.length - 1];
+      this.calculateAmount();
+      this.uncloseInputs();
       this.billsArray = bills;
       
       if (this.bill.vendor === undefined) {
@@ -94,6 +108,7 @@ export class BillService {
 
   updateBill() {
     this.bills.update(this.bill.$key, this.bill);
+    this.getBills();
   }
 
   changeBillNumber() {
@@ -101,7 +116,6 @@ export class BillService {
   }
   saveBillNumber(event = "Nix") {
     if(event === "Enter" || event === "click" || event === 'NumpadEnter'){
-      console.log(this.bill.reNr.length);
       this.editModeBillNumber = false;
       if(this.bill.reNr !== undefined){
         this.hasReNr = true;
@@ -131,6 +145,7 @@ export class BillService {
     if(bill !== undefined){
       this.bill = bill;
     }
+    this.calculateAmount();
     this.navigateBillPreview();
   }
   completeBill() {
@@ -178,29 +193,35 @@ export class BillService {
     this.editModeVendor = true;
   }
 
-  saveJourney(journey?) {
+  newJourney(){
+    this.journey = new Journey();
+  }
+
+  saveJourney(journey?, i?) {
     if (this.bill.journeys === undefined) {
       this.bill.journeys = new Array<Journey>();
     }
-
     if (journey === undefined) {
       this.bill.journeys.push(this.journey);
     } else {
-      journey.edit = false;
+      journey.edit = false;   
     }
     this.updateBill();
     this.journey = new Journey();
+    this.tmpJourney = this.journey;
 
   }
 
   editJourney(journey) {
     journey.edit = true;
+    this.tmpJourney = journey;
   }
-
-  deleteJourney(index) {
-    this.bill.journeys.splice(index, 1);
-    console.log('Journey removed!');
-    this.updateBill();
+  
+  deleteJourney() {
+      this.bill.journeys.splice(this.tmpIndex, 1);
+      console.log('Journey removed!');
+      this.updateBill();
+      this.tmpIndex = null;
   }
 
   setCustomer(customer) {
@@ -225,8 +246,9 @@ export class BillService {
       
     })
   }
-  deleteCustomer(customer) {
-    this.dbCustomers.remove(customer);
+  deleteCustomer() {
+    this.dbCustomers.remove(this.tmpCustomer);
+    this.tmpCustomer = null;
   }
 
   navigateRechnungsDaten() {
@@ -256,7 +278,64 @@ export class BillService {
   createPdf() {
     /*console.log(this.bill.journeys[0].date);
     this.navigateBillPreview();*/
-    this.pdfService.createPdf(this.bill);    
+    this.pdfService.createPdf(this.bill); 
+    this.createNewBill(); 
+
+  }
+
+  calculateAmount(){
+    this.totalAmountNetto = 0;
+    if (this.bill.journeys !== undefined) {
+      for (let journey of this.bill.journeys) {
+        this.totalAmountNetto += parseFloat(journey.amount);
+      }
+    }
+    this.totalAmountNettoString = (Math.round(this.totalAmountNetto * 100) / 100).toFixed(2);
+    this.totalAmountBrutto = (Math.round(this.totalAmountNetto * 1.19 * 100) / 100).toFixed(2);
+    this.taxAmount = (Math.round(this.totalAmountNetto * 0.19 * 100) / 100).toFixed(2);
+  }
+
+  deleteOptions(){
+    return {
+    header: "Eintrag wirklich löschen?",
+      color: "#944e11", // red, blue.... 
+      widthProsentage: 30, // The with of the popou measured by browser width 
+      animationDuration: 2, // in seconds, 0 = no animation 
+      showButtons: true, // You can hide this in case you want to use custom buttons 
+      confirmBtnContent: "Löschen", // The text on your confirm button 
+      cancleBtnContent: "Abbrechen", // the text on your cancel button 
+      confirmBtnClass: "btn btn-default", // your class for styling the confirm button 
+      cancleBtnClass: "btn btn-default", // you class for styling the cancel button 
+      animation: "bounceIn" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown' 
+    };
+  }
+  uncloseInputs(){
+    if (this.bill.reNr !== undefined){
+       this.hasReNr = true;
+    }else this.hasReNr = false;
+
+    if (this.bill.billDate !== undefined){
+        this.hasDate = true;
+        
+    }else this.hasDate = false;
+    if (this.bill.vendor !== undefined){
+      this.hasVendor = true;
+      
+    }else this.hasVendor = false;
+    if (this.bill.customer !== undefined){
+      this.hasCustomer = true;
+      
+    }else this.hasCustomer = false;
+  }
+
+  allJourneysFalse(){
+    console.log('Im in')
+    for(let journey of this.bill.journeys){
+      console.log(journey.edit);
+      journey.edit = false;
+      console.log(journey.edit);
+      this.updateBill();
+    }
   }
 
   

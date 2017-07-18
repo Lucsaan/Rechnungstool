@@ -2,11 +2,11 @@
 
 <md-card>
     <md-card-actions fxLayout fxLayoutAlign="center center">
-        <button md-button (click)="billService.completeBill()">
+        <button md-button (click)="appComponent.modal(optionsInputPopup())">
         <span *ngIf="billService.bill.done">Ausdrucken</span>
         <span *ngIf="!billService.bill.done">Ausdrucken und Abschließen</span>
         </button>
-        <button md-button (click)="modal('Input')">Modal</button>
+
 
     </md-card-actions>
 
@@ -89,7 +89,7 @@ Fahrzeugüberführungen <br>
                     <td></td>
                     <td style="text-align: right">Zwischensumme</td>
                     <td></td>
-                    <td style="text-align: right">{{totalAmountNettoString}} €</td>
+                    <td style="text-align: right">{{this.billService.totalAmountNettoString}} €</td>
                 </tr>
                 <tr>
                     <td></td>
@@ -105,7 +105,7 @@ Fahrzeugüberführungen <br>
                     <td></td>
                     <td style="text-align: right">Umsatzsteuer</td>
                     <td></td>
-                    <td style="text-align: right">{{taxAmount}} €</td>
+                    <td style="text-align: right">{{this.billService.taxAmount}} €</td>
                 </tr>
                 <br>
                 <tr>
@@ -114,14 +114,14 @@ Fahrzeugüberführungen <br>
                     <td></td>
                     <td style="text-align: right">Gesamt</td>
                     <td></td>
-                    <td style="text-align: right">{{totalAmountBrutto}} €</td>
+                    <td style="text-align: right">{{this.billService.totalAmountBrutto}} €</td>
                 </tr>
             </table>
             <br>
             <br>
 
             <div id="letterNormal">
-                Bitte überweisen Sie den Gesamtbetrag in Höhe von {{totalAmountBrutto}} € auf das unten angegebene Konto. <br> IBAN: DE75 6629 1300 0010 2235 BIC: GENODE61ACH <br> SteuerNr: 36140/51209
+                Bitte überweisen Sie den Gesamtbetrag in Höhe von {{this.billService.totalAmountBrutto}} € auf das unten angegebene Konto. <br> IBAN: DE75 6629 1300 0010 2235 BIC: GENODE61ACH <br> SteuerNr: 36140/51209
                 <br>
                 <br> Mit freundlichen Grüßen
                 <br>

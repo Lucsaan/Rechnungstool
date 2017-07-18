@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BillService } from './services/bill.service';
 import { MaterialModule } from '@angular/material';
@@ -32,6 +32,7 @@ import { SumAmountPipe } from '../pipes/sum-amount.pipe';
 import { TwoDigitsPipe } from '../pipes/two-digits.pipe';
 import { LoginComponent} from './login/login.component';
 import { InputPopupComponent } from './input-popup/input-popup.component';
+import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 
 
 const appRoutes: Routes = [
@@ -74,6 +75,7 @@ export const firebaseConfig = {
     TwoDigitsPipe,
     LoginComponent,
     InputPopupComponent,
+    ConfirmDeleteComponent,
     
   ],
   imports: [

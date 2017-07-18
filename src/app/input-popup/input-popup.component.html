@@ -5,7 +5,7 @@
     <md-input-container>
         <input type="text" #inputBillNumber (blur)="billService.saveBillNumber('click')" onfocus="this.select()" (keypress)="billService.saveBillNumber($event.code)" mdInput placeholder="Rechnungsnummer" [(ngModel)]="billService.bill.reNr">
     </md-input-container>
-    <button (click)="saveBillNumber('click')">Speichern</button>
+    <button (click)="billService.saveBillNumber('click')">Speichern</button>
 </md-card>
 
 <md-card *ngIf="!billService.hasDate">

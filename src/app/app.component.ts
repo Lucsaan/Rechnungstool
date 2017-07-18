@@ -1,7 +1,10 @@
 import { BillService } from './services/bill.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
 import { AuthService } from './services/auth.service';
+import { Popup } from "ng2-opd-popup";
+import { BillPreviewComponent } from "./bill-preview/bill-preview.component";
+
 
 
 
@@ -11,6 +14,10 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  @ViewChild('inputPopup') inputPopup: Popup;
+  @ViewChild('deletePopup') deletePopup: Popup;
+  @ViewChild('delCustomerPopup') delCustomerPopup: Popup;
   
   title = 'app works!';
   array: Array<any> = new Array<any>();
@@ -28,26 +35,20 @@ export class AppComponent {
 
 
   
-  constructor(private billService: BillService, private router: Router, private authService: AuthService){
+  constructor(
+    private billService: BillService, 
+    private router: Router, 
+    private authService: AuthService,
+    //private billPreview: BillPreviewComponent,
+  ){}
 
-    
-    
-    /*this.bill.journeys = [];
-    
-    this.bill.reNr = '100';
-    this.getDatabase();*/
-
-
-  }
   billChooser(bill) {
       this.billService.bill = bill;
     }
   editItem(edit, event?) {
     console.log(event);
     this.edit = edit;
-    /*if (!edit) {
-      this.billService.saveJourney();
-    }*/
+    
   }
   navigateToBilldata(){
     this.billService.navigateRechnungsDaten();
@@ -65,13 +66,45 @@ export class AppComponent {
     } else {
       if(this.billService.bill.journeys === undefined){
         alert('Es sind noch keine Fahrten eingetragen!!!');
+        this.router.navigate(['/Rechnungsdaten']);
+
       }else{
           alert('Es fehlen noch Daten!!!');
       }
       
     }
+    this.inputPopup.hide();
+
   }
- 
+  
+  confirmDelete(){
+    this.billService.deleteJourney();
+    this.billService.calculateAmount();
+    this.deletePopup.hide();
+    this.billService.calculateAmount();
+  }
+  cancelJourneyDelete(){
+    this.billService.saveJourney(this.billService.tmpJourney);
+    this.deletePopup.hide();
+  }
+  confirmDeleteCustomer(){
+    this.billService.deleteCustomer();
+    this.delCustomerPopup.hide();
+
+  }
+  modal(options){
+    this.billService.uncloseInputs();
+    this.inputPopup.show(options);
+    
+  }
+  deleteDataPopup(){
+    this.deletePopup.show(this.billService.deleteOptions());
+  }
+  deleteCustomerPopup(){
+    this.delCustomerPopup.show(this.billService.deleteOptions());
+  }
+
+  
  
 
  /* saveJourney(){

@@ -3,12 +3,12 @@
 <md-card *ngFor="let customer of billService.customers">
 
 
-  <md-card-content (click)="billService.setCustomer(customer)">
-    {{customer.name}} <br> {{customer.address.street}} <br> {{customer.address.zip}} <br> {{customer.address.city}}
+    <md-card-content (click)="billService.setCustomer(customer)">
+        {{customer.name}} <br> {{customer.address.street}} <br> {{customer.address.zip}} <br> {{customer.address.city}}
 
-  </md-card-content>
+    </md-card-content>
 
-  <button (click)="billService.deleteCustomer(customer)">löschen</button>
+    <button (click)="deleteCustomer(customer)">löschen</button>
 
 
 

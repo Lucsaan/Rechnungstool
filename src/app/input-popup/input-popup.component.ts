@@ -20,7 +20,7 @@ export class InputPopupComponent implements OnInit{
   constructor(private billService : BillService, private differs : KeyValueDiffers) { 
    this.billService.bills.subscribe(bills => {
      this.bill = bills[bills.length -1];
-     console.log(this.bill);
+     //console.log(this.bill);
      this.unclosedInputs();
      
    });
@@ -45,7 +45,7 @@ export class InputPopupComponent implements OnInit{
       this.billService.hasCustomer = true;
       
     }
-    this.testBooleans();
+   // this.testBooleans();
     
   }
 

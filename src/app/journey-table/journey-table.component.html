@@ -1,63 +1,63 @@
 <md-card>
-  <md-card-title-group>
-    <md-card-title>Fahrten</md-card-title>
-    <md-card-subtitle>Rechnungsnummer: {{billService.bill?.reNr}}</md-card-subtitle>
-  </md-card-title-group>
-  <md-card-content>
-    <table id="table" class="table table-hover table-striped table-mc-light-green">
-      <thead>
-        <tr>
-          <th>Datum</th>
-          <th>Abholungsort</th>
-          <th>Abgabeort</th>
-          <th>Typ</th>
-          <th>Fahrgestellnr.</th>
-          <th>Betrag</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let journey of billService.bill.journeys; let i = index" (click)="billService.editJourney(journey)">
-          <td>
-            <md-input-container *ngIf="journey.edit">
-              <input type="date" mdInput placeholder="Datum" [(ngModel)]="journey.date">
-            </md-input-container>
-            <span *ngIf="!journey.edit">{{journey?.date | date:'dd.MM.yyyy'}}</span>
-          </td>
-          <td>
-            <md-input-container *ngIf="journey.edit">
-              <input type="text" mdInput placeholder="Start" [(ngModel)]="journey.start">
-            </md-input-container>
-            <span *ngIf="!journey.edit">{{journey?.start}}</span>
-          </td>
-          <td>
-            <md-input-container *ngIf="journey.edit">
-              <input type="text" mdInput placeholder="Ende" [(ngModel)]="journey.end">
-            </md-input-container>
-            <span *ngIf="!journey.edit">{{journey?.end}}</span>
-          </td>
-          <td>
-            <md-input-container *ngIf="journey.edit">
-              <input type="text" mdInput placeholder="Typ" [(ngModel)]="journey.type">
-            </md-input-container>
-            <span *ngIf="!journey.edit">{{journey?.type}}</span>
-          </td>
-          <td>
-            <md-input-container *ngIf="journey.edit">
-              <input type="text" mdInput placeholder="Nr" [(ngModel)]="journey.number">
-            </md-input-container>
-            <span *ngIf="!journey.edit">{{journey?.number}}</span>
-          </td>
-          <td>
-            <md-input-container *ngIf="journey.edit">
-              <input type="number" mdInput placeholder="amount" [(ngModel)]="journey.amount">
-            </md-input-container>
-            <span *ngIf="!journey.edit">{{journey?.amount | twoDigits }} €</span>
-          </td>
-          <td>
-            <button *ngIf="journey.edit" (click)="billService.saveJourney(journey)">Speichern</button>
-            <button *ngIf="!journey.edit" (click)="billService.deleteJourney(i)">Löschen</button>
-          </td>
-        </tr>
-    </table>
-  </md-card-content>
+    <md-card-title-group>
+        <md-card-title>Fahrten</md-card-title>
+        <md-card-subtitle>Rechnungsnummer: {{billService.bill?.reNr}}</md-card-subtitle>
+    </md-card-title-group>
+    <md-card-content>
+        <table id="table" class="table table-hover table-striped table-mc-light-green">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Abholungsort</th>
+                    <th>Abgabeort</th>
+                    <th>Typ</th>
+                    <th>Fahrgestellnr.</th>
+                    <th>Betrag</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let journey of billService.bill.journeys; let i = index" (click)="billService.editJourney(journey)">
+                    <td>
+                        <md-input-container *ngIf="journey.edit">
+                            <input type="date" mdInput placeholder="Datum" [(ngModel)]="journey.date">
+                        </md-input-container>
+                        <span *ngIf="!journey.edit">{{journey?.date | date:'dd.MM.yyyy'}}</span>
+                    </td>
+                    <td>
+                        <md-input-container *ngIf="journey.edit">
+                            <input type="text" mdInput placeholder="Start" [(ngModel)]="journey.start">
+                        </md-input-container>
+                        <span *ngIf="!journey.edit">{{journey?.start}}</span>
+                    </td>
+                    <td>
+                        <md-input-container *ngIf="journey.edit">
+                            <input type="text" mdInput placeholder="Ende" [(ngModel)]="journey.end">
+                        </md-input-container>
+                        <span *ngIf="!journey.edit">{{journey?.end}}</span>
+                    </td>
+                    <td>
+                        <md-input-container *ngIf="journey.edit">
+                            <input type="text" mdInput placeholder="Typ" [(ngModel)]="journey.type">
+                        </md-input-container>
+                        <span *ngIf="!journey.edit">{{journey?.type}}</span>
+                    </td>
+                    <td>
+                        <md-input-container *ngIf="journey.edit">
+                            <input type="text" mdInput placeholder="Nr" [(ngModel)]="journey.number">
+                        </md-input-container>
+                        <span *ngIf="!journey.edit">{{journey?.number}}</span>
+                    </td>
+                    <td>
+                        <md-input-container *ngIf="journey.edit">
+                            <input type="number" mdInput placeholder="amount" [(ngModel)]="journey.amount">
+                        </md-input-container>
+                        <span *ngIf="!journey.edit">{{journey?.amount | twoDigits }} €</span>
+                    </td>
+                    <td>
+                        <button *ngIf="journey.edit" (click)="billService.saveJourney(journey, i)">Speichern</button>
+                        <button *ngIf="!journey.edit" (click)="deleteJourney(i)">Löschen</button>
+                    </td>
+                </tr>
+        </table>
+    </md-card-content>
 </md-card>
