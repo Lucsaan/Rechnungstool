@@ -12,6 +12,7 @@ import * as jsPdf from 'jspdf';
 import { PdfService } from '../services/pdf.service';
 import { AuthService } from "./auth.service";
 import { Popup } from "ng2-opd-popup";
+import { AngularFireAuth } from "angularfire2/auth";
 
 
 @Injectable()
@@ -49,6 +50,10 @@ export class BillService {
   tmpChoice = false;
   tmpIndex: number;
   tmpCustomer: any;
+  uidObserve: Observable<string>;
+  private uid: string;
+
+  
   
   private data: Observable<Array<Journey>>;
 
@@ -57,22 +62,28 @@ export class BillService {
   totalAmountBrutto: string;
   taxAmount: string;
 
+  email: string = "guest@rechnungstool.com";
+  password: string = "guest123"; 
+
   constructor(
     private router: Router, 
     private dbService: DbService, 
     private af: AngularFireDatabase, 
     private pdfService: PdfService, 
     private auth: AuthService,
-    ) {
     
-    let uid = this.auth.uid;
-    this.bills = af.list('/bills/' + uid);
-    this.dbVendor = af.object('/vendor/' + uid);
-    this.dbCustomers = af.list('/customers/' +  uid);
-    this.initiateBill();
-    this.getBills();
-    this.getCustomers();
+    ) {
+    this.bills = af.list('/bills/' + this.auth.uid);
+        this.dbVendor = af.object('/vendor/' + this.auth.uid);
+        this.dbCustomers = af.list('/customers/' +  this.auth.uid);
+        this.initiateBill();
+        this.getBills();
+        this.getCustomers();
+    
+    
+     
   }
+   
   initiateBill() {
     this.journey = new Journey();
     this.bill = new Bill();
@@ -85,16 +96,24 @@ export class BillService {
     this.bills.subscribe(bills => {
             
       if (bills.length === 0) {
+        console.log(this.bills);
         this.bills.push(new Bill());
+        window.location.reload(false);
       }
       this.bill = bills[bills.length - 1];
       this.calculateAmount();
-      this.uncloseInputs();
+        this.uncloseInputs();
+        if (this.bill.vendor === undefined) {
+          console.log(this.bill.vendor);
+          this.setVendor();
+        }
+      
       this.billsArray = bills;
       
-      if (this.bill.vendor === undefined) {
-        this.setVendor();
-      }
+      
+      // if (this.bill.journeys === undefined){
+      //   this.bill.journeys.push(this.journey);
+      // }
     });
   }
 
@@ -108,7 +127,12 @@ export class BillService {
 
   updateBill() {
     this.bills.update(this.bill.$key, this.bill);
-    this.getBills();
+  }
+  getLastBill(){
+    let subscription = this.bills.subscribe(bills => {
+      this.bill = bills[bills.length -1];
+    })
+    subscription.unsubscribe();
   }
 
   changeBillNumber() {
@@ -284,6 +308,7 @@ export class BillService {
   }
 
   calculateAmount(){
+    
     this.totalAmountNetto = 0;
     if (this.bill.journeys !== undefined) {
       for (let journey of this.bill.journeys) {

@@ -18,24 +18,26 @@ export class InputPopupComponent implements OnInit{
   
 
   constructor(private billService : BillService, private differs : KeyValueDiffers) { 
-   this.billService.bills.subscribe(bills => {
+   let subscription = this.billService.bills.subscribe(bills => {
      this.bill = bills[bills.length -1];
      //console.log(this.bill);
      this.unclosedInputs();
      
    });
+    subscription.unsubscribe();
   }
 
   ngOnInit() {}
 
   unclosedInputs(): any {
+    if(this.bill === undefined){
+      return;
+    }
     if (this.bill.reNr !== undefined){
        this.billService.hasReNr = true;
-       
     }
     if (this.bill.billDate !== undefined){
         this.billService.hasDate = true;
-        
     }
     if (this.bill.vendor !== undefined){
       this.billService.hasVendor = true;

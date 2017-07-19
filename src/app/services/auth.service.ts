@@ -14,11 +14,11 @@ export class AuthService {
   private loggedIn: boolean = true;
   email: string;
   password: string; 
-  user: Observable<firebase.User>;
+  user: Observable<firebase.User>; 
+  uid: string = "8xYFCUfGDZdD19KgwPcIYn5yjqM2"; //Zum Probieren
   
 
-
-  constructor(public firebaseAuth: AngularFireAuth, public router: Router) {
+  constructor(public firebaseAuth: AngularFireAuth) {
       this.user = firebaseAuth.authState;
    }
 
@@ -32,7 +32,7 @@ export class AuthService {
       .then(value => {
         console.log('Nice, it worked!');
         this.loggedIn = true;
-        this.router.navigate(['/Rechnungsdaten']);
+        
         
       })
       .catch(err => {
