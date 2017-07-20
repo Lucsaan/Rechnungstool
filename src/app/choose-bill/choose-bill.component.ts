@@ -11,6 +11,6 @@ export class ChooseBillComponent implements OnInit {
   constructor(private billService : BillService) { }
 
   ngOnInit() {
-  }
+    }
 
 }

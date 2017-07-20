@@ -1,8 +1,21 @@
 <md-toolbar class="toolbar">
     Rechnungstool <br>
-    <button md-button class="button" (click)="billService.previewBill()">Ansicht</button>
-    <button md-button class="button" (click)="billService.showActualBill()">Aktuelle Rechnung</button>
-    <button md-button class="button" (click)="billService.showBills()">Alte Rechnungen</button>
+
+    <span class="flex">
+        <button md-button class="button" (click)="billService.previewBill()">Ansicht</button>
+        <button md-button class="button" (click)="billService.showActualBill()">Aktuelle Rechnung</button>
+        <button md-button class="button" (click)="billService.showBills()">Alte Rechnungen</button>
+    </span>
+    <span>
+             <button md-button class="button" (click)="billService.logOut()">Abmelden</button>
+        </span>
+
+
+
+
+
+
+
 
 </md-toolbar>
 
@@ -22,15 +35,15 @@
     <router-outlet></router-outlet>
 </div>
 
-<popup #inputPopup style="text-align: center" (confirmClick)="confirmPopUp()">
+<popup #inputPopup style="text-align: center" (confirmClick)="confirmPopUp()" *ngIf="authService.loggedIn">
     <app-input-popup></app-input-popup>
 </popup>
 
-<popup #deletePopup style="text-align: center" (confirmClick)="confirmDelete()" (cancelClick)="cancelJourneyDelete()">
+<popup #deletePopup style="text-align: center" (confirmClick)="confirmDelete()" (cancelClick)="cancelJourneyDelete()" *ngIf="authService.loggedIn">
     <app-confirm-delete></app-confirm-delete>
 </popup>
 
-<popup #delCustomerPopup style="text-align: center" (confirmClick)="confirmDeleteCustomer()">
+<popup #delCustomerPopup style="text-align: center" (confirmClick)="confirmDeleteCustomer()" *ngIf="authService.loggedIn">
     <app-confirm-delete></app-confirm-delete>
 </popup>
 

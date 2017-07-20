@@ -33,6 +33,7 @@ import { TwoDigitsPipe } from '../pipes/two-digits.pipe';
 import { LoginComponent} from './login/login.component';
 import { InputPopupComponent } from './input-popup/input-popup.component';
 import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
+import { LoginRightComponent } from "./login-right/login-right.component";
 
 
 const appRoutes: Routes = [
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
   { path: 'Empfänger', component: CustomerDataComponent},
   { path: 'Vorschau', component: BillPreviewComponent},
   { path: 'chooseBill', component: ChooseBillComponent},
+  { path: 'Login', component: LoginRightComponent},
   
   { path: '',
     redirectTo: '/Rechnungsdaten',
@@ -76,6 +78,7 @@ export const firebaseConfig = {
     LoginComponent,
     InputPopupComponent,
     ConfirmDeleteComponent,
+    LoginRightComponent,
     
   ],
   imports: [

@@ -26,8 +26,7 @@ export class BillPreviewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
-  }
+    }
 
   
 

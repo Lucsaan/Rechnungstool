@@ -21,7 +21,8 @@ export class BillDataComponent implements OnInit {
   constructor(private billService: BillService) {}
 
   ngOnInit() {
-    
+    console.log('ngOnInit');
+    this.billService.afterLogin();
   }
 
   

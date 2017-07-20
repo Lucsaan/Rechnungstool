@@ -73,15 +73,26 @@ export class BillService {
     private auth: AuthService,
     
     ) {
-    this.bills = af.list('/bills/' + this.auth.uid);
-        this.dbVendor = af.object('/vendor/' + this.auth.uid);
-        this.dbCustomers = af.list('/customers/' +  this.auth.uid);
-        this.initiateBill();
-        this.getBills();
-        this.getCustomers();
     
     
      
+  }
+
+  afterLogin(){
+        this.bills = this.af.list('/bills/' + this.auth.uid);
+        this.dbVendor = this.af.object('/vendor/' + this.auth.uid);
+        this.dbCustomers = this.af.list('/customers/' +  this.auth.uid);
+        this.initiateBill();
+        this.getBills();
+        this.getCustomers();
+       
+    
+  }
+  logOut(){
+    this.bills = null;
+    this.dbVendor = null;
+    this.dbCustomers = null;
+    this.auth.logOut();
   }
    
   initiateBill() {

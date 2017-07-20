@@ -37,6 +37,10 @@
     border-color: black;
 }
 
+.flex {
+    flex: 1 1 auto;
+}
+
 
 /* -- import Roboto Font ---------------------------- */
 

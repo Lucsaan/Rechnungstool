@@ -18,9 +18,12 @@ export class JourneyTableComponent implements OnInit {
   constructor(
     private billService: BillService,
     private appComponent: AppComponent,  
-  ) { }
+  ) { 
+    
+  }
 
   ngOnInit() {
+    
   }
 
   deleteJourney(index){
