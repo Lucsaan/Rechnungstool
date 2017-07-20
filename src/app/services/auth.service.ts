@@ -12,10 +12,10 @@ export class AuthService {
 
   
   private loggedIn: boolean = false;
-  email: string = "";
-  password: string = ""; 
+  email: string;
+  password: string; 
   user: Observable<firebase.User>; 
-  uid: string = "8xYFCUfGDZdD19KgwPcIYn5yjqM2"; //Zum Probieren
+  uid: string = "";
    
 
   constructor(public firebaseAuth: AngularFireAuth, private router: Router) {
@@ -25,6 +25,7 @@ export class AuthService {
    }
   
    login() {
+     
       this.firebaseAuth
       .auth
       .signInWithEmailAndPassword(this.email, this.password)
@@ -33,6 +34,8 @@ export class AuthService {
         this.uid = value.uid;
         this.loggedIn = true;
         this.router.navigate(['/Rechnungsdaten']);
+        localStorage.setItem('email', this.email);
+        localStorage.setItem('password', this.password);
       })
       .catch(err => {
         console.log('Something went wrong:',err.message);
@@ -46,6 +49,9 @@ export class AuthService {
   logOut(){
     this.loggedIn = false;
     this.uid = null;
+    localStorage.removeItem('email');
+    localStorage.removeItem('password');
+    
   }
 
 }
