@@ -4,23 +4,31 @@
         <md-card-subtitle>{{billService.billsArray.length - 1}} Rechnungen archiviert</md-card-subtitle>
     </md-card-title-group>
     <md-card-content>
-        <table id="table" class="table table-hover table-striped table-mc-light-green">
-            <thead>
-                <tr>
-                    <th>Rechnungsdatum</th>
-                    <th>Rechnungsnummer</th>
-                    <th>Empfänger</th>
-                    <th>Gesamtbetrag</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let bill of oldBills" (click)="billService.previewBill(bill)">
-                    <td>{{bill?.billDate | date:'dd.MM.yyyy'}}</td>
-                    <td>{{bill?.reNr}}</td>
-                    <td>{{bill?.customer.name}}</td>
-                    <td>{{bill | sumAmount}} €</td>
-                </tr>
-            </tbody>
-        </table>
+        <md-list *ngFor="let year of yearArray let i = index ">
+            <md-list-item valign="bottom" (click)="clickYear(year[0].billDate.slice(0, 4))">
+                <md-icon md-list-icon>list</md-icon> &nbsp; &nbsp; &nbsp; {{year[0].billDate.slice(0, 4)}}
+            </md-list-item>
+            <table id="table" class="table table-hover table-striped table-mc-light-green" *ngIf="yearBoolArray[i]">
+                <thead>
+                    <tr>
+                        <th>Rechnungsdatum</th>
+                        <th>Rechnungsnummer</th>
+                        <th>Empfänger</th>
+                        <th>Gesamtbetrag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let bill of year" (click)="billService.previewBill(bill)">
+                        <td>{{bill?.billDate | date:'dd.MM.yyyy'}}</td>
+                        <td>{{bill?.reNr}}</td>
+                        <td>{{bill?.customer.name}}</td>
+                        <td>{{bill | sumAmount}} €</td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-list>
+
+
+
     </md-card-content>
 </md-card>

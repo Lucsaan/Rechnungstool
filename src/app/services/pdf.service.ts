@@ -96,7 +96,7 @@ export class PdfService {
     //doc.output();
     let billDate = new Date(bill.billDate);
     let billDateToString: string = billDate.getDate().toString() +'.'+ billDate.getMonth().toString() +'.'+ billDate.getFullYear().toString();
-    doc.save('RechnungVom_' + billDateToString + '_ReNr_' + bill.reNr + '.pdf');
+    doc.save('Rechnung_' + billDateToString + '_ReNr_' + bill.reNr + '.pdf');
     console.log('RechnungVom_' + billDateToString + '_ReNr_' + bill.reNr + '.pdf');
     window.open(doc.output('datauristring'));
     return 'Supi';//doc.output('dataurlnewwindow');

@@ -62,7 +62,7 @@ export class AppComponent {
       this.billService.hasCustomer === true &&
       this.billService.bill.journeys !== undefined
     ){
-      this.billService.createPdf();
+      this.billService.completeBill();
     } else {
       if(this.billService.bill.journeys === undefined){
         alert('Es sind noch keine Fahrten eingetragen!!!');

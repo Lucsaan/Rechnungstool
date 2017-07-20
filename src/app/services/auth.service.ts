@@ -16,7 +16,7 @@ export class AuthService {
   password: string; 
   user: Observable<firebase.User>; 
   uid: string = "8xYFCUfGDZdD19KgwPcIYn5yjqM2"; //Zum Probieren
-  
+   
 
   constructor(public firebaseAuth: AngularFireAuth) {
       this.user = firebaseAuth.authState;

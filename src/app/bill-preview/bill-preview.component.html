@@ -2,10 +2,10 @@
 
 <md-card>
     <md-card-actions fxLayout fxLayoutAlign="center center">
-        <button md-button (click)="appComponent.modal(optionsInputPopup())">
-        <span *ngIf="billService.bill.done">Ausdrucken</span>
-        <span *ngIf="!billService.bill.done">Ausdrucken und Abschließen</span>
-        </button>
+
+        <button md-button *ngIf="billService.bill.done" (click)="billService.createPdf()">Ausdrucken</button>
+        <button md-button *ngIf="!billService.bill.done" (click)="appComponent.modal(optionsInputPopup())">Ausdrucken und Abschließen</button>
+
 
 
     </md-card-actions>

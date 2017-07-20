@@ -168,15 +168,22 @@ export class BillService {
   previewBill(bill?) {
     if(bill !== undefined){
       this.bill = bill;
+      this.navigateBillPreview('old');
+    } else {
+      this.getLastBill();
+      this.navigateBillPreview('new');
     }
+    
+    
     this.calculateAmount();
-    this.navigateBillPreview();
+    
   }
   completeBill() {
     if(this.bill.done){
       this.createPdf();
     }else {
       this.createPdf();
+      this.getLastBill();
       this.bill.done = true;
       this.updateBill();
       this.createNewBill();
@@ -282,8 +289,11 @@ export class BillService {
   navigateEmpfaenger() {
     this.router.navigate(['/Empfänger']);
   }
-  navigateBillPreview() {
+  navigateBillPreview(billType) {
     this.router.navigate(['/Vorschau']);
+    if(billType === 'new') {
+      this.showBillsArray = false;
+    }
   }
   navigateTo(component) {
     this.router.navigate([component]);
@@ -300,11 +310,7 @@ export class BillService {
   }
 
   createPdf() {
-    /*console.log(this.bill.journeys[0].date);
-    this.navigateBillPreview();*/
-    this.pdfService.createPdf(this.bill); 
-    this.createNewBill(); 
-
+    this.pdfService.createPdf(this.bill);
   }
 
   calculateAmount(){
