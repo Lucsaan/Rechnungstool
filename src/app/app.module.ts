@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { BillService } from './services/bill.service';
 import { MaterialModule } from '@angular/material';
 import { MdDataTableModule } from 'ng2-md-datatable';
@@ -91,7 +91,9 @@ export const firebaseConfig = {
     BrowserAnimationsModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    PopupModule.forRoot()
+    PopupModule.forRoot(),
+    HttpModule,
+    JsonpModule,
   ],
   providers: [BillService, DbService, PdfService, AuthService],
   bootstrap: [AppComponent]

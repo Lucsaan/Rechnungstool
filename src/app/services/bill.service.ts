@@ -13,6 +13,7 @@ import { PdfService } from '../services/pdf.service';
 import { AuthService } from "./auth.service";
 import { Popup } from "ng2-opd-popup";
 import { AngularFireAuth } from "angularfire2/auth";
+import { Http, Jsonp } from "@angular/http";
 
 
 @Injectable()
@@ -52,6 +53,8 @@ export class BillService {
   tmpCustomer: any;
   uidObserve: Observable<string>;
   private uid: string;
+  private mapsApi: Observable<number>;
+  private distance: Array<number> = [];
 
   
   
@@ -71,9 +74,9 @@ export class BillService {
     private af: AngularFireDatabase, 
     private pdfService: PdfService, 
     private auth: AuthService,
-    
+    private http : Http,
+    private jsonp : Jsonp,
     ) {
-    
     
      
   }
@@ -242,16 +245,30 @@ export class BillService {
   saveJourney(journey?, i?) {
     if (this.bill.journeys === undefined) {
       this.bill.journeys = new Array<Journey>();
+      this.nextJourney();
     }
     if (journey === undefined) {
-      this.bill.journeys.push(this.journey);
+      console.log('abspeichern');
+      this.http.get("https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + this.journey.start +"&destinations=" + this.journey.end + "&key=AIzaSyAbhZay-bw6MM_Tp0PRzRynu5L8OiClw8k")
+      .subscribe(data => {
+        console.log('Was geht');
+        let response = JSON.parse((data['_body']));
+        console.log(response.rows[0].elements[0].distance.value / 1000);
+        this.journey.distance = (response.rows[0].elements[0].distance.value / 1000);
+        this.bill.journeys.push(this.journey);
+        this.nextJourney();
+      });
     } else {
-      journey.edit = false;   
+      journey.edit = false; 
+      this.nextJourney();  
     }
-    this.updateBill();
-    this.journey = new Journey();
-    this.tmpJourney = this.journey;
+    
 
+  }
+  nextJourney(){
+      this.updateBill();
+        this.journey = new Journey();
+        this.tmpJourney = this.journey;
   }
 
   editJourney(journey) {
@@ -380,6 +397,15 @@ export class BillService {
     }
   }
 
-  
-  
+  distanceJourney(journey){
+     this.http.get("https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + journey.start +"&destinations=" + journey.end + "&key=AIzaSyAbhZay-bw6MM_Tp0PRzRynu5L8OiClw8k")
+      .subscribe(data => {
+        console.log('Was geht');
+        let response = JSON.parse((data['_body']));
+        console.log(response.rows[0].elements[0].distance.value / 1000);
+        journey.distance = (response.rows[0].elements[0].distance.value / 1000);
+      });
+  }
+
+   
 }
