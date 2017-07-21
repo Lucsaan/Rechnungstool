@@ -18,8 +18,12 @@ import { Http, Jsonp } from "@angular/http";
 
 @Injectable()
 export class BillService {
-
-  
+  allDuration: string;
+  allDistance: any;
+  billDuration: string;
+  billDistance: number = 0;
+  lastJourneyDuration: string;
+  lastJourneyDistance: any;
 
   bill: Bill = new Bill();
 
@@ -29,7 +33,7 @@ export class BillService {
   vendor: Vendor;
   billVendor: Vendor;
   bills: FirebaseListObservable<Bill[]>;
-  billsArray: any;
+  billsArray: Bill[];
   dbCustomers: FirebaseListObservable<Customer[]>;
   customers: Customer[] = [];
   journey: Journey = new Journey();
@@ -88,6 +92,7 @@ export class BillService {
         this.initiateBill();
         this.getBills();
         this.getCustomers();
+        
        
     
   }
@@ -115,6 +120,8 @@ export class BillService {
         window.location.reload(false);
       }
       this.bill = bills[bills.length - 1];
+      this.distanceJourney();
+      this.calculationsOfBill();
       this.calculateAmount();
         this.uncloseInputs();
         if (this.bill.vendor === undefined) {
@@ -123,6 +130,8 @@ export class BillService {
         }
       
       this.billsArray = bills;
+      this.calculateAll();
+      
       
       
       // if (this.bill.journeys === undefined){
@@ -253,8 +262,10 @@ export class BillService {
       .subscribe(data => {
         console.log('Was geht');
         let response = JSON.parse((data['_body']));
-        console.log(response.rows[0].elements[0].distance.value / 1000);
+        console.log(response.rows[0].elements[0].distance);
+        console.log(response.rows[0].elements[0].duration.value);
         this.journey.distance = (response.rows[0].elements[0].distance.value / 1000);
+        this.journey.duration = (response.rows[0].elements[0].duration.value);
         this.bill.journeys.push(this.journey);
         this.nextJourney();
       });
@@ -332,6 +343,7 @@ export class BillService {
     this.navigateTo('/chooseBill');
   }
   showActualBill() {
+    console.log(this.billsArray[this.billsArray.length - 1]);
     this.bill = this.billsArray[this.billsArray.length - 1];
     this.showBillsArray = false;
     this.navigateTo('/Rechnungsdaten');
@@ -397,14 +409,99 @@ export class BillService {
     }
   }
 
-  distanceJourney(journey){
-     this.http.get("https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + journey.start +"&destinations=" + journey.end + "&key=AIzaSyAbhZay-bw6MM_Tp0PRzRynu5L8OiClw8k")
+  distanceJourney(){
+     this.http.get("https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=Freiburg&destinations=Hamburg&key=AIzaSyAbhZay-bw6MM_Tp0PRzRynu5L8OiClw8k")
       .subscribe(data => {
         console.log('Was geht');
         let response = JSON.parse((data['_body']));
-        console.log(response.rows[0].elements[0].distance.value / 1000);
-        journey.distance = (response.rows[0].elements[0].distance.value / 1000);
+        console.log(response.rows[0].elements[0]);
+        
       });
+  }
+
+  calculationsOfBill(){
+    this.lastJourneyDistance = 0;
+    this.billDistance = 0;
+    if(this.bill.journeys[this.bill.journeys.length - 1].distance > 0){
+       this.lastJourneyDistance = Math.floor(this.bill.journeys[this.bill.journeys.length - 1].distance);
+      console.log(this.lastJourneyDistance);
+    }
+    let completeDuration = 0;
+    for (let journey of this.bill.journeys){
+      if(journey.distance > 0){
+        this.billDistance += journey.distance;
+      }
+      if(journey.duration > 0){
+        completeDuration += journey.duration;
+      }
+
+    }
+    this.billDistance = Math.floor(this.billDistance);
+
+     let i;
+    
+      let duration = completeDuration/60;
+      let hours = Math.floor(duration/60);
+      if(hours < 2){
+        i = 'Stunde';
+      }else {
+        i = 'Stunden';
+      }
+      let minutes = Math.floor(duration%60);
+      this.billDuration = hours + ' ' + i + ' ' + minutes + ' Minuten';
+      console.log(this.billDuration);
+    
+
+    console.log(this.billDistance);
+    let h: any;
+    if(this.bill.journeys[this.bill.journeys.length - 1].duration > 0){
+      let duration = this.bill.journeys[this.bill.journeys.length - 1].duration/60;
+      let hours = Math.floor(duration/60);
+      if(hours < 2){
+        h = 'Stunde';
+      }else {
+        h = 'Stunden';
+      }
+      let minutes = Math.floor(duration%60);
+      this.lastJourneyDuration = hours + ' ' + h + ' ' + minutes + ' Minuten';
+      console.log(this.lastJourneyDuration);
+    }
+
+    
+  }
+  
+  calculateAll(){
+    
+    
+    this.allDistance = 0;
+    let duration = 0;
+    for(let bill of this.billsArray){
+      console.log(bill);
+      for (let journey of bill.journeys){
+        if(journey.distance > 0){
+          this.allDistance += journey.distance;
+        }
+        if(journey.duration > 0){
+          duration += journey.duration;
+        }
+
+      }
+    }
+    this.allDistance = Math.floor(this.allDistance);
+    let j;
+    console.log(duration);
+    let days =  Math.floor(duration/60/60/24);
+    let hours = Math.floor(duration/60/60);
+      if(hours < 2){
+        j = 'Stunde';
+      }else {
+        j = 'Stunden';
+      }
+      let minutes = Math.floor((duration/60)%60);
+      this.allDuration = days + ' Tage ' + hours + ' ' + j + ' ' + minutes + ' Minuten';
+
+    
+    
   }
 
    
