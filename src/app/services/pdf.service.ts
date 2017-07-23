@@ -30,9 +30,9 @@ export class PdfService {
     doc.text(bill.customer.address.zip + ' ' + bill.customer.address.city, 20, 70);
     //Datum rechts
     doc.text('Datum:', 140, 55);
-    doc.text('23.03.2016', 200, 55, 0, 'right');
+    doc.text(bill.billDate.slice(8) +'.'+ bill.billDate.slice(5,7)+ '.' + bill.billDate.slice(0,4), 200, 55, 0, 'right');
     doc.text('Rechnungsnr: ', 140, 60);
-    doc.text('16-015', 200, 60, 0, 'right');
+    doc.text(bill.reNr, 200, 60, 0, 'right');
 
 
     
@@ -87,7 +87,7 @@ export class PdfService {
       doc.setFontSize(11);
       doc.setFontStyle('normal');
       doc.text('Bitte überweisen Sie den Gesamtbetrag in Höhe von ' + billSum +  ' € auf das unten angegebene Konto.', 20, (y = y + 20));
-      doc.text('IBAN: DE75 6629 1300 0010 2235  BIC: GENODE61ACH', 20, (y = y + 5));
+      doc.text('IBAN: DE75 6629 1300 0010 2235 12   BIC: GENODE61ACH', 20, (y = y + 5));
       doc.text('SteuerNr: 36140/51209', 20, (y = y + 5));
       doc.text('Mit freundlichen Grüßen', 20, (y = y + 15));
       doc.text( bill.vendor.name , 20, (y = y + 15));
