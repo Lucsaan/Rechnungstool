@@ -3,7 +3,7 @@ export class Journey {
     _rev?: string;
     date: Date;
     start: string ;
-    end: string ;
+    end: string = '77815 Bühl';;
     type: string ;
     number: string ;
     distance?: number ;

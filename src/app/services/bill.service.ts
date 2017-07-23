@@ -237,6 +237,7 @@ export class BillService {
 
   newJourney(){
     this.journey = new Journey();
+    this.journey.end = '77815 Bühl';
   }
 
   saveJourney(journey?, i?) {
