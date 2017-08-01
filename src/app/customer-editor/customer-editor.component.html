@@ -1,33 +1,34 @@
-
-    <md-card>
+<md-card>
     <md-card-title-group>
-      <md-card-title>Empfänger hinzufügen</md-card-title>
-      
+        <md-card-title>Empfänger hinzufügen</md-card-title>
+
     </md-card-title-group>
     <md-card-content *ngIf="billService.newCustomer">
-      <md-input-container>
-        <input type="text" mdInput placeholder="Vor- und Nachname" [(ngModel)]="billService.newCustomer.name">
-      </md-input-container><br>
-      <md-input-container>
-        <input type="text" mdInput placeholder="Straße" [(ngModel)]="billService.newCustomer.address.street">
-      </md-input-container><br>
-      <md-input-container>
-        <input type="text" mdInput placeholder="Postleitzahl" [(ngModel)]="billService.newCustomer.address.zip">
-      </md-input-container><br>
-      <md-input-container>
-        <input type="text" mdInput placeholder="Stadt" [(ngModel)]="billService.newCustomer.address.city">
-      </md-input-container><br>
+        <md-input-container>
+            <input type="text" mdInput placeholder="Name" [(ngModel)]="billService.newCustomer.name">
+        </md-input-container><br>
+        <md-input-container>
+            <input type="text" mdInput placeholder="Zusatz" [(ngModel)]="billService.newCustomer.additive">
+        </md-input-container><br>
+        <md-input-container>
+            <input type="text" mdInput placeholder="Straße" [(ngModel)]="billService.newCustomer.address.street">
+        </md-input-container><br>
+        <md-input-container>
+            <input type="text" mdInput placeholder="Postleitzahl" [(ngModel)]="billService.newCustomer.address.zip">
+        </md-input-container><br>
+        <md-input-container>
+            <input type="text" mdInput placeholder="Stadt" [(ngModel)]="billService.newCustomer.address.city">
+        </md-input-container><br>
     </md-card-content>
-   
+
     <md-card-actions fxLayout fxLayoutAlign="center center">
-       
-      <button md-button (click)="billService.saveNewCustomer()">
+
+        <button md-button (click)="billService.saveNewCustomer()">
        Hinzufügen
        </button>
-      <button md-button (click)="billService.navigateRechnungsDaten()">Abbrechen</button>
-      
+        <button md-button (click)="billService.navigateRechnungsDaten()">Abbrechen</button>
+
 
     </md-card-actions>
-    
-  </md-card>
-  
+
+</md-card>

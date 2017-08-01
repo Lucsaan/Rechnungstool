@@ -4,7 +4,9 @@
 
 
     <md-card-content (click)="billService.setCustomer(customer)">
-        {{customer.name}} <br> {{customer.address.street}} <br> {{customer.address.zip}} <br> {{customer.address.city}}
+        {{customer.name}} <br>
+        <span *ngIf="customer.additive !== undefined">
+            {{customer.additive}}<br> </span>{{customer.address.street}} <br> {{customer.address.zip}} <br> {{customer.address.city}}
 
     </md-card-content>
 

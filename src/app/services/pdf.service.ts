@@ -10,11 +10,11 @@ export class PdfService {
     createPdf(bill) : string{
     let doc = new jsPdf();
     let total = 0;
-
+    
     //Rechnungssteller
     doc.setFontSize(11);
     doc.text (bill.vendor.name, 20, 20,);
-    doc.text ('Fahrzeugüberführungen', 20, 25);
+    doc.text ('Fahrzeugüberführung', 20, 25);
     doc.text(bill.vendor.street, 20, 30);
     doc.text(bill.vendor.city, 20, 35);
     //Rechnungsfenster Overhead
@@ -23,27 +23,31 @@ export class PdfService {
     doc.text(overhead, 20, 45);
     doc.line(20, 46, 20 + (overhead.length * 1.5), 46);
     //Rechnungsfenster Empfänger
-    doc.setFontSize(12);
-    doc.text ('Firma', 20, 55);
-    doc.text (bill.customer.name, 20, 60,);
-    doc.text(bill.customer.address.street, 20, 65);
-    doc.text(bill.customer.address.zip + ' ' + bill.customer.address.city, 20, 70);
+    doc.setFontSize(11);
+    let vDistance = 55;
+    doc.text ('Firma', 20, vDistance);
+    doc.text (bill.customer.name, 20, vDistance += 5);
+    if(bill.customer.additive !== undefined){
+      doc.text(bill.customer.additive, 20,vDistance += 5);
+    }
+    doc.text(bill.customer.address.street, 20, vDistance += 5);
+    doc.text(bill.customer.address.zip + ' ' + bill.customer.address.city, 20, vDistance += 5);
     //Datum rechts
     doc.text('Datum:', 140, 55);
-    doc.text('23.03.2016', 200, 55, 0, 'right');
+    doc.text(bill.billDate.slice(8) +'.'+ bill.billDate.slice(5,7)+ '.' + bill.billDate.slice(0,4), 200, 55, 0, 'right');
     doc.text('Rechnungsnr: ', 140, 60);
-    doc.text('16-015', 200, 60, 0, 'right');
+    doc.text(bill.reNr, 200, 60, 0, 'right');
 
 
     
     //Rechnungstabelle
     let xDatum = 20;
-    let xStrecke = 40;
+    let xStrecke = 38;
     let xAbgabeort = 80;
-    let xTyp = 110;
-    let xFahrgestell = 140;
-    let xBetrag = 170;
-    let xRight = 183;
+    let xTyp = 117;
+    let xFahrgestell = 145;
+    let xBetrag = 175;
+    let xRight = 190;
     let y = 90
     let next = 0;
     doc.text('Datum', xDatum, y);
@@ -52,9 +56,9 @@ export class PdfService {
     doc.text('Typ',xTyp, y);
     doc.text('FahrgestellNr',xFahrgestell, y);
     doc.text('Betrag',xBetrag, y);
-    doc.line(20, (y+1), 183, (y+1));
+    doc.line(20, (y+1), 190, (y+1));
 
-    doc.setFontSize(10);
+    doc.setFontSize(9);
     for(let journey of bill.journeys){
       y += 7;
       total += journey.amount;
@@ -87,7 +91,7 @@ export class PdfService {
       doc.setFontSize(11);
       doc.setFontStyle('normal');
       doc.text('Bitte überweisen Sie den Gesamtbetrag in Höhe von ' + billSum +  ' € auf das unten angegebene Konto.', 20, (y = y + 20));
-      doc.text('IBAN: DE75 6629 1300 0010 2235  BIC: GENODE61ACH', 20, (y = y + 5));
+      doc.text('IBAN: DE75 6629 1300 0010 2235 12   BIC: GENODE61ACH', 20, (y = y + 5));
       doc.text('SteuerNr: 36140/51209', 20, (y = y + 5));
       doc.text('Mit freundlichen Grüßen', 20, (y = y + 15));
       doc.text( bill.vendor.name , 20, (y = y + 15));
