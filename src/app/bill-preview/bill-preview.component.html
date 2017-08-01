@@ -15,7 +15,7 @@
             <br>
             <span id="letterNormal">
 {{billService.bill.vendor?.name}} <br>
-Fahrzeugüberführungen <br>
+Fahrzeugüberführung <br>
 {{billService.bill.vendor?.street}} <br>
 {{billService.bill.vendor?.city}} <br>
 </span>
@@ -46,6 +46,11 @@ Fahrzeugüberführungen <br>
                     </td>
                     <td width="15%" style="text-align: right">
                         {{billService.bill.reNr}}
+                    </td>
+                </tr>
+                <tr *ngIf="billService.bill.customer.additive !== undefined">
+                    <td>
+                        {{billService.bill.customer.additive}}<br>
                     </td>
                 </tr>
                 <tr>

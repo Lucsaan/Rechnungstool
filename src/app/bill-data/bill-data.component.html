@@ -72,7 +72,9 @@
             <tr>
                 <td valign="top">Rechnungsempfänger:</td>
                 <td *ngIf="billService.bill.customer !== undefined">
-                    {{billService.bill.customer?.name}}<br> {{billService.bill.customer?.address.street}} <br> {{billService.bill.customer?.address.zip}}
+                    {{billService.bill.customer?.name}}<br>
+                    <span *ngIf="billService.bill.customer.additive !== undefined">
+            {{billService.bill.customer.additive}}<br></span> {{billService.bill.customer?.address.street}} <br> {{billService.bill.customer?.address.zip}}
                     <br> {{billService.bill.customer?.address.city}}
                 </td>
                 <td id="redBorder" *ngIf="billService.bill.customer === undefined">

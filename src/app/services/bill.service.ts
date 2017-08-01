@@ -269,7 +269,7 @@ export class BillService {
 
   setCustomer(customer) {
     this.bill.customer = customer;
-    console.log(customer);
+    console.log(customer.additive);
     this.updateBill();
     this.navigateRechnungsDaten();
   }
