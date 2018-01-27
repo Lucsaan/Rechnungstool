@@ -1,0 +1,12 @@
+Uhrzeit eintragen: <br>
+<md-input-container fxflex>
+    <input type="number" max="23" min="0" mdInput placeholder="von" [(ngModel)]="billService.uhrzeit_von">
+</md-input-container> Uhr <br>
+<md-input-container fxflex>
+    <input type="number" max="23" min="0" mdInput placeholder=" bis" [(ngModel)]="billService.uhrzeit_bis">
+</md-input-container> Uhr <br>
+<br>
+<button md-button (click)="setSpesenbetrag(12)">12 Euro</button>
+<button md-button (click)="setSpesenbetrag(24)">24 Euro</button>
+<button (click)="setSpesenbetrag(-1)">keine Spesen</button>
+<br><br> {{this.billService.tmpJourney?.spesen_betrag}} € ausgewählt.

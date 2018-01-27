@@ -52,8 +52,10 @@ export class BillService {
   tmpCustomer: any;
   uidObserve: Observable<string>;
   private uid: string;
+  spesenPopup: boolean = false;
+  uhrzeit_von: number;
+  uhrzeit_bis: number;
 
-  
   
   private data: Observable<Array<Journey>>;
 
@@ -74,8 +76,7 @@ export class BillService {
     
     ) {
     
-    
-     
+ 
   }
 
   afterLogin(){
@@ -112,6 +113,7 @@ export class BillService {
         window.location.reload(false);
       }
       this.bill = bills[bills.length - 1];
+      console.log(this.bill);
       this.calculateAmount();
         this.uncloseInputs();
         if (this.bill.vendor === undefined) {
@@ -256,8 +258,13 @@ export class BillService {
   }
 
   editJourney(journey) {
-    journey.edit = true;
+    if(this.spesenPopup !== true){
+      journey.edit = true;
+    }
+    console.log(journey);
     this.tmpJourney = journey;
+    this.tmpJourney.uhrzeit_von !== undefined ? this.uhrzeit_von = this.tmpJourney.uhrzeit_von : this.uhrzeit_von = 0;
+    this.tmpJourney.uhrzeit_bis !== undefined ? this.uhrzeit_bis = this.tmpJourney.uhrzeit_bis : this.uhrzeit_bis = 0; 
   }
   
   deleteJourney() {
@@ -352,6 +359,8 @@ export class BillService {
       animation: "bounceIn" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown' 
     };
   }
+
+
   uncloseInputs(){
     if (this.bill.reNr !== undefined){
        this.hasReNr = true;
@@ -380,7 +389,5 @@ export class BillService {
       this.updateBill();
     }
   }
-
-  
   
 }

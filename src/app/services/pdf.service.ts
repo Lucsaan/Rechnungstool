@@ -10,7 +10,7 @@ export class PdfService {
     createPdf(bill) : string{
     let doc = new jsPdf();
     let total = 0;
-    
+
     //Rechnungssteller
     doc.setFontSize(11);
     doc.text (bill.vendor.name, 20, 20,);
@@ -39,13 +39,13 @@ export class PdfService {
     doc.text(bill.reNr, 200, 60, 0, 'right');
 
 
-    
+
     //Rechnungstabelle
     let xDatum = 20;
     let xStrecke = 38;
     let xAbgabeort = 80;
-    let xTyp = 117;
-    let xFahrgestell = 145;
+    let xTyp = 105;
+    let xFahrgestell = 140;
     let xBetrag = 175;
     let xRight = 190;
     let y = 90
@@ -72,10 +72,13 @@ export class PdfService {
       doc.text(journey.start, xStrecke, (y));
       doc.text(journey.end, xAbgabeort, (y));
       doc.text(journey.type, xTyp, (y));
+      doc.setFontSize(8);
       doc.text(journey.number, xFahrgestell, (y));
+      doc.setFontSize(9);
       let amount = (Math.round(journey.amount*100)/100).toFixed(2);
       doc.text((amount.toString() + ' €'), xRight, (y), null, null, 'right');
     }
+      doc.setFontSize(10);
       let totalString = (Math.round(total*100)/100).toFixed(2);
       doc.text('Zwischensumme', xFahrgestell + 20, (y = y+ 10), null, null, 'right' );
       doc.text(totalString + ' €', xRight, y, null, null, 'right');
@@ -95,7 +98,7 @@ export class PdfService {
       doc.text('SteuerNr: 36140/51209', 20, (y = y + 5));
       doc.text('Mit freundlichen Grüßen', 20, (y = y + 15));
       doc.text( bill.vendor.name , 20, (y = y + 15));
-      
+
      //doc.output('save', bill.billDate + '-' + bill.reNr + '.pdf');
     //doc.output();
     let billDate = new Date(bill.billDate);
@@ -104,9 +107,9 @@ export class PdfService {
     console.log('RechnungVom_' + billDateToString + '_ReNr_' + bill.reNr + '.pdf');
     window.open(doc.output('datauristring'));
     return 'Supi';//doc.output('dataurlnewwindow');
-    
 
 
-    
+
+
   }
 }

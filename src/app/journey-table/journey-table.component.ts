@@ -4,8 +4,6 @@ import { Popup } from "ng2-opd-popup";
 import { AppModule } from '../app.module';
 import { AppComponent } from "../app.component";
 
-
-
 @Component({
   selector: 'app-journey-table',
   templateUrl: './journey-table.component.html',
@@ -14,7 +12,6 @@ import { AppComponent } from "../app.component";
 export class JourneyTableComponent implements OnInit {
 
   @ViewChild('deletePopup') deletePopup: Popup;
-
   constructor(
     private billService: BillService,
     private appComponent: AppComponent,  
@@ -23,13 +20,10 @@ export class JourneyTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    
   }
 
   deleteJourney(index){
     this.billService.tmpIndex = index;
     this.appComponent.deleteDataPopup();
-    
   }
-
 }

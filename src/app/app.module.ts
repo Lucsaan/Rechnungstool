@@ -34,6 +34,7 @@ import { LoginComponent} from './login/login.component';
 import { InputPopupComponent } from './input-popup/input-popup.component';
 import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 import { LoginRightComponent } from "./login-right/login-right.component";
+import { SpesenPopupComponent } from './spesen-popup/spesen-popup.component';
 
 
 const appRoutes: Routes = [
@@ -79,6 +80,7 @@ export const firebaseConfig = {
     InputPopupComponent,
     ConfirmDeleteComponent,
     LoginRightComponent,
+    SpesenPopupComponent,
     
   ],
   imports: [

@@ -54,6 +54,7 @@
                         <span *ngIf="!journey.edit">{{journey?.amount | twoDigits }} €</span>
                     </td>
                     <td>
+                        <button *ngIf="!journey.edit" (click)="appComponent.setSpesenPopup(journey)">Spesen</button>
                         <button *ngIf="journey.edit" (click)="billService.saveJourney(journey, i)">Speichern</button>
                         <button *ngIf="!journey.edit" (click)="deleteJourney(i)">Löschen</button>
                     </td>

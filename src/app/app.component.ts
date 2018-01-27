@@ -18,6 +18,8 @@ export class AppComponent {
   @ViewChild('inputPopup') inputPopup: Popup;
   @ViewChild('deletePopup') deletePopup: Popup;
   @ViewChild('delCustomerPopup') delCustomerPopup: Popup;
+  @ViewChild('spesenPopup') spesenPopup: Popup;
+  
   
   title = 'app works!';
   array: Array<any> = new Array<any>();
@@ -79,7 +81,6 @@ export class AppComponent {
   
   confirmDelete(){
     this.billService.deleteJourney();
-    this.billService.calculateAmount();
     this.deletePopup.hide();
     this.billService.calculateAmount();
   }
@@ -103,9 +104,40 @@ export class AppComponent {
   deleteCustomerPopup(){
     this.delCustomerPopup.show(this.billService.deleteOptions());
   }
+  /* setSpesenPopup(spesenOptions){
+    this.billService.spesenPopup = true;
+    this.spesenPopup.show(spesenOptions);
+    
+  } */
 
-  
- 
+  setSpesenPopup(journey){
+    this.billService.editJourney(journey);
+    this.billService.spesenPopup = true;
+    this.spesenPopup.show(this.spesenEditOptions());
+  }
+
+  spesenEditOptions(){
+    return {
+    header: "Spesen",
+      color: "#944e11", // red, blue.... 
+      widthProsentage: 30, // The with of the popou measured by browser width 
+      animationDuration: 2, // in seconds, 0 = no animation 
+      showButtons: true, // You can hide this in case you want to use custom buttons 
+      confirmBtnContent: "Spesen eintragen", // The text on your confirm button 
+      cancleBtnContent: "Abbrechen", // the text on your cancel button 
+      confirmBtnClass: "btn btn-default", // your class for styling the confirm button 
+      cancleBtnClass: "btn btn-default", // you class for styling the cancel button 
+      animation: "bounceIn" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown' 
+    };
+  }
+
+  confirmSpesen(){
+    console.log('Spesen werden gespeichert');
+    this.billService.tmpJourney.uhrzeit_von = this.billService.uhrzeit_von;
+    this.billService.tmpJourney.uhrzeit_bis = this.billService.uhrzeit_bis;
+    this.billService.saveJourney(this.billService.tmpJourney);
+    this.spesenPopup.hide();
+  }
 
  /* saveJourney(){
     this.bill.journeys.push(this.journey);

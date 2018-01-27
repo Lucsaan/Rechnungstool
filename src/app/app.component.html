@@ -9,14 +9,6 @@
     <span>
              <button md-button class="button" (click)="billService.logOut()">Abmelden</button>
         </span>
-
-
-
-
-
-
-
-
 </md-toolbar>
 
 <div id="leftContainer" *ngIf="authService.loggedIn">
@@ -46,6 +38,13 @@
 <popup #delCustomerPopup style="text-align: center" (confirmClick)="confirmDeleteCustomer()" *ngIf="authService.loggedIn">
     <app-confirm-delete></app-confirm-delete>
 </popup>
+
+<popup #spesenPopup style="text-align: center" (confirmClick)="confirmSpesen()" *ngIf="authService.loggedIn">
+    <app-spesen-popup></app-spesen-popup>
+</popup>
+
+
+
 
 
 

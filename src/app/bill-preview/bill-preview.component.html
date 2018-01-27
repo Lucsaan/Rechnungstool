@@ -50,7 +50,7 @@ Fahrzeugüberführung <br>
                 </tr>
                 <tr *ngIf="billService.bill.customer.additive !== undefined">
                     <td>
-                        {{billService.bill.customer.additive}}<br>
+                        {{billService.bill.customer?.additive}}<br>
                     </td>
                 </tr>
                 <tr>
