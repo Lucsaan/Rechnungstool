@@ -1,0 +1,142 @@
+<!--<iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(uri)" width="700" height="750">Loading...</iframe>-->
+
+<md-card>
+  <!--<md-card-actions fxLayout fxLayoutAlign="center center">-->
+
+    <!--<button md-button *ngIf="billService.bill.done" (click)="billService.createPdf()">Ausdrucken</button>-->
+    <!--<button md-button *ngIf="!billService.bill.done" (click)="appComponent.modal(optionsInputPopup())">Ausdrucken und Abschließen</button>-->
+
+
+
+  <!--</md-card-actions>-->
+
+  <md-card-content>
+    <div>
+      <br>
+      <span class="letterNormal">
+<!--{{billService.bill.vendor?.name}} <br>-->
+<!--Fahrzeugüberführung <br>-->
+<!--{{billService.bill.vendor?.street}} <br>-->
+<!--{{billService.bill.vendor?.city}} <br>-->
+</span>
+
+      <!--<br>-->
+      <!--<div class="letterHead">-->
+        <!--&lt;!&ndash;{{billService.bill.vendor?.name}}, {{billService.bill.vendor?.street}}, {{billService.bill.vendor?.city}}&ndash;&gt;-->
+      <!--</div>-->
+      <!--<br>-->
+      <!--<table width="80%" class="letterNormal">-->
+        <!--<tr>-->
+          <!--<td width="70%">-->
+            <!--Firma-->
+          <!--</td>-->
+          <!--<td width="15%" style="text-align: left">-->
+            <!--Datum:-->
+          <!--</td>-->
+          <!--<td width="15%" style="text-align: right">-->
+            <!--&lt;!&ndash;{{billService.bill.billDate | date:'dd.MM.yyyy'}}&ndash;&gt;-->
+          <!--</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+          <!--<td width="70%">-->
+            <!--&lt;!&ndash;{{billService.bill.customer?.name}}&ndash;&gt;-->
+          <!--</td>-->
+          <!--<td width="15%" style="text-align: left">-->
+            <!--Rechnungsnummer:-->
+          <!--</td>-->
+          <!--<td width="15%" style="text-align: right">-->
+            <!--&lt;!&ndash;{{billService.bill.reNr}}&ndash;&gt;-->
+          <!--</td>-->
+        <!--</tr>-->
+        <!--<tr *ngIf="billService.bill.customer.additive !== undefined">-->
+          <!--<td>-->
+            <!--{{billService.bill.customer?.additive}}<br>-->
+          <!--</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+          <!--<td>-->
+            <!--{{billService.bill.customer?.address.street}}-->
+          <!--</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+          <!--<td>-->
+            <!--{{billService.bill.customer?.address.zip}} {{billService.bill.customer?.address.city}}-->
+          <!--</td>-->
+        <!--</tr>-->
+
+      <!--</table>-->
+
+      <!--<br>-->
+      <!--<br>-->
+
+      <table width="100%" style="font-size: 11px">
+        <thead>
+        <tr style="border-bottom: solid 1px black; margin-bottom: 5px;">
+          <th width="10%">Datum</th>
+          <th width="15%">Reise</th>
+          <th width="24%">Reiseweg</th>
+          <th width="10%">Std</th>
+          <th width="15%">Beleg</th>
+          <th width="16%" style="text-align: right">Summe</th>
+        </tr>
+        </thead>
+        <tbody >
+          <ng-container *ngFor="let journey of spesenService.journeys">
+            <tr class="table" style="padding-top: 10px">
+              <td rowspan="2">{{journey.date | date:'dd.MM.yy'}}</td>
+              <td style="text-align: center">{{journey.uhrzeit_von}} Uhr</td>
+              <td>{{journey.start}}</td>
+              <td rowspan="2" style="text-align: center">{{journey.uhrzeit_bis - journey.uhrzeit_von}}</td>
+              <td rowspan="2">{{journey.billNr}}</td>
+              <td rowspan="2" style="text-align: right">{{journey.spesen_betrag}} €</td>
+            </tr>
+            <tr>
+              <td style="text-align: center">{{journey.uhrzeit_bis}} Uhr</td>
+              <td>{{journey.end}}</td>
+            </tr>
+          </ng-container>
+
+
+        <br>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align: right">Zwischensumme</td>
+          <td></td>
+          <td style="text-align: right">{{spesenService.getSum()}} €</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align: right">Steuersatz</td>
+          <td></td>
+          <td style="text-align: right">19%</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align: right">Umsatzsteuer</td>
+          <td></td>
+          <td style="text-align: right">auch noch nix €</td>
+        </tr>
+        <br>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align: right">Gesamt</td>
+          <td></td>
+          <td style="text-align: right">Sowieso noch nix €</td>
+        </tr>
+        </tbody>
+      </table>
+      <br>
+      <br>
+
+    </div>
+  </md-card-content>
+
+</md-card>

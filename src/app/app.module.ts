@@ -36,7 +36,8 @@ import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.componen
 import { LoginRightComponent } from "./login-right/login-right.component";
 import { SpesenPopupComponent } from './spesen-popup/spesen-popup.component';
 import { SpesentableComponent } from './spesentable/spesentable.component';
-
+import { SpesenPreviewComponent } from './spesen-preview/spesen-preview.component';
+import { SpesenService } from './services/spesen.service';
 
 const appRoutes: Routes = [
   { path: 'Rechnungsdaten', component: BillDataComponent  }, //BillDataComponent BillPreviewComponent
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
   { path: 'Vorschau', component: BillPreviewComponent},
   { path: 'chooseBill', component: ChooseBillComponent},
   { path: 'Login', component: LoginRightComponent},
-  
+  { path: 'Spesen', component: SpesenPreviewComponent},
+
   { path: '',
     redirectTo: '/Rechnungsdaten',
     pathMatch: 'full'
@@ -83,7 +85,7 @@ export const firebaseConfig = {
     LoginRightComponent,
     SpesenPopupComponent,
     SpesentableComponent,
-    
+    SpesenPreviewComponent,
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -99,7 +101,7 @@ export const firebaseConfig = {
     HttpModule,
     JsonpModule,
   ],
-  providers: [BillService, DbService, PdfService, AuthService],
+  providers: [BillService, DbService, PdfService, AuthService, SpesenPreviewComponent, SpesenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,7 +14,7 @@ export class SumAmountPipe implements PipeTransform {
     }
     sum = sum*1.19;
     let sumString = (Math.round(sum*100)/100).toFixed(2);
-    console.log(sum);
+    // console.log(sum);
     return sumString;
   }
 

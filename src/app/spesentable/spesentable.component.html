@@ -1,3 +1,35 @@
-<p>
-  spesentable works!
-</p>
+<md-card>
+    <md-card-title-group>
+        <md-card-title>Spesen</md-card-title>
+        <md-card-subtitle>{{billService.billsArray.length - 1}} Rechnungen archiviert</md-card-subtitle>
+    </md-card-title-group>
+    <md-card-content>
+        <div *ngFor="let bill of billsCopy.reverse()">
+            Rechnung: {{bill.reNr}}
+            <table id="table" class="table table-hover table-striped table-mc-light-green">
+                <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Abfahrt</th>
+                    <th> </th>
+                    <th>Ankunft</th>
+                    <th> </th>
+                    <th>Spesen</th>
+                    <th>Erledigt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let journey of bill.journeys.reverse()" (dblclick)="selectJourney(journey, bill.reNr)">
+                    <td>{{journey?.date | date:'dd.MM.yyyy'}}</td>
+                    <td>{{journey?.start}}</td>
+                    <td>{{journey?.uhrzeit_von}} Uhr</td>
+                    <td>{{journey?.end}}</td>
+                    <td>{{journey?.uhrzeit_bis}} Uhr</td>
+                    <td>{{journey?.spesen_betrag}} €</td>
+                    <td><md-icon md-list-icon *ngIf="journey.selected">done</md-icon></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </md-card-content>
+</md-card>

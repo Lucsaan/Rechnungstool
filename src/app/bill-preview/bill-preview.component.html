@@ -13,7 +13,7 @@
     <md-card-content>
         <div>
             <br>
-            <span id="letterNormal">
+            <span class="letterNormal">
 {{billService.bill.vendor?.name}} <br>
 Fahrzeugüberführung <br>
 {{billService.bill.vendor?.street}} <br>
@@ -21,11 +21,11 @@ Fahrzeugüberführung <br>
 </span>
 
             <br>
-            <div id="letterHead">
+            <div class="letterHead">
                 {{billService.bill.vendor?.name}}, {{billService.bill.vendor?.street}}, {{billService.bill.vendor?.city}}
             </div>
             <br>
-            <table width="80%" id="letterNormal">
+            <table width="80%" class="letterNormal">
                 <tr>
                     <td width="70%">
                         Firma
@@ -79,7 +79,7 @@ Fahrzeugüberführung <br>
                     <td width="16%" style="text-align: right">Betrag</td>
                 </tr>
                 <br>
-                <tr *ngFor="let journey of billService.bill.journeys" id="table">
+                <tr *ngFor="let journey of billService.bill.journeys" class="table">
                     <td>{{journey.date | date:'dd.MM.yy'}}</td>
                     <td>{{journey.start}}</td>
                     <td>{{journey.end}}</td>
@@ -125,7 +125,7 @@ Fahrzeugüberführung <br>
             <br>
             <br>
 
-            <div id="letterNormal">
+            <div class="letterNormal">
                 Bitte überweisen Sie den Gesamtbetrag in Höhe von {{this.billService.totalAmountBrutto}} € auf das unten angegebene Konto. <br> IBAN: DE75 6629 1300 0010 2235 12 BIC: GENODE61ACH <br> SteuerNr: 36140/51209
                 <br>
                 <br> Mit freundlichen Grüßen

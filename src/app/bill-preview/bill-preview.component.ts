@@ -28,8 +28,6 @@ export class BillPreviewComponent implements OnInit {
   ngOnInit() {
     }
 
-  
-
   optionsInputPopup(){
     return {
       header: "Bitte prüfen Sie die Informationen",

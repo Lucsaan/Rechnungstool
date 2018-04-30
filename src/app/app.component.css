@@ -14,7 +14,11 @@
     float: left;
     width: 49%;
     margin-left: 10px;
-    margin-top: 10px;
+    position: fixed;
+    overflow: scroll;
+    top: 65px;
+    height: 100%;
+    padding-bottom: 50px;
 }
 
 #rightContainer {
@@ -25,9 +29,19 @@
     margin-top: 10px;
 }
 
+.innerRight {
+    padding-bottom: 50px;
+    position: fixed;
+    overflow: scroll;
+    top: 65px;
+}
+
 .toolbar {
     background-color: saddlebrown;
-    color: white
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 .button {

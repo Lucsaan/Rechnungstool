@@ -15,13 +15,16 @@ export class BillsTableComponent implements OnInit {
   
 
   constructor(private billService : BillService) {
+    console.log('BillsArray', billService.billsArray);
     this.oldBills = billService.billsArray.slice(0);
     this.oldBills.splice(this.oldBills.length - 1,1); 
     let counter = 0;
     for(let i = 0; i < 4; i++){
             
       for(let bill of this.oldBills){
-           
+        let date = new Date(bill.billDate);
+        console.log('Neues Datum', date);
+        console.log('Monat', date.getMonth());
         if(parseInt(bill.billDate.slice(0, 4)) === new Date().getFullYear() - counter ){
           this.billOfYearArray.push(bill);
         }
@@ -34,7 +37,7 @@ export class BillsTableComponent implements OnInit {
       counter++;
     }
     this.yearBoolArray[0] = true;
-     
+      console.log('oldBills', this.oldBills);
   }
 
   ngOnInit() {

@@ -27,7 +27,9 @@
 
 
 <div id="rightContainer">
-    <router-outlet></router-outlet>
+    <div class="innerRight">
+        <router-outlet></router-outlet>
+    </div>
 </div>
 
 <popup #inputPopup style="text-align: center" (confirmClick)="confirmPopUp()" *ngIf="authService.loggedIn">

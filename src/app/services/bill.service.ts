@@ -176,9 +176,6 @@ export class BillService {
 
   }
   previewBill(bill?) {
-    this.spesenVisible = false;
-    this.BillsArrayVisible = false;
-    this.journeysTableVisible = true;
     if(bill !== undefined){
       this.bill = bill;
       this.navigateBillPreview('old');
@@ -319,13 +316,15 @@ export class BillService {
   }
 
   showBills() {
-    this.spesenVisible = false;
+      console.log('showBills?');
+      this.spesenVisible = false;
     this.journeysTableVisible = false;
     this.BillsArrayVisible = true;
     this.navigateTo('/chooseBill');
   }
   showActualBill() {
-    this.bill = this.billsArray[this.billsArray.length - 1];
+      console.log('showActualBill?');
+      this.bill = this.billsArray[this.billsArray.length - 1];
     this.BillsArrayVisible = false;
     this.spesenVisible = false;
     this.journeysTableVisible = true;
@@ -333,10 +332,11 @@ export class BillService {
   }
 
   showSpesen() {
-    console.log('Was geht?');
+    console.log('showSpesen?');
     this.BillsArrayVisible = false;
     this.journeysTableVisible = false;
     this.spesenVisible = true;
+    this.navigateTo('/Spesen');
 
   }
 
