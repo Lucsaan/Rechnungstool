@@ -11,65 +11,20 @@
   <!--</md-card-actions>-->
 
   <md-card-content>
-    <div>
-      <br>
-      <span class="letterNormal">
-<!--{{billService.bill.vendor?.name}} <br>-->
-<!--Fahrzeugüberführung <br>-->
-<!--{{billService.bill.vendor?.street}} <br>-->
-<!--{{billService.bill.vendor?.city}} <br>-->
-</span>
 
-      <!--<br>-->
-      <!--<div class="letterHead">-->
-        <!--&lt;!&ndash;{{billService.bill.vendor?.name}}, {{billService.bill.vendor?.street}}, {{billService.bill.vendor?.city}}&ndash;&gt;-->
-      <!--</div>-->
-      <!--<br>-->
-      <!--<table width="80%" class="letterNormal">-->
-        <!--<tr>-->
-          <!--<td width="70%">-->
-            <!--Firma-->
-          <!--</td>-->
-          <!--<td width="15%" style="text-align: left">-->
-            <!--Datum:-->
-          <!--</td>-->
-          <!--<td width="15%" style="text-align: right">-->
-            <!--&lt;!&ndash;{{billService.bill.billDate | date:'dd.MM.yyyy'}}&ndash;&gt;-->
-          <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-          <!--<td width="70%">-->
-            <!--&lt;!&ndash;{{billService.bill.customer?.name}}&ndash;&gt;-->
-          <!--</td>-->
-          <!--<td width="15%" style="text-align: left">-->
-            <!--Rechnungsnummer:-->
-          <!--</td>-->
-          <!--<td width="15%" style="text-align: right">-->
-            <!--&lt;!&ndash;{{billService.bill.reNr}}&ndash;&gt;-->
-          <!--</td>-->
-        <!--</tr>-->
-        <!--<tr *ngIf="billService.bill.customer.additive !== undefined">-->
-          <!--<td>-->
-            <!--{{billService.bill.customer?.additive}}<br>-->
-          <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-          <!--<td>-->
-            <!--{{billService.bill.customer?.address.street}}-->
-          <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-          <!--<td>-->
-            <!--{{billService.bill.customer?.address.zip}} {{billService.bill.customer?.address.city}}-->
-          <!--</td>-->
-        <!--</tr>-->
-
-      <!--</table>-->
-
-      <!--<br>-->
-      <!--<br>-->
-
-      <table width="100%" style="font-size: 11px">
+      <div style="font-size: 21px; display: inline-block;">
+        Reisekostenabrechnung
+      </div>
+      <div style="display: inline-block; padding-left: 100px">
+        {{spesenService.journeys[0]?.date | date:'dd.MM.yy'}} bis {{spesenService.journeys[spesenService.journeys.length - 1]?.date | date:'dd.MM.yy'}}
+      </div>
+      <div style="margin-top: 20px">
+        Name: Dieter Hartmann
+      </div>
+      <div>
+        Anschrift: Waldmattstr. 101, 77815 Bühl
+      </div>
+      <table width="100%" style="font-size: 11px; margin-top: 50px">
         <thead>
         <tr style="border-bottom: solid 1px black; margin-bottom: 5px;">
           <th width="10%">Datum</th>
@@ -102,41 +57,21 @@
           <td></td>
           <td></td>
           <td></td>
-          <td style="text-align: right">Zwischensumme</td>
           <td></td>
+          <td style="text-align: right">Gesamtsumme</td>
           <td style="text-align: right">{{spesenService.getSum()}} €</td>
         </tr>
         <tr>
           <td></td>
           <td></td>
           <td></td>
-          <td style="text-align: right">Steuersatz</td>
           <td></td>
-          <td style="text-align: right">19%</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td style="text-align: right">Umsatzsteuer</td>
-          <td></td>
-          <td style="text-align: right">auch noch nix €</td>
-        </tr>
-        <br>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td style="text-align: right">Gesamt</td>
-          <td></td>
-          <td style="text-align: right">Sowieso noch nix €</td>
+          <td style="text-align: right; padding-top: 30px">Aus- / Rückzahlung</td>
+          <td style="text-align: right; padding-top: 30px">{{spesenService.getSum()}} €</td>
         </tr>
         </tbody>
       </table>
       <br>
       <br>
-
-    </div>
   </md-card-content>
-
 </md-card>
