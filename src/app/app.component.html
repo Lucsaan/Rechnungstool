@@ -5,6 +5,7 @@
         <button md-button class="button" (click)="billService.previewBill()">Ansicht</button>
         <button md-button class="button" (click)="billService.showActualBill()">Aktuelle Rechnung</button>
         <button md-button class="button" (click)="billService.showBills()">Alte Rechnungen</button>
+        <button md-button class="button" (click)="billService.showSpesen()">Spesenabrechnung</button>
     </span>
     <span>
              <button md-button class="button" (click)="billService.logOut()">Abmelden</button>
@@ -12,8 +13,10 @@
 </md-toolbar>
 
 <div id="leftContainer" *ngIf="authService.loggedIn">
-    <app-journey-table *ngIf="!billService.showBillsArray"></app-journey-table>
-    <app-bills-table *ngIf="billService.showBillsArray"></app-bills-table>
+    <app-journey-table *ngIf="billService.journeysTableVisible"></app-journey-table>
+    <app-bills-table *ngIf="billService.BillsArrayVisible"></app-bills-table>
+    <app-spesentable *ngIf="billService.spesenVisible"></app-spesentable>
+
 </div>
 
 <div *ngIf="!authService.loggedIn">

@@ -93,45 +93,45 @@
     </md-card-content>
 </md-card>
 
-<md-card id="rightEingabe">
-    <div style="text-align: center">
-        <h2>Statistik</h2>
-    </div>
+<!--<md-card id="rightEingabe">-->
+    <!--<div style="text-align: center">-->
+        <!--<h2>Statistik</h2>-->
+    <!--</div>-->
 
-    <table style="width: 100%">
-        <thead>
-            <tr>
-                <th>Art</th>
-                <th>Strecke</th>
-                <th>Zeit</th>
-            </tr>
-        </thead>
-        <tr>
-            <td>Letzte Fahrt</td>
-            <td>{{billService.lastJourneyDistance}} km</td>
-            <td>{{billService.lastJourneyDuration}}</td>
-        </tr>
-        <tr>
-            <td>Aktuelle Rechnung</td>
-            <td>{{billService.billDistance}} km </td>
-            <td>{{billService.billDuration}}</td>
+    <!--<table style="width: 100%">-->
+        <!--<thead>-->
+            <!--<tr>-->
+                <!--<th>Art</th>-->
+                <!--<th>Strecke</th>-->
+                <!--<th>Zeit</th>-->
+            <!--</tr>-->
+        <!--</thead>-->
+        <!--<tr>-->
+            <!--<td>Letzte Fahrt</td>-->
+            <!--<td>{{billService.lastJourneyDistance}} km</td>-->
+            <!--<td>{{billService.lastJourneyDuration}}</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>Aktuelle Rechnung</td>-->
+            <!--<td>{{billService.billDistance}} km </td>-->
+            <!--<td>{{billService.billDuration}}</td>-->
 
-        </tr>
-        <tr>
-            <td>Alle Rechnungen</td>
-            <td>{{billService.allDistance}} km</td>
-            <td>{{billService.allDuration}}</td>
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>Alle Rechnungen</td>-->
+            <!--<td>{{billService.allDistance}} km</td>-->
+            <!--<td>{{billService.allDuration}}</td>-->
 
-        </tr>
-    </table>
+        <!--</tr>-->
+    <!--</table>-->
 
-    <br><br>
-    <div>
-        Die Letzte Fahrt von {{billService.bill.journeys[billService.bill.journeys.length - 1]?.start}} nach {{billService.bill.journeys[billService.bill.journeys.length - 1]?.end}} dauerte {{billService.lastJourneyDuration}}. Sie sind dafür ungefähr {{billService.lastJourneyDistance}}
-        km gefahren.
-    </div>
-    <br>
-    <div>
-        Für diese Rechnung sind sie bisher insgesamt ca. {{billService.billDistance}} km gefahren und haben dafür ungefähr {{billService.billDuration}} gebraucht.
-    </div>
-</md-card>
+    <!--<br><br>-->
+    <!--<div>-->
+        <!--Die Letzte Fahrt von {{billService.bill.journeys[billService.bill.journeys.length - 1]?.start}} nach {{billService.bill.journeys[billService.bill.journeys.length - 1]?.end}} dauerte {{billService.lastJourneyDuration}}. Sie sind dafür ungefähr {{billService.lastJourneyDistance}}-->
+        <!--km gefahren.-->
+    <!--</div>-->
+    <!--<br>-->
+    <!--<div>-->
+        <!--Für diese Rechnung sind sie bisher insgesamt ca. {{billService.billDistance}} km gefahren und haben dafür ungefähr {{billService.billDuration}} gebraucht.-->
+    <!--</div>-->
+<!--</md-card>-->

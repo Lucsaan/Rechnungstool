@@ -44,7 +44,9 @@ export class BillService {
   hasDate = false;
   hasVendor = false;
   hasCustomer = false;
-  showBillsArray = false;
+  BillsArrayVisible = false;
+  journeysTableVisible = true;
+  spesenVisible = false;
   billWork = false;
   loggedIn = false;
   tmpChoice = false;
@@ -174,6 +176,9 @@ export class BillService {
 
   }
   previewBill(bill?) {
+    this.spesenVisible = false;
+    this.BillsArrayVisible = false;
+    this.journeysTableVisible = true;
     if(bill !== undefined){
       this.bill = bill;
       this.navigateBillPreview('old');
@@ -306,7 +311,7 @@ export class BillService {
   navigateBillPreview(billType) {
     this.router.navigate(['/Vorschau']);
     if(billType === 'new') {
-      this.showBillsArray = false;
+      this.BillsArrayVisible = false;
     }
   }
   navigateTo(component) {
@@ -314,13 +319,25 @@ export class BillService {
   }
 
   showBills() {
-    this.showBillsArray = true;
+    this.spesenVisible = false;
+    this.journeysTableVisible = false;
+    this.BillsArrayVisible = true;
     this.navigateTo('/chooseBill');
   }
   showActualBill() {
     this.bill = this.billsArray[this.billsArray.length - 1];
-    this.showBillsArray = false;
+    this.BillsArrayVisible = false;
+    this.spesenVisible = false;
+    this.journeysTableVisible = true;
     this.navigateTo('/Rechnungsdaten');
+  }
+
+  showSpesen() {
+    console.log('Was geht?');
+    this.BillsArrayVisible = false;
+    this.journeysTableVisible = false;
+    this.spesenVisible = true;
+
   }
 
   createPdf() {
