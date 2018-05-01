@@ -9,7 +9,6 @@ export class SpesenService {
       this.journeys = [];
   }
 
-
   addJourney(journey, billNr){
       journey.billNr = billNr;
       this.journeys.push(journey);

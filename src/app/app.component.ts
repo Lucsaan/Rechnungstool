@@ -110,8 +110,12 @@ export class AppComponent {
     
   } */
 
-  setSpesenPopup(journey){
-    this.billService.editJourney(journey);
+  setSpesenPopup(journey, bill){
+      this.billService.uhrzeit_von = journey.uhrzeit_von;
+      this.billService.uhrzeit_bis = journey.uhrzeit_bis;
+      this.billService.spesen_betrag = journey.spesen_betrag;
+      this.billService.spesenJourney = JSON.parse(JSON.stringify(journey));
+      this.billService.spesenBill = JSON.parse(JSON.stringify(bill));
     this.billService.spesenPopup = true;
     this.spesenPopup.show(this.spesenEditOptions());
   }
@@ -133,9 +137,25 @@ export class AppComponent {
 
   confirmSpesen(){
     console.log('Spesen werden gespeichert');
-    this.billService.tmpJourney.uhrzeit_von = this.billService.uhrzeit_von;
-    this.billService.tmpJourney.uhrzeit_bis = this.billService.uhrzeit_bis;
-    this.billService.saveJourney(this.billService.tmpJourney);
+    if(this.billService.billsArray !== undefined) {
+        for(let bill of this.billService.billsArray) {
+            if(bill.reNr === this.billService.spesenBill.reNr) {
+                console.log('Bill gefunden', bill);
+                for(let journey of bill.journeys) {
+                    if(journey._id === this.billService.spesenJourney._id) {
+                        journey.uhrzeit_von = this.billService.uhrzeit_von;
+                        journey.uhrzeit_bis = this.billService.uhrzeit_bis;
+                        journey.spesen_betrag = this.billService.spesen_betrag;
+                        this.billService.updateBill(bill);
+                        this.billService.spesenPopup = false;
+                    }
+                }
+            }
+        }
+    }
+    // this.billService.tmpJourney.uhrzeit_von = this.billService.uhrzeit_von;
+    // this.billService.tmpJourney.uhrzeit_bis = this.billService.uhrzeit_bis;
+    // this.billService.saveJourney(this.billService.tmpJourney);
     this.spesenPopup.hide();
   }
 

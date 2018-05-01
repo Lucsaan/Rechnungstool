@@ -14,14 +14,12 @@ export class SpesenPopupComponent implements OnInit {
   }
 
   setSpesenbetrag(amount){
-    if(amount < 0){
-      this.billService.tmpJourney.spesen_betrag = 0;
-      this.billService.uhrzeit_von = 0;
-      this.billService.uhrzeit_bis = 0;
-      
-      return;
+        if(amount < 0){
+            this.billService.spesen_betrag = 0;
+            this.billService.uhrzeit_von = 0;
+            this.billService.uhrzeit_bis = 0;
+            return;
+        }
+        this.billService.spesen_betrag = amount;
     }
-    this.billService.tmpJourney.spesen_betrag = amount;
-  }
-
 }

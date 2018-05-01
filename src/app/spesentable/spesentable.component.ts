@@ -5,6 +5,7 @@ import {Journey} from '../journey';
 import {SpesenPreviewComponent} from '../spesen-preview/spesen-preview.component';
 import {SpesenService} from '../services/spesen.service';
 import {forEach} from '@angular/router/src/utils/collection';
+import {AppComponent} from '../app.component';
 
 
 
@@ -18,12 +19,9 @@ export class SpesentableComponent implements OnInit {
 
   constructor(
       private billService: BillService, private spesenPreview: SpesenPreviewComponent,
-      private spesenService: SpesenService
+      private spesenService: SpesenService, private appComponent: AppComponent
   ) {
-      this.billsCopy = billService.billsArray.slice(0);
-      for(let bills of this.billsCopy) {
-
-      }
+      this.billsCopy = JSON.parse(JSON.stringify(billService.billsArray));
   }
 
   ngOnInit() {

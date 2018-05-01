@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let journey of billService.bill.journeys; let i = index" (click)="billService.editJourney(journey)">
+                <tr *ngFor="let journey of billService.bill.journeys; let i = index" (dblclick)="billService.editJourney(journey)">
                     <td>
                         <md-input-container *ngIf="journey.edit">
                             <input type="date" mdInput placeholder="Datum" [(ngModel)]="journey.date">
@@ -54,7 +54,7 @@
                         <span *ngIf="!journey.edit">{{journey?.amount | twoDigits }} €</span>
                     </td>
                     <td>
-                        <button *ngIf="!journey.edit" (click)="appComponent.setSpesenPopup(journey)">Spesen</button>
+                        <button *ngIf="!journey.edit" (click)="appComponent.setSpesenPopup(journey, billService.bill)">Spesen</button>
                         <button *ngIf="journey.edit" (click)="billService.saveJourney(journey, i)">Speichern</button>
                         <button *ngIf="!journey.edit" (click)="deleteJourney(i)">Löschen</button>
                     </td>

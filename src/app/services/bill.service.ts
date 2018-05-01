@@ -33,6 +33,8 @@ export class BillService {
   customers: Customer[] = [];
   journey: Journey = new Journey();
   tmpJourney: any;
+  spesenJourney: any;
+  spesenBill: any;
 
   editModeJourney = false;
   editModeCustomer = false;
@@ -57,8 +59,7 @@ export class BillService {
   spesenPopup: boolean = false;
   uhrzeit_von: number;
   uhrzeit_bis: number;
-
-  
+  spesen_betrag: number = 0;
   
   private data: Observable<Array<Journey>>;
 
@@ -120,7 +121,6 @@ export class BillService {
       
       this.billsArray = bills;
       
-      
       // if (this.bill.journeys === undefined){
       //   this.bill.journeys.push(this.journey);
       // }
@@ -135,9 +135,15 @@ export class BillService {
     this.showActualBill();
   }
 
-  updateBill() {
-    this.bills.update(this.bill.$key, this.bill);
+  updateBill(bill?) {
+      console.log('updateBill', bill);
+      if(bill) {
+          this.bills.update(bill.$key, bill);
+      }else {
+          this.bills.update(this.bill.$key, this.bill);
+      }
   }
+
   getLastBill(){
     let subscription = this.bills.subscribe(bills => {
       this.bill = bills[bills.length -1];
