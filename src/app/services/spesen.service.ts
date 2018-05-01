@@ -4,9 +4,11 @@ import { Injectable } from '@angular/core';
 export class SpesenService {
 
   journeys: any;
+  bills: any;
 
   constructor() {
       this.journeys = [];
+      this.bills = [];
   }
 
   addJourney(journey, billNr){
@@ -31,5 +33,19 @@ export class SpesenService {
           sum += journey.spesen_betrag;
       }
       return sum;
+  }
+
+  updateArray(journey, bill) {
+      for(let bl of this.bills) {
+          if(bl.reNr === bill.reNr) {
+              for(let jrny of bl.journeys) {
+                  if(jrny.number === journey.number) {
+                      jrny.uhrzeit_bis = journey.uhrzeit_bis;
+                      jrny.uhrzeit_von = journey.uhrzeit_von;
+                      jrny.spesen_betrag = journey.spesen_betrag;
+                  }
+              }
+          }
+      }
   }
 }

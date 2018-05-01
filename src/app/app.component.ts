@@ -142,12 +142,13 @@ export class AppComponent {
             if(bill.reNr === this.billService.spesenBill.reNr) {
                 console.log('Bill gefunden', bill);
                 for(let journey of bill.journeys) {
-                    if(journey._id === this.billService.spesenJourney._id) {
+                    if(journey.number === this.billService.spesenJourney.number) {
                         journey.uhrzeit_von = this.billService.uhrzeit_von;
                         journey.uhrzeit_bis = this.billService.uhrzeit_bis;
                         journey.spesen_betrag = this.billService.spesen_betrag;
                         this.billService.updateBill(bill);
                         this.billService.spesenPopup = false;
+                        this.billService.updateSpesenabrechnung(journey, bill);
                     }
                 }
             }

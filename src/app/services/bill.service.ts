@@ -13,6 +13,7 @@ import { PdfService } from '../services/pdf.service';
 import { AuthService } from "./auth.service";
 import { Popup } from "ng2-opd-popup";
 import { AngularFireAuth } from "angularfire2/auth";
+import {SpesenService} from './spesen.service';
 
 
 @Injectable()
@@ -77,6 +78,7 @@ export class BillService {
     private af: AngularFireDatabase, 
     private pdfService: PdfService, 
     private auth: AuthService,
+    private spesenService: SpesenService
     
     ) {}
 
@@ -342,8 +344,12 @@ export class BillService {
     this.BillsArrayVisible = false;
     this.journeysTableVisible = false;
     this.spesenVisible = true;
+    this.spesenService.journeys = [];
     this.navigateTo('/Spesen');
+  }
 
+  updateSpesenabrechnung(journey, bill) {
+      this.spesenService.updateArray(journey, bill);
   }
 
   createPdf() {

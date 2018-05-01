@@ -15,13 +15,12 @@ import {AppComponent} from '../app.component';
   styleUrls: ['./spesentable.component.css']
 })
 export class SpesentableComponent implements OnInit {
-    billsCopy: any;
 
   constructor(
       private billService: BillService, private spesenPreview: SpesenPreviewComponent,
       private spesenService: SpesenService, private appComponent: AppComponent
   ) {
-      this.billsCopy = JSON.parse(JSON.stringify(billService.billsArray));
+      this.spesenService.bills = JSON.parse(JSON.stringify(billService.billsArray));
   }
 
   ngOnInit() {

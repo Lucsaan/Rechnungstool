@@ -4,7 +4,7 @@
         <md-card-subtitle>{{billService.billsArray.length - 1}} Rechnungen archiviert</md-card-subtitle>
     </md-card-title-group>
     <md-card-content>
-        <div *ngFor="let bill of billsCopy.reverse()">
+        <div *ngFor="let bill of spesenService.bills.reverse()">
             Rechnung: {{bill.reNr}}
             <table id="table" class="table table-hover table-striped table-mc-light-green">
                 <thead>
@@ -16,7 +16,7 @@
                     <th> </th>
                     <th>Spesen</th>
                     <th></th>
-                    <th>Erledigt</th>
+                    <th>Rechnung</th>
                 </tr>
                 </thead>
                 <tbody>
