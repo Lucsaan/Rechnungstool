@@ -1,16 +1,17 @@
 <!--<iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(uri)" width="700" height="750">Loading...</iframe>-->
 
 <md-card>
-  <!--<md-card-actions fxLayout fxLayoutAlign="center center">-->
-
-    <!--<button md-button *ngIf="billService.bill.done" (click)="billService.createPdf()">Ausdrucken</button>-->
-    <!--<button md-button *ngIf="!billService.bill.done" (click)="appComponent.modal(optionsInputPopup())">Ausdrucken und Abschließen</button>-->
-
-
-
-  <!--</md-card-actions>-->
+  <md-card-actions fxLayout fxLayoutAlign="center center">
+    <button md-button *ngIf="spesenService.journeys.length > 0 && spesenService.journeys.length < 16" (click)="createPdf(spesenService.journeys)">Ausdrucken</button>
+  </md-card-actions>
 
   <md-card-content>
+    <div
+            *ngIf="spesenService.journeys.length > 15"
+            style="background: red; color: white"
+    >
+      Sie haben zu viele Reisewege. Erlaubt sind maximal 15. Sie haben {{spesenService.journeys.length}}
+    </div>
 
       <div style="font-size: 21px; display: inline-block;">
         Reisekostenabrechnung

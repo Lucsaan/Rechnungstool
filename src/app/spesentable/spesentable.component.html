@@ -28,7 +28,7 @@
                     <td>{{journey?.uhrzeit_bis}} Uhr</td>
                     <td>{{journey?.spesen_betrag}} €</td>
                     <td><md-icon md-list-icon (click)="appComponent.setSpesenPopup(journey, bill)" >edit</md-icon></td>
-                    <td><md-icon md-list-icon *ngIf="journey.selected">done</md-icon></td>
+                    <td style="text-align: center"><md-icon md-list-icon *ngIf="journey.selected">done</md-icon></td>
                 </tr>
                 </tbody>
             </table>
