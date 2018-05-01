@@ -317,7 +317,14 @@ export class BillService {
     this.router.navigate(['/Vorschau']);
     if(billType === 'new') {
       this.BillsArrayVisible = false;
+      this.journeysTableVisible = true;
+      this.spesenVisible = false;
+    }else {
+        this.BillsArrayVisible = true;
+        this.journeysTableVisible = false;
+        this.spesenVisible = false;
     }
+
   }
   navigateTo(component) {
     this.router.navigate([component]);
