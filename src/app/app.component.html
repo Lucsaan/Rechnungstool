@@ -1,11 +1,11 @@
-<md-toolbar class="toolbar">
+<md-toolbar class="toolbar" *ngIf="authService.loggedIn">
     Rechnungstool <br>
 
     <span class="flex">
         <button md-button class="button" (click)="billService.previewBill()">Ansicht</button>
         <button md-button class="button" (click)="billService.showActualBill()">Aktuelle Rechnung</button>
         <button md-button class="button" (click)="billService.showBills()">Alte Rechnungen</button>
-        <button md-button class="button" (click)="billService.showSpesen()">Spesenabrechnung</button>
+        <button md-button class="button" (click)="billService.showSpesen()">Reisekostenabrechnung</button>
     </span>
     <span>
              <button md-button class="button" (click)="billService.logOut()">Abmelden</button>

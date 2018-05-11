@@ -6,6 +6,7 @@
     <md-card-content>
         <div *ngFor="let bill of spesenService.bills.reverse()">
             Rechnung: {{bill.reNr}}
+            <p>Doppelklick auf eine Fahrt um aus- oder abzuwählen</p>
             <table id="table" class="table table-hover table-striped table-mc-light-green">
                 <thead>
                 <tr>
